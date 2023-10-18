@@ -1,21 +1,66 @@
-* {
+.container {  
+  display: grid;
+  grid-template-columns: 0.5fr 1.5fr 1fr;
+  grid-template-rows: 0.4fr 1.9fr 0.7fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "Header Header Header"
+    "Statics Problem Problem"
+    "Helps Helps Buttons";
 
-  background-color: black;
+  height: 100vh;
+  width: 100vw;
+
+  background-color: #274c43;
+}
+
+.container > div {
+  border: white 3px solid;
+}
+
+.Header { grid-area: Header; }
+
+.Problem {  display: grid;
+  grid-template-columns: 1.6fr 0.4fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "Procedure Result"
+    "Procedure Result"
+    "Procedure Result";
+  grid-area: Problem;
+
   
 }
 
-.Board{
-  background-color: blueviolet;
-  height: 600px;
-  width: 100%;
-  outline: 10px solid red;
+.container > div:hover{
+  background-color: #19312b;
 }
 
-.Title {
-  color: white;
-  font-size: 50px;
-  text-align: center;
-  font-family: 'Roboto', sans-serif;
-  background: none;
-  
+.Result { grid-area: Result; }
+
+.Procedure { grid-area: Procedure; }
+
+.Buttons { grid-area: Buttons; }
+
+.Helps { grid-area: Helps; }
+
+.Statics {  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "Time"
+    "Erros"
+    "HelpsNumbers";
+  grid-area: Statics;
 }
+
+.Time { grid-area: Time; }
+
+.Erros { grid-area: Erros; }
+
+.HelpsNumbers { grid-area: HelpsNumbers; }
