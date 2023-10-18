@@ -1,66 +1,179 @@
-.container {  
+* {
+  font-family: 'Chalktastic';
+  color : #ffffff;
+}
+
+.board {  
   display: grid;
   grid-template-columns: 0.5fr 1.5fr 1fr;
-  grid-template-rows: 0.4fr 1.9fr 0.7fr;
+  grid-template-rows: 0.4fr 2.1fr 0.5fr;
   gap: 0px 0px;
   grid-auto-flow: row;
   grid-template-areas:
-    "Header Header Header"
-    "Statics Problem Problem"
-    "Helps Helps Buttons";
+    "headerSection headerSection headerSection"
+    "statsSection problemSection problemSection"
+    "helpsSection helpsSection buttonsSection";
 
-  height: 100vh;
   width: 100vw;
-
-  background-color: #274c43;
+  height: 100vh;
+  background-color: rgb(39, 76, 67);
 }
 
-.container > div {
-  border: white 3px solid;
+.board > div {
+  padding: 5px;
 }
 
-.Header { grid-area: Header; }
+.headerSection {  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "title title title"
+    "student student date";
+  grid-area: headerSection;
+}
 
-.Problem {  display: grid;
+.board > div > div {
+  padding: 2px;
+}
+
+.board > div > div > div {
+  border: 0px solid #ffffff;
+}
+
+
+
+.title { grid-area: title; 
+  font-size: 1.5em;
+  text-align: center;}
+
+.student { grid-area: student; }
+
+.date { grid-area: date;
+  text-align: left; }
+
+.dateField{
+  text-align: right;
+}
+
+.problemSection {  display: grid;
   grid-template-columns: 1.6fr 0.4fr;
   grid-template-rows: 1fr 1fr 1fr;
   gap: 0px 0px;
   grid-auto-flow: row;
   grid-template-areas:
-    "Procedure Result"
-    "Procedure Result"
-    "Procedure Result";
-  grid-area: Problem;
-
+    "procedurePanel resultPanel"
+    "procedurePanel resultPanel"
+    "procedurePanel resultPanel";
+  grid-area: problemSection;
   
 }
 
-.container > div:hover{
-  background-color: #19312b;
+.helpsSection{
+  grid-area: helpsSection;
+  border: 3px dashed #ffffff;
 }
 
-.Result { grid-area: Result; }
+.resultPanel { 
+  grid-area: resultPanel; 
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+}
 
-.Procedure { grid-area: Procedure; }
+.resultPanel > input {
+  border: #ffffff 3px dashed;
+}
 
-.Buttons { grid-area: Buttons; }
+.procedurePanel { grid-area: procedurePanel; }
 
-.Helps { grid-area: Helps; }
+.buttonsSection { grid-area: buttonsSection; }
 
-.Statics {  display: grid;
+.statsSection {  display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
   gap: 0px 0px;
   grid-auto-flow: row;
   grid-template-areas:
+    "levelPanel"
     "Time"
     "Erros"
-    "HelpsNumbers";
-  grid-area: Statics;
+    "helpsPanel";
+  grid-area: statsSection;
 }
 
 .Time { grid-area: Time; }
 
 .Erros { grid-area: Erros; }
 
-.HelpsNumbers { grid-area: HelpsNumbers; }
+.helpsPanel { grid-area: helpsPanel; }
+
+.levelPanel { grid-area: levelPanel; }
+
+.fraction {
+  width: 40%;
+}
+
+
+
+
+.procedurePanel{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+
+input[type=number]{
+  
+  width: 3em;
+  background: none;
+  border: none;
+  font-size: 50px;
+}
+
+.fractionBar{
+  font-size: 100%;
+  width: 100%;
+  text-align: center;
+}
+
+.numerator {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+}
+.denominator {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+}
+.pieFraction {
+  
+  width: 40%;
+  height: 40%;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+
+}
+
+.SymbolComponent{
+  width: 40%;
+  height: 40%;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
+.Symbol{
+  font-size: 3em;
+}
+
+@font-face {
+  font-family: 'Chalktastic';
+  src: url('../assets/fonts/Chalktastic-x1nR.ttf');
+}
