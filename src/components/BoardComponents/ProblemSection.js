@@ -1,4 +1,5 @@
 import 'chart.js/auto';
+import '../styles/ProblemSection.css'
 import { Pie } from 'react-chartjs-2';
 
 export default function ProblemSection(){
@@ -38,6 +39,9 @@ function FractionPieChartComponent({numerador, denominador, color}){
             label: `${numerador}/${denominador}`,
             data: Array(numerador).fill(1),
             backgroundColor: Array(numerador).fill(color),
+            offset: 15,
+            borderDash : Array(numerador).fill(1).map((i) => i* Math.floor(Math.random() * 10) + 1),
+            
         }]
       };
     
@@ -46,6 +50,7 @@ function FractionPieChartComponent({numerador, denominador, color}){
         radius: "100%", // Change this value to set the desired radius
         circumference: fullAngle,
         rotation: 0,
+
 
       };
 
@@ -104,7 +109,6 @@ function fractionComponentsGenerator({componentOption, fractionsNumbers, colorTy
     let Component = fractionComponentSelector({option: componentOption});
     let fractionsComponents = [];
     fractionsNumbers = fractionsNumbers || [[2,4],[1,4]];
-    let fractions = [];
 
     for(let i = 0; i < fractionsNumbers.length; i++){
         const [numerador, denominador] = fractionsNumbers[i];
@@ -112,11 +116,10 @@ function fractionComponentsGenerator({componentOption, fractionsNumbers, colorTy
         const componetKey = `${i} + ${numerador}/${denominador}`;
         const symbolKey = `${i} + ${symbol}`;
 
-        fractions.push((numerador/denominador))
-        fractionsComponents.push(<Component key={componetKey} numerador={numerador} denominador={denominador}  colorType = {colorSelector({colorOption:colorType})}/>, <Symbol key={symbolKey} symbol={symbol} />);
+        fractionsComponents.push(<Component key={componetKey} numerador={numerador} denominador={denominador}  color = {colorSelector({colorOption:colorType})}/>, <Symbol key={symbolKey} symbol={symbol} />);
     }
 
-    return [fractionsComponents, fractions];
+    return fractionsComponents;
 
 
 }
@@ -124,20 +127,13 @@ function fractionComponentsGenerator({componentOption, fractionsNumbers, colorTy
 
 
 function ProcedurePanel({dificultad, personalidad}){
-
-    let test = Array(100).fill();
-    test = test.map(() => Math.floor(Math.random()*(5))+1);
-    
     
     let fractionsNumbers = fractionsGenerator({dificultad: 3, cantidad: 2});
-
-    let [fractionsComponents, fractions] = fractionComponentsGenerator({componentOption: 'pie', fractionsNumbers: fractionsNumbers, colorType: 'multi' });
+    let fractionsComponents = fractionComponentsGenerator({componentOption: 'pie', fractionsNumbers: fractionsNumbers, colorType: 'mono' });
     
 
     personalidad = personalidad || 1;
     dificultad = dificultad || 1;
-
-    //const totalFraction = fractions.reduce((a, b) => a + b, 0);
 
     return (
         <div className="procedurePanel">
@@ -202,39 +198,4 @@ function fractionsGenerator({dificultad, cantidad}){
             denominador = 1;
     }
     return fractionsNumbers;
-}
-
-
-function fractionGenerator({dificultad}){
-    console.log(dificultad);
-    dificultad = dificultad || 3;
-
-    let numerador = 0;
-    let denominador = 1;
-
-    switch(dificultad){
-        case 1:
-           
-            denominador = Math.floor(Math.random() * 4) + 1;
-            numerador = Math.floor(Math.random() * denominador);
-            
-        break
-        case 2:
-            denominador = Math.floor(Math.random() * 9) + 1;
-            numerador = Math.floor(Math.random() * denominador)+1;
-            
-        break
-        case 3:
-            denominador = Math.floor(Math.random() * 14) + 1;
-            numerador = Math.floor(Math.random() * denominador);
-            
-        break
-        default:
-            numerador = 0;
-            denominador = 1;
-    }
-
-    numerador = numerador > 0 ? numerador : 1;
-    console.log(numerador, denominador);
-    return [numerador, denominador];
 }

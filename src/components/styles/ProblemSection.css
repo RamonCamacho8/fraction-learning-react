@@ -1,0 +1,80 @@
+.problemSection {
+    display: grid;
+    grid-template-columns: 1.6fr 0.4fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas:
+        "procedurePanel resultPanel"
+        "procedurePanel resultPanel"
+        "procedurePanel resultPanel";
+    grid-area: problemSection;
+
+}
+
+.procedurePanel {
+    grid-area: procedurePanel;
+}
+
+.fraction {
+    width: 40%;
+}
+
+.procedurePanel {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+
+.fractionBar {
+    display: inline-block;
+    text-align: center;
+}
+
+.numerator {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+}
+
+.denominator {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+}
+
+.pieFraction {
+
+    width: 40%;
+    height: 40%;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+
+}
+
+.SymbolComponent {
+    width: 40%;
+    height: 40%;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+.Symbol {
+    font-size: 3em;
+}
+
+.resultPanel {
+    grid-area: resultPanel;
+    align-items: center;
+    justify-content: center;
+}
+
+.resultPanel>input[type=number] {
+    border: #ffffff 2px dashed;
+    background: none;
+    width: 100%;
+}

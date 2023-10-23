@@ -1,4 +1,4 @@
-import '../styles/App.css'
+import './styles/App.css';
 import StatsSection from './BoardComponents/StatsSection';
 import HeaderSection from './BoardComponents/HeaderSection';
 import HelpSection from './BoardComponents/HelpSection';
