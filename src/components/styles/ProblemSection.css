@@ -9,23 +9,27 @@
         "procedurePanel resultPanel"
         "procedurePanel resultPanel";
     grid-area: problemSection;
+    
 
 }
 
 .procedurePanel {
     grid-area: procedurePanel;
-}
-
-.fraction {
-    width: 40%;
-}
-
-.procedurePanel {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
 }
+
+.procedurePanel > div{
+    border: #ffffff 2px dashed;
+}
+
+
+.fraction {
+    width: 40%;
+}
+
 
 
 .fractionBar {
@@ -69,12 +73,13 @@
 
 .resultPanel {
     grid-area: resultPanel;
+    display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.resultPanel>input[type=number] {
+input[type=number] {
     border: #ffffff 2px dashed;
     background: none;
-    width: 100%;
+    width: min-content;
 }

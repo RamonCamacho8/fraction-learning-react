@@ -2,11 +2,11 @@ import 'chart.js/auto';
 import '../styles/ProblemSection.css'
 import { Pie } from 'react-chartjs-2';
 
-export default function ProblemSection(){
+export default function ProblemSection({pApertura}){
     return(
         <div className="problemSection">
             <ResultPanel result={10} />
-            <ProcedurePanel personalidad={2} dificultad={3}/>
+            <ProcedurePanel pApertura={pApertura} dificultad={3}/>
         </div>
     );
 }
@@ -16,16 +16,36 @@ function ResultPanel({result}){
     return(
 
         <div className="resultPanel">
-            <input type='number' className="numerator" min="0"/>
-            <div className="fractionBar">----</div>
-            <input type='number' className="denominator" min="1"/>
+            <div >
+                <input type='number' className="numerator" min="0"/>
+                <div className="fractionBar">----</div>
+                <input type='number' className="denominator" min="1"/>
+            </div>
+            
         </div>
 
 
     );
 }
 
+function ProcedurePanel({dificultad, pApertura}){
+    
+    let fractionsNumbers = fractionsGenerator({dificultad: 3, cantidad: 2});
+    let fractionsComponents = fractionComponentsGenerator({pApertura: pApertura, fractionsNumbers: fractionsNumbers, colorType: 'mono' });
+    
 
+    dificultad = dificultad || 1;
+
+    return (
+        <div className="procedurePanel">
+            {fractionsComponents}
+        </div>
+    );
+}
+
+
+
+//Fraction Components
 
 function FractionPieChartComponent({numerador, denominador, color}){
     
@@ -40,7 +60,7 @@ function FractionPieChartComponent({numerador, denominador, color}){
             data: Array(numerador).fill(1),
             backgroundColor: Array(numerador).fill(color),
             offset: 15,
-            borderDash : Array(numerador).fill(1).map((i) => i* Math.floor(Math.random() * 10) + 1),
+            //borderDash : Array(numerador).fill(1).map((i) => i* Math.floor(Math.random() * 10) + 1),
             
         }]
       };
@@ -75,6 +95,16 @@ function FractionNumberComponent({numerador, denominador}){
     );
 }
 
+function Symbol({symbol}){
+    return(
+        <div className="SymbolComponent">
+            <div className="Symbol">{symbol}</div>
+        </div>
+    );
+}
+
+
+//Functions for fraction components
 function colorSelector({colorOption}){
 
     const color = colorOption || 'mono';
@@ -90,23 +120,22 @@ function colorSelector({colorOption}){
 
 }
 
-function fractionComponentSelector({option}){
+function fractionComponentSelector({pApertura}){
 
-    switch(option){
-        case 'number':
-            console.log("number");
-            return FractionNumberComponent;
-        case 'pie':
+    switch(pApertura){
+        case 'Si':
             return FractionPieChartComponent;
+        case 'No':
+            return FractionNumberComponent;
         default:
             return FractionNumberComponent;
     }
 
 }
 
-function fractionComponentsGenerator({componentOption, fractionsNumbers, colorType = 'mono'}){
+function fractionComponentsGenerator({pApertura, fractionsNumbers, colorType = 'mono'}){
 
-    let Component = fractionComponentSelector({option: componentOption});
+    let Component = fractionComponentSelector({pApertura: pApertura});
     let fractionsComponents = [];
     fractionsNumbers = fractionsNumbers || [[2,4],[1,4]];
 
@@ -123,33 +152,6 @@ function fractionComponentsGenerator({componentOption, fractionsNumbers, colorTy
 
 
 }
-
-
-
-function ProcedurePanel({dificultad, personalidad}){
-    
-    let fractionsNumbers = fractionsGenerator({dificultad: 3, cantidad: 2});
-    let fractionsComponents = fractionComponentsGenerator({componentOption: 'pie', fractionsNumbers: fractionsNumbers, colorType: 'mono' });
-    
-
-    personalidad = personalidad || 1;
-    dificultad = dificultad || 1;
-
-    return (
-        <div className="procedurePanel">
-            {fractionsComponents}
-        </div>
-    );
-}
-
-function Symbol({symbol}){
-    return(
-        <div className="SymbolComponent">
-            <div className="Symbol">{symbol}</div>
-        </div>
-    );
-}
-
 
 function fractionsGenerator({dificultad, cantidad}){
     

@@ -5,16 +5,17 @@ import HelpSection from './BoardComponents/HelpSection';
 import ProblemSection from './BoardComponents/ProblemSection';
 import ButtonsSection from './BoardComponents/ButtonsSection';
 
+var pApertura = 'Si';
 
 export default function Board(){
 
     return(
 
         <div className="board">
-            <HeaderSection />
-            <ProblemSection />
+            <HeaderSection  />
+            <ProblemSection pApertura={pApertura} />
             <ButtonsSection />
-            <HelpSection />
+            <HelpSection pApertura={pApertura}/>
             <StatsSection />
         </div>
     );
