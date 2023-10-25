@@ -14,9 +14,9 @@ export default function HelpSection({pApertura}){
 
 function HelpComponent({pApertura}){
     switch (pApertura){
-        case 'Si':
+        case true:
             return (VisualHelp());
-        case 'No':
+        case false:
             return (VerbalHelp());
         default:
             return (VerbalHelp());

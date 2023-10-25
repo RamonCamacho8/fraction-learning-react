@@ -1,13 +1,12 @@
 import './style.css';
+
 import StatsSection from '../../components/BoardComponents/StatsSection';
 import HeaderSection from '../../components/BoardComponents/HeaderSection';
 import HelpSection from '../../components/BoardComponents/HelpSection';
 import ProblemSection from '../../components/BoardComponents/ProblemSection';
 import ButtonsSection from '../../components/BoardComponents/ButtonsSection';
 
-var pApertura = 'Si';
-
-export default function Board(){
+export default function Board({pApertura}){
 
     return(
         <div className="board">

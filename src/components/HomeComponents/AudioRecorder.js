@@ -1,13 +1,18 @@
 import { useState, useRef } from "react";
-const mimeType = "audio/webm";
+import { useNavigate } from "react-router-dom";
 
-function AudioRecorder() {
+const mimeType = "audio/wav";
+
+function AudioRecorder({pApertura, setApertura}) {
+
   const [permission, setPermission] = useState(false);
   const mediaRecorder = useRef(null);
   const [recordingStatus, setRecordingStatus] = useState("inactive");
   const [stream, setStream] = useState(null);
   const [audioChunks, setAudioChunks] = useState([]);
   const [audio, setAudio] = useState(null);
+
+  const navigate = useNavigate();
 
   const startRecording = async () => {
     setRecordingStatus("recording");
@@ -26,7 +31,7 @@ function AudioRecorder() {
     setAudioChunks(localAudioChunks);
   };
 
-  async function stopRecording () {
+  const stopRecording =  () => {
     setRecordingStatus("inactive");
     //stops the recording instance
     mediaRecorder.current.stop();
@@ -40,7 +45,7 @@ function AudioRecorder() {
     };
   };
 
-  async function getMicrophonePermission () {
+  const getMicrophonePermission = async () => {
     if ("MediaRecorder" in window) {
       try {
         const streamData = await navigator.mediaDevices.getUserMedia({
@@ -57,10 +62,63 @@ function AudioRecorder() {
     }
   };
 
-  const sendAudio = () => {
-    console.log("Sending audio");
-    console.log(audio);
-  }
+  const getTextFromServer = async () => {
+    await fetch('http://127.0.0.1:5000/persontext', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+        // You can add other headers if needed
+      },
+    })
+      .then(response => {
+        // Check if the response status is OK (200)
+        if (response.status === 200) {
+          console.log('Success');
+          return response.json(); // Parse the response body as JSON
+        } else {
+          throw new Error('Failed to fetch data');
+        }
+      })
+      .then(data => {
+        // Handle the JSON data here
+        console.log(data['apertura']);
+        setApertura(data['apertura'] == 'No' ? false : true);
+        navigate('/board');
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+    };
+
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const blobResponse = await fetch(audio);
+    const blobData = await blobResponse.blob()
+    const formData = new FormData();
+    formData.append('audio', blobData);
+
+    try {
+
+      const response = await fetch('http://127.0.0.1:5000/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.ok) {
+        getTextFromServer();
+        console.log('Archivo de audio subido con éxito.');
+      } else {
+
+        console.error('Error al subir el archivo de audio.');
+      }
+    } catch (error) {
+
+      console.error('Error de red:', error);
+    }
+  };
 
   return (
     <div className="audio-section">
@@ -93,8 +151,10 @@ function AudioRecorder() {
             <div className="audio-container">
                 <audio src={audio} controls></audio>
             </div>
-            <div>
-                <button onClick={sendAudio}>Enviar</button>
+            <div> 
+              <form onSubmit={handleSubmit}>
+                  <button type="submit">Subir</button>
+              </form>
             </div>
             </>
             

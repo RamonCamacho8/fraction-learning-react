@@ -123,9 +123,9 @@ function colorSelector({colorOption}){
 function fractionComponentSelector({pApertura}){
 
     switch(pApertura){
-        case 'Si':
+        case true:
             return FractionPieChartComponent;
-        case 'No':
+        case false:
             return FractionNumberComponent;
         default:
             return FractionNumberComponent;

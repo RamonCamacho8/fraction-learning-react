@@ -1,8 +1,12 @@
-.board {  
 
+*{
+  
   font-family: 'Chalktastic';
   font-size: 100%;
   color : #ffffff;
+}
+.board {  
+
 
   display: grid;
   grid-template-columns: 0.5fr 1.5fr 1fr;
@@ -65,9 +69,6 @@
   grid-area: helpsSection;
   border: 3px dashed #ffffff;
 }
-
-
-
 
 
 .statsSection {  display: grid;

@@ -1,7 +1,7 @@
 import AudioRecorder from '../../components/HomeComponents/AudioRecorder';
 import './style.css';
 
-function Home(){
+function Home({pApertura, setApertura}){
     return (
         <div className='container'>
             <div className='mainPanel'>
@@ -9,7 +9,7 @@ function Home(){
                     <h1>Bienvenido a FractionLearning</h1>
                 </div>
                 <Login />
-                <RecordPanel />
+                <RecordPanel pApertura={pApertura} setApertura={setApertura}/>
             </div>
         </div>
     )
@@ -25,14 +25,14 @@ function Login(){
 }
 
 
-function RecordPanel(){
+function RecordPanel({pApertura, setApertura}){
 
 
 
     return (
-        
-        <AudioRecorder />
-        
+       
+        <AudioRecorder pApertura={pApertura} setApertura ={setApertura} />
+     
     )
 
 }
