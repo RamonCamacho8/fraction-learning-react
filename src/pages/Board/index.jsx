@@ -6,11 +6,12 @@ import HelpSection from '../../components/BoardComponents/HelpSection';
 import ProblemSection from '../../components/BoardComponents/ProblemSection';
 import ButtonsSection from '../../components/BoardComponents/ButtonsSection';
 
-export default function Board({pApertura}){
-
+export default function Board({pApertura, userName}){
+    
     return(
+
         <div className="board">
-            <HeaderSection  />
+            <HeaderSection name={userName} />
             <ProblemSection pApertura={pApertura} />
             <ButtonsSection />
             <HelpSection pApertura={pApertura}/>

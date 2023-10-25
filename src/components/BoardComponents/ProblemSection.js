@@ -2,43 +2,76 @@ import 'chart.js/auto';
 import '../styles/ProblemSection.css'
 import { Pie } from 'react-chartjs-2';
 
+const example ={
+
+    problemFractions : [[2,4],[1,4]],
+    answers : [[3,8],[3,16],[2,4],[3,4]],
+    correctAnswer: [3,4]
+
+}
+
 export default function ProblemSection({pApertura}){
     return(
         <div className="problemSection">
-            <ResultPanel result={10} />
-            <ProcedurePanel pApertura={pApertura} dificultad={3}/>
+            <ResultPanel answers={example.answers} />
+            <ProcedurePanel pApertura={pApertura} dificultad={3} fractions={example.problemFractions}/>
         </div>
     );
 }
 
-function ResultPanel({result}){
+function ResultPanel({answers, correctAnswer}){
+
+    
+
+    const answerComponents = AnswerPanels({answers: answers});
 
     return(
 
         <div className="resultPanel">
-            <div >
-                <input type='number' className="numerator" min="0"/>
-                <div className="fractionBar">----</div>
-                <input type='number' className="denominator" min="1"/>
-            </div>
-            
+            <div className="resultText">Elige la respuesta correcta:</div>
+            <div className="answerPanel"> {answerComponents} </div>
         </div>
 
 
     );
 }
 
-function ProcedurePanel({dificultad, pApertura}){
-    
-    let fractionsNumbers = fractionsGenerator({dificultad: 3, cantidad: 2});
-    let fractionsComponents = fractionComponentsGenerator({pApertura: pApertura, fractionsNumbers: fractionsNumbers, colorType: 'mono' });
+function AnswerPanel({value}){
+
+    const answerHandler = (e) => {
+        console.log(e.target.value);
+    }
+
+    return (
+
+        <button className="answerButton" value={value} onClick={answerHandler}>{value[0]+"/"+value[1]}</button>
+    );
+
+}
+
+function AnswerPanels({answers}){
+    let answerPanels = [];
+    for(let i = 0; i < answers.length; i++){
+        answerPanels.push(<AnswerPanel key={i+'-'+answers[i]} value={answers[i]} />);
+    }
+    return answerPanels;
+}
+
+
+
+
+function ProcedurePanel({dificultad, pApertura, fractions}){
+    //Used for generate fractions by dificultad and cantidad
+    //let fractionsNumbers = fractionsGenerator({dificultad: 3, cantidad: 2});
+    let fractionsComponents = fractionComponentsGenerator({pApertura: pApertura, fractionsNumbers: fractions, colorType: 'mono' });
     
 
     dificultad = dificultad || 1;
 
     return (
         <div className="procedurePanel">
-            {fractionsComponents}
+            <div className='fractionsText'>Resuelve el problema.</div>
+            <div className="fractions"> {fractionsComponents} </div>
         </div>
     );
 }

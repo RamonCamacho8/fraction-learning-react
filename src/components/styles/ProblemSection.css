@@ -16,37 +16,26 @@
 .procedurePanel {
     grid-area: procedurePanel;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-around;
+    align-items: center;
+}
+
+.fractionsText{
+    width: 100%;
+    
+}
+
+.fractions {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    width: 100%;
+    height: 100%;
     align-items: center;
 }
 
 .procedurePanel > div{
     border: #ffffff 2px dashed;
-}
-
-
-.fraction {
-    width: 40%;
-}
-
-
-
-.fractionBar {
-    display: inline-block;
-    text-align: center;
-}
-
-.numerator {
-    display: inline-block;
-    width: 100%;
-    text-align: center;
-}
-
-.denominator {
-    display: inline-block;
-    width: 100%;
-    text-align: center;
 }
 
 .pieFraction {
@@ -74,9 +63,24 @@
 .resultPanel {
     grid-area: resultPanel;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    
 }
+
+.resultText{
+    width: 100%;
+}
+
+.answerPanel{
+    display: grid;
+    grid-template-columns:repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    width: 100%;
+    height: 100%;
+}
+
 
 input[type=number] {
     border: #ffffff 2px dashed;

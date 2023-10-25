@@ -48,6 +48,7 @@ function AudioRecorder({pApertura, setApertura}) {
   const getMicrophonePermission = async () => {
     if ("MediaRecorder" in window) {
       try {
+        
         const streamData = await navigator.mediaDevices.getUserMedia({
           audio: true,
           video: false,

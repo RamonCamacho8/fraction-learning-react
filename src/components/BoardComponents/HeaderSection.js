@@ -38,11 +38,12 @@ function Student({name}){
     );
 }
 
-export default function HeaderSection(){
+export default function HeaderSection({name}){
+    console.log(name);
     return(
         <div className="headerSection">
             <Title />
-            <Student />
+            <Student name={name} />
             <ActualDate />
         </div>
     );

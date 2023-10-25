@@ -30,16 +30,16 @@
 }
 .board > div {
   padding: 5px;
-  border: 0px solid purple;
+  border: 2px solid purple;
 }
 
 .board > div > div {
   padding: 2px;
-  border: 0px solid blue;
+  border: 2px solid blue;
 }
 
 .board > div > div > div {
-  border: 0px solid red;
+  border: 2px solid red;
 }
 
 .headerSection {  

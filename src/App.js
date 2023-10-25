@@ -7,12 +7,13 @@ import Home from './pages/Home'
 function App() {
 
   const [pApertura, setApertura] = useState(false);
+  const [userName, setUserName] = useState('');
 
   return (
       
       <Routes>
-        <Route path="/" element={<Home pApertura={pApertura} setApertura={setApertura}/>} />
-        <Route path="/board" element={<Board pApertura= {pApertura} />} />
+        <Route path="/" element={<Home pApertura={pApertura} setApertura={setApertura} setUserName={setUserName} />} />
+        <Route path="/board" element={<Board pApertura= {pApertura} userName = {userName}  />} />
       </Routes>
     
   );
