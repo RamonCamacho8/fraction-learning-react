@@ -1,0 +1,56 @@
+.container {
+    display: grid;
+    background-color: rgb(255, 255, 255);
+    height: 100vh;
+    border: 5px solid black;
+    color : rgb(255, 255, 255);
+    font-family: 'Roboto', sans-serif;
+}
+
+.mainPanel {
+    margin: auto;
+    background-color: rgb(39, 76, 67);
+    border-radius: 20px;
+    border: 2px solid black;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.mainPanel > div {
+    padding: 20px;
+    border: 0px solid purple;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+input {
+    border-radius: 5px;
+    border: 1px solid black;
+    padding: 5px;
+}
+
+button {
+    border-radius: 5px;
+    padding: 5px;
+    background-color: rgb(255, 255, 255);
+    color: rgb(39, 76, 67);
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: rgb(39, 76, 67);
+    color: rgb(255, 255, 255);
+}
+
+button:disabled {
+    background-color: rgb(255, 255, 255);
+    color: rgb(39, 76, 67);
+}
+
