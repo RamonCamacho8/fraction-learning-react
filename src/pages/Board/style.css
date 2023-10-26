@@ -28,19 +28,6 @@
   font-size: 150%;
   text-align: center;
 }
-.board > div {
-  padding: 5px;
-  border: 2px solid purple;
-}
-
-.board > div > div {
-  padding: 2px;
-  border: 2px solid blue;
-}
-
-.board > div > div > div {
-  border: 2px solid red;
-}
 
 .headerSection {  
   display: grid;
@@ -67,7 +54,6 @@
 
 .helpsSection{
   grid-area: helpsSection;
-  border: 3px dashed #ffffff;
 }
 
 

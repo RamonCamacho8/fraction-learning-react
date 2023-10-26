@@ -131,7 +131,7 @@ function FractionNumberComponent({numerador, denominador}){
 function Symbol({symbol}){
     return(
         <div className="SymbolComponent">
-            <div className="Symbol">{symbol}</div>
+            {symbol}
         </div>
     );
 }
@@ -180,6 +180,7 @@ function fractionComponentsGenerator({pApertura, fractionsNumbers, colorType = '
 
         fractionsComponents.push(<Component key={componetKey} numerador={numerador} denominador={denominador}  color = {colorSelector({colorOption:colorType})}/>, <Symbol key={symbolKey} symbol={symbol} />);
     }
+
 
     return fractionsComponents;
 

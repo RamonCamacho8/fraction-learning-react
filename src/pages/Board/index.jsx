@@ -7,7 +7,8 @@ import ProblemSection from '../../components/BoardComponents/ProblemSection';
 import ButtonsSection from '../../components/BoardComponents/ButtonsSection';
 
 export default function Board({pApertura, userName}){
-    
+    pApertura = true;
+
     return(
 
         <div className="board">

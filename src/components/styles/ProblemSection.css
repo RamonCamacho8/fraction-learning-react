@@ -21,10 +21,6 @@
     align-items: center;
 }
 
-.fractionsText{
-    width: 100%;
-    
-}
 
 .fractions {
     display: grid;
@@ -32,33 +28,42 @@
     width: 100%;
     height: 100%;
     align-items: center;
+    justify-content: space-around;
 }
 
-.procedurePanel > div{
-    border: #ffffff 2px dashed;
+
+
+
+.fraction {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: stretch;
+    height: stretch;
+    font-size: larger;
+    padding: 10px;
 }
 
 .pieFraction {
-
-    width: 40%;
-    height: 40%;
+    width:99%;
+    height: stretch;
     align-items: center;
     justify-content: center;
     display: flex;
-
+    
 }
 
 .SymbolComponent {
-    width: 40%;
-    height: 40%;
+    width: stretch;
+    height: -webkit-fill-available;
+    display: flex;
     align-items: center;
     justify-content: center;
-    display: flex;
+    font-size: larger;
+
 }
 
-.Symbol {
-    font-size: 3em;
-}
 
 .resultPanel {
     grid-area: resultPanel;
@@ -69,21 +74,49 @@
     
 }
 
+.fractionsText{
+    width: stretch;
+    height: 20%;
+    text-align: center;
+    padding: 10px;
+    
+}
+
+.fractionBar{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: stretch;
+}
+
 .resultText{
-    width: 100%;
+    width: stretch;
+    height: 20%;
+    padding: 10px;
 }
 
 .answerPanel{
     display: grid;
     grid-template-columns:repeat(2, 1fr);
     grid-template-rows: repeat(2, 1fr);
-    width: 100%;
-    height: 100%;
-}
-
-
-input[type=number] {
-    border: #ffffff 2px dashed;
+    align-items: center;
+    gap: 10px 10px;
+    width: stretch;
+    height: stretch;
     background: none;
-    width: min-content;
 }
+
+.answerButton{
+    width: 100%;
+    height: 50%;
+    background: none;
+    color: #ffffff;
+    border: 2px dashed #ffffff;
+    border-radius: 30px;
+}
+
+.answerButton:hover {
+    background: rgb(26, 50, 44);
+    border: none;
+}
+
