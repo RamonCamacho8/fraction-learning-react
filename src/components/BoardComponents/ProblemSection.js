@@ -1,6 +1,7 @@
 import 'chart.js/auto';
 import '../styles/ProblemSection.css'
 import { Pie } from 'react-chartjs-2';
+import { useState } from 'react';
 
 const example ={
 
@@ -77,42 +78,48 @@ function ProcedurePanel({dificultad, pApertura, fractions}){
 }
 
 
-
 //Fraction Components
+function FractionPieChartComponent({ numerador, denominador, color }) {
 
-function FractionPieChartComponent({numerador, denominador, color}){
-    
     const partAngle = 360 / denominador;
     const fullAngle = partAngle * numerador;
-    color = color || colorSelector({colorOption: 'multi'});
+    color = color || colorSelector({ colorOption: 'multi' });
 
     const data = {
         labels: [],
         datasets: [{
             label: `${numerador}/${denominador}`,
-            data: Array(numerador).fill(1),
-            backgroundColor: Array(numerador).fill(color),
+            data: Array(denominador).fill(1),
+            backgroundColor: Array(denominador).fill(color),
+            borderColor: [...Array(numerador).fill('white'), ...Array(denominador - numerador).fill(color)],
             offset: 15,
             //borderDash : Array(numerador).fill(1).map((i) => i* Math.floor(Math.random() * 10) + 1),
-            
+
         }]
-      };
-    
-      const options = {
+    };
+
+    const options = {
         cutout: 0,
         radius: "100%", // Change this value to set the desired radius
-        circumference: fullAngle,
-        rotation: 0,
+        circumference: 360,
+        rotation: Math.floor(Math.random() * 4) * partAngle,
+        animation: {
+            animateRotate: false,
+            animateScale: false
+        }
+    };
+
+    const [optionsState, setOptions] = useState(options);
+
+    const [dataState, setDataState] = useState(data);
 
 
-      };
 
-
-    return(
-        <div className="pieFraction">  
-            <Pie data={data} options={options}/> 
+    return (
+        <div className="pieFraction">
+            <Pie data={dataState} options={optionsState} />
         </div>
-        
+
     );
 }
 

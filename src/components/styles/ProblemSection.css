@@ -32,8 +32,6 @@
 }
 
 
-
-
 .fraction {
     display: flex;
     flex-direction: column;
@@ -46,21 +44,31 @@
 }
 
 .pieFraction {
-    width:99%;
+    width: min(99%, 150px);
     height: stretch;
+    display: flex;
     align-items: center;
     justify-content: center;
-    display: flex;
     
 }
 
+@media only screen and (max-width: 768px) {
+    .fractions {
+        display: flex;
+        flex-direction: column;
+        width: stretch;
+        height: stretch;
+        align-items: center;
+        justify-content: start;
+    }
+}
+
 .SymbolComponent {
-    width: stretch;
     height: -webkit-fill-available;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: larger;
+    font-size: 4vw;
 
 }
 
@@ -117,6 +125,9 @@
 
 .answerButton:hover {
     background: rgb(26, 50, 44);
-    border: none;
+}
+
+.answerButton:active {
+    transform: scale(0.9);
 }
 

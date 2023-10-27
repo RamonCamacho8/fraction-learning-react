@@ -22,30 +22,18 @@ const verbalHelpList =[
 export default function HelpSection({pApertura}){
     pApertura = pApertura || 'No';
     pApertura = true;
-    const pNeuroticismo = false;
+    const pNeuroticismo = true;
     return(
         <div className="helpsSection">
             <div className="helpsText"> Panel de ayuda: </div>
-            <HelpComponentV2 pApertura={pApertura} pNeuroticismo={pNeuroticismo}/>
+            <HelpComponent pApertura={pApertura} pNeuroticismo={pNeuroticismo}/>
         </div>
     );
 }
 
 
+
 function HelpComponent({pApertura, pNeuroticismo}){
-
-    switch (pApertura){
-        case true:
-            return (VisualHelp());
-        case false:
-            return (VerbalHelp());
-        default:
-            return (VerbalHelp());
-    }
-}
-
-
-function HelpComponentV2({pApertura, pNeuroticismo}){
 
     const content = pApertura ? verbalHelpList : visualHelp;
 
@@ -61,28 +49,6 @@ function HelpComponentV2({pApertura, pNeuroticismo}){
 }
 
 
-function VisualHelp(){
-
-    return(
-        <div className="visualHelp">
-            <img className="verbalHelp" src={gif} alt="verbal-Help" border="0"/>
-        </div>
-    );
-
-}
-
-function VerbalHelp(){
-    
-        return(
-            <div className="verbalHelp">
-                <text className="verbalHelpText">Primero multiplica los denominadores. El resultado es tu denominador final.</text>
-                <br/>
-                <text className="verbalHelpText">Luego multiplica cada denominador por los otros numeradores </text>
-                <br/>
-                <text className="verbalHelpText">Suma los resultados de estas multiplicaciones y el resultado sería tu numerador final.</text>
-            </div>
-        );
-}
 
 function GlobalHelp({content, type}){
     

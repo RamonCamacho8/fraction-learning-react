@@ -11,8 +11,9 @@
     width: max-content;
     border-radius: 5px;
     background: none;
-    border: 2px dashed;
+    border: 2px dashed white;
     text-decoration: none;
+    color: white;
   }
   
   .button:hover {
@@ -20,5 +21,5 @@
     background-color: rgb(22, 44, 39);
   }
   .button:active {
-    transform: translateY(4px);
+    transform: scale(0.9);
   }
