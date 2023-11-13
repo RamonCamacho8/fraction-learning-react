@@ -2,6 +2,7 @@ import 'chart.js/auto';
 import '../styles/ProblemSection.css'
 import { Pie } from 'react-chartjs-2';
 import { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 
 const example ={
 
@@ -11,16 +12,16 @@ const example ={
 
 }
 
-export default function ProblemSection({pApertura}){
+export default function ProblemSection({pApertura, textProblem, textAnswer}){
     return(
         <div className="problemSection">
-            <ResultPanel answers={example.answers} />
-            <ProcedurePanel pApertura={pApertura} dificultad={3} fractions={example.problemFractions}/>
+            <ResultPanel text = {textAnswer} answers={example.answers} />
+            <ProcedurePanel text ={textProblem} pApertura={pApertura} dificultad={3} fractions={example.problemFractions}/>
         </div>
     );
 }
 
-function ResultPanel({answers, correctAnswer}){
+function ResultPanel({answers, correctAnswer, text}){
 
     
 
@@ -29,7 +30,7 @@ function ResultPanel({answers, correctAnswer}){
     return(
 
         <div className="resultPanel">
-            <div className="resultText">Elige la respuesta correcta:</div>
+            <div className="resultText">{text}</div>
             <div className="answerPanel"> {answerComponents} </div>
         </div>
 
@@ -38,9 +39,22 @@ function ResultPanel({answers, correctAnswer}){
 }
 
 function AnswerPanel({value}){
+    const answer = value[0]/value[1];
+    const navigate = useNavigate();
 
     const answerHandler = (e) => {
-        console.log(e.target.value);
+
+    
+        if (answer === (example.correctAnswer[0]/example.correctAnswer[1])){
+            
+            alert('Correcto');
+            setTimeout(() => {
+                navigate('/');
+            }, 2000);
+        }
+
+        e.target.disabled = true;
+        
     }
 
     return (
@@ -61,7 +75,7 @@ function AnswerPanels({answers}){
 
 
 
-function ProcedurePanel({dificultad, pApertura, fractions}){
+function ProcedurePanel({dificultad, pApertura, fractions, text}){
     //Used for generate fractions by dificultad and cantidad
     //let fractionsNumbers = fractionsGenerator({dificultad: 3, cantidad: 2});
     let fractionsComponents = fractionComponentsGenerator({pApertura: pApertura, fractionsNumbers: fractions, colorType: 'mono' });
@@ -71,7 +85,7 @@ function ProcedurePanel({dificultad, pApertura, fractions}){
 
     return (
         <div className="procedurePanel">
-            <div className='fractionsText'>Resuelve el problema.</div>
+            <div className='fractionsText'>{text}</div>
             <div className="fractions"> {fractionsComponents} </div>
         </div>
     );

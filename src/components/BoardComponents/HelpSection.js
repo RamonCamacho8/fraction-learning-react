@@ -3,29 +3,34 @@ import { useState } from 'react';
 import gif from '../../assets/images/fracgif.gif';
 import '../styles/HelpSection.css'
 
-import img1 from '../../assets/images/fractions/1.png';
-import img2 from '../../assets/images/fractions/2.png';
-import img3 from '../../assets/images/fractions/3.png';
-import img4 from '../../assets/images/fractions/4.png';
-import img5 from '../../assets/images/fractions/5.png';
-import img6 from '../../assets/images/fractions/6.png';
+import verbal_step_1 from '../../assets/images/fractions/1.png';
+import verbal_step_2 from '../../assets/images/fractions/2.png';
+import verbal_step_3 from '../../assets/images/fractions/3.png';
+import verbal_step_4 from '../../assets/images/fractions/4.png';
+import verbal_step_5 from '../../assets/images/fractions/5.png';
+import verbal_step_6 from '../../assets/images/fractions/6.png';
 
-const visualHelp = [img1,img2,img3,img4,img5,img6];
-const verbalHelpList =[
-    "Primero multiplica los denominadores. El resultado es tu denominador final.",
-    "Luego multiplica cada denominador por los otros numeradores ",
-    "Suma los resultados de estas multiplicaciones y el resultado sería tu numerador final."
-]
+import visual_step_1 from '../../assets/images/fractions/8.png';
+import visual_step_2 from '../../assets/images/fractions/9.png';
+import visual_step_3 from '../../assets/images/fractions/10.png';
+import visual_step_4 from '../../assets/images/fractions/11.png';
+
+import global_verbal_Img from '../../assets/images/fractions/7.png';
+import global_visual_Img from '../../assets/images/fractions/12.png';
+
+const verbalHelp = [verbal_step_1,verbal_step_2,verbal_step_3,verbal_step_4,verbal_step_5,verbal_step_6,global_verbal_Img];
+const visualHelp =[visual_step_1,visual_step_2,visual_step_3,visual_step_4,global_visual_Img];
 
 
 
-export default function HelpSection({pApertura}){
-    pApertura = pApertura || 'No';
-    pApertura = true;
-    const pNeuroticismo = true;
+export default function HelpSection({pApertura, pNeuroticismo, text}){
+
+    pApertura = pApertura// True = visual, False = verbal
+    pNeuroticismo = pNeuroticismo// True = global, False = secuencial
+
     return(
         <div className="helpsSection">
-            <div className="helpsText"> Panel de ayuda: </div>
+            <div className="helpsText"> {text} </div>
             <HelpComponent pApertura={pApertura} pNeuroticismo={pNeuroticismo}/>
         </div>
     );
@@ -35,37 +40,27 @@ export default function HelpSection({pApertura}){
 
 function HelpComponent({pApertura, pNeuroticismo}){
 
-    const content = pApertura ? verbalHelpList : visualHelp;
-
+    const content = pApertura ? visualHelp : verbalHelp;
+    console.log(pApertura, content);
 
     switch (pNeuroticismo){
         case true:
-            return (GlobalHelp({content: content, type: pApertura ? 'verbal' : 'visual'}));
+            return (GlobalHelp({content: content}));
         case false:
-            return (SequentialHelp({content: content, type: pApertura ? 'verbal' : 'visual'}));
+            return (SequentialHelp({content: content}));
         default:
-            return (GlobalHelp({content: content, type: pApertura ? 'verbal' : 'visual'}));
+            return (GlobalHelp({content: content}));
     }
 }
 
 
 
-function GlobalHelp({content, type}){
+function GlobalHelp({content}){
     
-    let components = [];
-    if(type === 'verbal'){
-        for(let i = 0; i < content.length; i++){
-            components.push(<div key={"step:" + i} className="verbalHelp global">{content[i]}</div>);
-        }
-    } else {
-        components.push(<img  key='last image' className="visualHelp global" src={content[content.length -1]} alt="visualHelp global" border="0"/>);
-    }
-
-
 
     return (
         <div className="globalHelp">
-            {components}
+            <img  key='last image' className="visualHelp global" src={content[content.length -1]} alt="visualHelp global" border="0"/>
         </div>
     );
 
@@ -73,10 +68,14 @@ function GlobalHelp({content, type}){
 
 
 
-function SequentialHelp({content, type}){
+function SequentialHelp({content}){
+    
+    content = content.slice(0, content.length - 1);
 
     const [actualStep, setActualStep] = useState(0);
     const [actualContent, setActualContent] = useState(content[0]);
+    const [isLeftDisabled, setIsLeftDisabled] = useState(true);
+    const [isRightDisabled, setIsRightDisabled] = useState(false);
 
     const handleClick = (number) => {
         
@@ -97,20 +96,16 @@ function SequentialHelp({content, type}){
 
     }
 
+
+
     
     return (
         <div className="sequentialHelp">
             <div className="sequentialHelpButtons">
-                <button  onClick={() => handleClick(-1)}> {'<'} </button>
+                <button onClick={() => handleClick(-1)  } > {'<'} </button>
             </div>
             <div className="sequentialHelpContent">
-                {
-                type === 'verbal' ? 
-                (
-                <div className="sequentialHelpText">{actualContent}</div>
-                ) : (
-                <img className="sequentialHelpImage" src={actualContent} alt="visualHelp global" border="0"/>
-                )}
+                <img className="sequentialHelpImage" src={actualContent} border="0"/>
             </div>
             <div className="sequentialHelpButtons">
                 <button  onClick={() => handleClick(1)}> {'>'} </button>

@@ -123,11 +123,20 @@
     border-radius: 30px;
 }
 
-.answerButton:hover {
+.answerButton:hover:enabled {
     background: rgb(26, 50, 44);
 }
 
-.answerButton:active {
+.answerButton:active:enabled {
     transform: scale(0.9);
+}
+
+.answerButton:disabled{
+    width: 100%;
+    height: 50%;
+    background: none;
+    color: #bcbcbc;
+    border: 2px dashed #bcbcbc;
+    border-radius: 30px;
 }
 

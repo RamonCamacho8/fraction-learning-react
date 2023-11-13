@@ -17,7 +17,7 @@
 
   width: 100vw;
   height: 100vh;
-  background-color: rgb(39, 76, 67);
+  background-color: #274c43;
 }
 
 .title { grid-area: title; 

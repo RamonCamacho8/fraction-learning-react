@@ -1,12 +1,8 @@
-
-*{
-  
-  font-family: 'Chalktastic';
-  font-size: 100%;
-  color : #ffffff;
-}
 .board {  
 
+  font-family: 'Chalktastic';
+  font-size: 150%;
+  color : #ffffff;
 
   display: grid;
   grid-template-columns: 0.5fr 1.5fr 1fr;
@@ -23,6 +19,8 @@
   background-color: rgb(39, 76, 67);
   
 }
+
+
 
 .title { grid-area: title; 
   font-size: 150%;

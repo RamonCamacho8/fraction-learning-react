@@ -1,50 +1,49 @@
-function Title(){
+function Title({title, subject}){
     return(
         <div className="title">
-            <div className="tema">Tema de la clase:</div>
-            <div className="titleField">Suma de fracciones</div>  
+            <div className="tema">{title}</div>
+            <div className="titleField">{subject}</div>  
         </div>
         
     );
 }
 
-function ActualDate(){
+function ActualDate({dateName, monthsList}){
     const date = new Date();
     const day = date.getDate();
     const month = date.getMonth();
     const year = date.getFullYear();
 
-    const months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+    const months = monthsList
 
     let fullDate = `${day} / ${months[month]} / ${year}`;
 
     return(
         <div>
-            <div className="date">Fecha de hoy:</div>
+            <div className="date">{dateName}</div>
             <div className="dateField">{fullDate}</div>
         </div>
         
     );
 }
 
-function Student({name}){
+function Student({name, nameHolder}){
     name = name || "Invitado";
     return(
          <div className="student">
-            <div className="studentName">Nombre del estudiante:</div>
+            <div className="studentName">{nameHolder}</div>
             <div className="name">{name}</div>
         </div>
         
     );
 }
 
-export default function HeaderSection({name}){
-    console.log(name);
+export default function HeaderSection({name, text}){
     return(
         <div className="headerSection">
-            <Title />
-            <Student name={name} />
-            <ActualDate />
+            <Title title={text.title} subject={text.subject} />
+            <Student name={name} nameHolder={text.studentHolder} />
+            <ActualDate dateName={text.date} monthsList={text.months} />
         </div>
     );
 }

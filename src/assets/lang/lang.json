@@ -1,0 +1,267 @@
+{
+
+  "es": {
+    "language" : "Español",
+    "home": {
+      "welcome": "Bienvenido a FractionLearning",
+      "studentHolder": {
+        "title": "Nombre del alumno:",
+        "content": "Escribe tu nombre aquí."
+      },
+      "instruction": "Intrucciones",
+      "instructions": [
+        {
+          "content": "Otorga permisos al micrófono presionando el botón."
+        },
+        {
+          "content": "Presiona 'Grabar' y contesta la siguiente pregunta."
+        },
+        {
+          "content": "Presiona 'Detener' cuando termines. "
+        },
+        {
+          "content": "Presiona 'Enviar' para enviar tu respuesta. O 'Grabar de Nuevo' para volver a grabar."
+        }
+      ],
+      "buttons": {
+        "permissions": "Otorgar permisos al Microfono",
+        "record": "Grabar",
+        "recordAgain": "Grabar de nuevo",
+        "stop": "Detener",
+        "send": "Enviar"
+      },
+      "question": {
+        "title": "Contesta la siguiente pregunta:",
+        "content": "¿Qué es lo que te motiva? ¿Qué es lo que más te gusta?"
+      }
+    },
+    "board": {
+      "headerPanel": {
+        "title": "Tema de la clase:",
+        "subject": "Suma de Fracciones",
+        "studentHolder": "Nombre del alumno:",
+        "date": "Fecha de hoy:",
+        "months": [
+          "Enero",
+          "Febrero",
+          "Marzo",
+          "Abril",
+          "Mayo",
+          "Junio",
+          "Julio",
+          "Agosto",
+          "Setiembre",
+          "Octubre",
+          "Noviembre",
+          "Diciembre"
+        ]
+      },
+      "problemPanel": "Resuelve el problema:",
+      "answerPanel": "Elige la respuesta correcta:",
+      "statsPanel": {
+        "level": "Nivel actual:",
+        "time": "Tiempo transcurrido:",
+        "trys": "Intentos:"
+      },
+      "helpPanel": "Panel de ayuda."
+    }
+  },
+
+  "en": {
+    "language" : "English",
+    "home": {
+      "welcome": "Welcome to FractionLearning",
+      "studentHolder": {
+        "title": "Student Name:",
+        "content": "Write your name here."
+      },
+      "instruction": "Instructions",
+      "instructions": [
+        {
+          "content": "Grant microphone permissions by pressing the button."
+        },
+        {
+          "content": "Press 'Record' and answer the following question."
+        },
+        {
+          "content": "Press 'Stop' when you are done. "
+        },
+        {
+          "content": "Press 'Send' to send your answer. Or 'Record Again' to record again."
+        }
+      ],
+      "buttons": {
+        "permissions": "Grant Microphone Permissions",
+        "record": "Record",
+        "recordAgain": "Record Again",
+        "stop": "Stop",
+        "send": "Send"
+      }
+    },
+
+    "board" : {
+      "headerPanel": {
+        "title": "Class Subject:",
+        "subject": "Fraction Addition",
+        "studentHolder": "Student Name:",
+        "date": "Today's Date:",
+        "months": [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "Setember",
+          "October",
+          "November",
+          "December"
+        ]
+      },
+      "problemPanel": "Solve for:",
+      "answerPanel": "Choose the correct answer:",
+      "statsPanel": {
+        "level": "Current Level:",
+        "time": "Time Elapsed:",
+        "trys": "Trys:"
+      },
+      "helpPanel": "Help Panel."
+    }
+  },
+  
+  "jp" : {
+    "language" : "日本語",
+    "home": {
+      "welcome": "FractionLearningへようこそ",
+      "studentHolder": {
+        "title": "学生の名前：",
+        "content": "ここに名前を書いてください。"
+      },
+      "instruction": "指示",
+      "instructions": [
+        {
+          "content": "ボタンを押してマイクの権限を付与します。"
+        },
+        {
+          "content": "「レコード」を押して、次の質問に答えます。"
+        },
+        {
+          "content": "終わったら「停止」を押します。"
+        },
+        {
+          "content": "「送信」を押して回答を送信します。または、もう一度録音するには「もう一度録音」を押します。"
+        }
+      ],
+      "buttons": {
+        "permissions": "マイクの権限を付与する",
+        "record": "レコード",
+        "recordAgain": "もう一度録音",
+        "stop": "停止",
+        "send": "送信"
+      },
+      "question": {
+        "title": "次の質問に答えてください：",
+        "content": "あなたをやる気にさせるものは何ですか？ あなたが一番好きなことは何ですか？"
+      }
+    },
+    "board": {
+      "headerPanel": {
+        "title": "クラスのテーマ：",
+        "subject": "分数の加算",
+        "studentHolder": "学生の名前：",
+        "date": "今日の日付：",
+        "months": [
+          "一月",
+          "二月",
+          "三月",
+          "四月",
+          "五月",
+          "六月",
+          "七月",
+          "八月",
+          "九月",
+          "十月",
+          "十一月",
+          "十二月"
+        ]
+      },
+      "problemPanel": "問題を解決する：",
+      "answerPanel": "正しい答えを選択してください：",
+      "statsPanel": {
+        "level": "現在のレベル：",
+        "time": "経過時間：",
+        "trys": "トライ："
+      },
+      "helpPanel": "ヘルプパネル。"
+    }
+  },
+
+  "br" : {
+    "language" : "Português",
+    "home": {
+      "welcome": "Bem-vindo ao FractionLearning",
+      "studentHolder": {
+        "title": "Nome do aluno:",
+        "content": "Escreva seu nome aqui."
+      },
+      "instruction": "Instruções",
+      "instructions": [
+        {
+          "content": "Conceda permissões de microfone pressionando o botão."
+        },
+        {
+          "content": "Pressione 'Gravar' e responda à seguinte pergunta."
+        },
+        {
+          "content": "Pressione 'Parar' quando terminar. "
+        },
+        {
+          "content": "Pressione 'Enviar' para enviar sua resposta. Ou 'Gravar novamente' para gravar novamente."
+        }
+      ],
+      "buttons": {
+        "permissions": "Conceder permissões de microfone",
+        "record": "Gravar",
+        "recordAgain": "Gravar novamente",
+        "stop": "Parar",
+        "send": "Enviar"
+      },
+      "question": {
+        "title": "Responda à seguinte pergunta:",
+        "content": "O que te motiva? O que você mais gosta?"
+      }
+    },
+    "board": {
+      "headerPanel": {
+        "title": "Tema da aula:",
+        "subject": "Adição de Frações",
+        "studentHolder": "Nome do aluno:",
+        "date": "Data de hoje:",
+        "months": [
+          "Janeiro",
+          "Fevereiro",
+          "Março",
+          "Abril",
+          "Maio",
+          "Junho",
+          "Julho",
+          "Agosto",
+          "Setembro",
+          "Outubro",
+          "Novembro",
+          "Dezembro"
+        ]
+      },
+      "problemPanel": "Resolva o problema:",
+      "answerPanel": "Escolha a resposta correta:",
+      "statsPanel": {
+        "level": "Nível atual:",
+        "time": "Tempo decorrido:",
+        "trys": "Tentativas:"
+      },
+      "helpPanel": "Painel de ajuda."
+    }
+  }
+}

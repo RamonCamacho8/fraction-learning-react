@@ -29,6 +29,19 @@
 
 .sequentialHelpContent {
     padding: 10px;
+    width: 100%;
+    display: grid;
+    place-items: center;
+}
+.globalHelp{
+    padding: 10px;
+    width: 100%;
+    display: grid;
+    place-items: center;
+}
+
+img {
+    width: min(100%, 400px);
 }
 
 

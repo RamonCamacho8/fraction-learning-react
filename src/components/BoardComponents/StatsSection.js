@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 
-function ErrosPanel({numErrors}){
+function ErrosPanel({numErrors, text}){
 
     numErrors = numErrors || 0;
 
     return(
         <div className="errorsPanel">
-            <div className="errors">Intentos:</div>
+            <div className="errors">{text}</div>
             <div className="errorsField">{numErrors}</div>
         </div>
     );
@@ -28,7 +28,7 @@ function formatTime(time){
     return `${minutes < 10 ? '0'+minutes: minutes}:${seconds < 10 ? '0'+seconds: seconds}`;
 }
 
-function TimePanel({}){
+function TimePanel({text}){
     // state to store time
     const [time, setTime] = useState(0);
     // state to check stopwatch running or not
@@ -57,29 +57,28 @@ function TimePanel({}){
 
     return(
         <div className="timePanel">
-            <div className="time">Tiempo:</div>
+            <div className="time">{text}</div>
             <div className="timeField">{stringTime}</div>
         </div>
     );
 
 }
 
-function LevelPanel(){
+function LevelPanel({text}){
     return(
         <div className="levelPanel">
-            <div className="level">Nivel actual:</div>
+            <div className="level">{text}</div>
             <div className="levelField">1</div>
         </div>
     );
 }
 
-export default function StatsSection(){
+export default function StatsSection({text}){
     return(
         <div className="statsSection">
-            <TimePanel />
-            <ErrosPanel />
-            <HelpsPanel />
-            <LevelPanel />
+            <TimePanel text ={text.time} />
+            <ErrosPanel text = {text.trys} />
+            <LevelPanel text = {text.level} />
         </div>
     );
 }
