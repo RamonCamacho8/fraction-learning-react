@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 
-function ErrosPanel({numErrors, text}){
+function ErrosPanel({trys, text}){
 
-    numErrors = numErrors || 0;
+
 
     return(
         <div className="errorsPanel">
             <div className="errors">{text}</div>
-            <div className="errorsField">{numErrors}</div>
+            <div className="errorsField">{`${trys}`}</div>
         </div>
     );
 }
@@ -73,11 +73,11 @@ function LevelPanel({text}){
     );
 }
 
-export default function StatsSection({text}){
+export default function StatsSection({text, trys}){
     return(
         <div className="statsSection">
             <TimePanel text ={text.time} />
-            <ErrosPanel text = {text.trys} />
+            <ErrosPanel text = {text.trys} trys={trys}/>
             <LevelPanel text = {text.level} />
         </div>
     );

@@ -3,11 +3,14 @@ import { useNavigate } from "react-router-dom";
 
 const mimeType = "audio/wav";
 
-const urlPersonalidad = "";
-const urlUpload = "";
+const urlPersonalidad = "https://apinet.hopto.org/fractionlearning/emocion";
+const urlUpload = "https://apinet.hopto.org/fractionlearning/upload";
+
+const localURLPersonalidad = "http://127.0.0.1:5000/persontext";
+const localURLUpload = "http://127.0.0.1:5000/upload";
 
 const getTextFromServer = async (navigate, setApertura, setNeuroticismo) => {
-  await fetch("https://apinet.hopto.org/fractionlearning/emocion", {
+  await fetch(localURLPersonalidad, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -51,7 +54,7 @@ const audioUpload = async (
   formData.append("audio", blobData);
 
   try {
-    const response = await fetch("https://apinet.hopto.org/fractionlearning/upload", {
+    const response = await fetch(localURLUpload, {
       method: "POST",
       body: formData,
     });

@@ -3,6 +3,7 @@ import '../styles/ProblemSection.css'
 import { Pie } from 'react-chartjs-2';
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
+import { getExercicesByLevel } from '../../services/getExcercices';
 
 const example ={
 
@@ -12,20 +13,34 @@ const example ={
 
 }
 
-export default function ProblemSection({pApertura, textProblem, textAnswer}){
+export default function ProblemSection({pApertura, textProblem, textAnswer, setSelectedAnswer : setSelectedAnswer, exercices:exercices}){
+
+    const difficulty = 'easy'
+    
+
+    const [currentExercice, setCurrentExercice] = useState(exercices[0]);
+   
+    const handleCorrectAnswer = () => {
+        setCurrentExercice(exercices[1]);
+    }
+    
+
+
     return(
         <div className="problemSection">
-            <ResultPanel text = {textAnswer} answers={example.answers} />
-            <ProcedurePanel text ={textProblem} pApertura={pApertura} dificultad={3} fractions={example.problemFractions}/>
+            <ResultPanel text = {textAnswer} options={currentExercice.options} pApertura={pApertura} setSelectedAnswer={setSelectedAnswer} />
+            <ProcedurePanel text ={textProblem} pApertura={pApertura} fractions={currentExercice.fractions}/>
         </div>
     );
+
 }
 
-function ResultPanel({answers, correctAnswer, text}){
+function ResultPanel({options: options, text, pApertura, setSelectedAnswer: setSelectedAnswer}){
 
     
 
-    const answerComponents = AnswerPanels({answers: answers});
+    const answerComponents = AnswerPanels({options: options, setSelectedAnswer: setSelectedAnswer});
+
 
     return(
 
@@ -38,50 +53,53 @@ function ResultPanel({answers, correctAnswer, text}){
     );
 }
 
-function AnswerPanel({value}){
-    const answer = value[0]/value[1];
-    const navigate = useNavigate();
+function AnswerPanel({value, id, setSelectedAnswer}){
+
 
     const answerHandler = (e) => {
 
-    
-        if (answer === (example.correctAnswer[0]/example.correctAnswer[1])){
-            
-            alert('Correcto');
-            setTimeout(() => {
-                navigate('/');
-            }, 2000);
+        setSelectedAnswer(e.target.id)
+        //get the parent element and the iterate through the children to change the background color
+        const parentElement = e.target.parentElement;
+        const children = parentElement.children;
+        for(let i = 0; i < children.length; i++){
+            if(children[i].id !== e.target.id){
+                children[i].style.backgroundColor = 'rgb(39, 76, 67)';
+            }
+            else {
+                children[i].style.backgroundColor = 'rgb(26, 50, 44)';
+            }
         }
-
-        e.target.disabled = true;
-        
     }
 
     return (
 
-        <button className="answerButton" value={value} onClick={answerHandler}>{value[0]+"/"+value[1]}</button>
+        <button id={id} className="answerButton" value={value} onClick={answerHandler}>{value[0]+"/"+value[1]}</button>
     );
 
 }
 
-function AnswerPanels({answers}){
+function AnswerPanels({options: options,setSelectedAnswer}){
+
     let answerPanels = [];
-    for(let i = 0; i < answers.length; i++){
-        answerPanels.push(<AnswerPanel key={i+'-'+answers[i]} value={answers[i]} />);
+    for(let i = 0; i < options.length; i++){
+
+        answerPanels.push(<AnswerPanel key={i+'-'+options[i]} value={options[i]}  id={i} setSelectedAnswer={setSelectedAnswer} />);
+        
     }
     return answerPanels;
+
 }
 
 
 
 
-function ProcedurePanel({dificultad, pApertura, fractions, text}){
-    //Used for generate fractions by dificultad and cantidad
-    //let fractionsNumbers = fractionsGenerator({dificultad: 3, cantidad: 2});
-    let fractionsComponents = fractionComponentsGenerator({pApertura: pApertura, fractionsNumbers: fractions, colorType: 'mono' });
+function ProcedurePanel({pApertura, fractions, text}){
+
+    let fractionsComponents = fractionComponentsGenerator({pApertura: pApertura, fractionsNumbers: fractions, colorType: 'multi' });
     
 
-    dificultad = dificultad || 1;
+
 
     return (
         <div className="procedurePanel">
@@ -96,18 +114,16 @@ function ProcedurePanel({dificultad, pApertura, fractions, text}){
 function FractionPieChartComponent({ numerador, denominador, color }) {
 
     const partAngle = 360 / denominador;
-    const fullAngle = partAngle * numerador;
-    color = color || colorSelector({ colorOption: 'multi' });
+    color = color;
 
     const data = {
         labels: [],
         datasets: [{
             label: `${numerador}/${denominador}`,
             data: Array(denominador).fill(1),
-            backgroundColor: Array(denominador).fill(color),
-            borderColor: [...Array(numerador).fill('white'), ...Array(denominador - numerador).fill(color)],
+            backgroundColor: [...Array(numerador).fill(color),...Array(denominador - numerador).fill('rgb(39, 76, 67)')],
+            borderColor: [...Array(numerador).fill('white'), ...Array(denominador - numerador).fill('white')],
             offset: 15,
-            //borderDash : Array(numerador).fill(1).map((i) => i* Math.floor(Math.random() * 10) + 1),
 
         }]
     };
@@ -140,12 +156,13 @@ function FractionPieChartComponent({ numerador, denominador, color }) {
 function FractionNumberComponent({numerador, denominador}){
 
     return(
+
         <div className="fraction">
             <div className="numerator">{numerador} </div>
             <div className="fractionBar">----</div>
-            <div className="denominator" min="1">{denominador} </div>
+            <div className="denominator">{denominador} </div>
         </div>
-        
+
     );
 }
 
@@ -161,7 +178,7 @@ function Symbol({symbol}){
 //Functions for fraction components
 function colorSelector({colorOption}){
 
-    const color = colorOption || 'mono';
+    const color = colorOption || 'multi';
     const definedColors = ['rgb(255, 99, 132)', 'rgb(255, 205, 86)', 'rgb(54, 162, 235)', 'rgb(75, 192, 192)', 'rgb(153, 102, 255)']
     switch(color){
         case 'mono':
@@ -187,11 +204,11 @@ function fractionComponentSelector({pApertura}){
 
 }
 
-function fractionComponentsGenerator({pApertura, fractionsNumbers, colorType = 'mono'}){
+function fractionComponentsGenerator({pApertura, fractionsNumbers, colorType = 'multi'}){
 
     let Component = fractionComponentSelector({pApertura: pApertura});
     let fractionsComponents = [];
-    fractionsNumbers = fractionsNumbers || [[2,4],[1,4]];
+    
 
     for(let i = 0; i < fractionsNumbers.length; i++){
         const [numerador, denominador] = fractionsNumbers[i];
@@ -208,51 +225,3 @@ function fractionComponentsGenerator({pApertura, fractionsNumbers, colorType = '
 
 }
 
-function fractionsGenerator({dificultad, cantidad}){
-    
-    dificultad = dificultad || 3;
-    let rango = 2;
-    let fractionsNumbers = [];
-
-    let numerador = 0;
-    let denominador = 1;
-
-    switch(dificultad){
-        case 1:
-            rango = 5;
-            //Mismo denominador, diferente numerador
-            denominador = Math.floor(Math.random() * (rango-1)) + 2;
-            
-            for(let i = 0; i < cantidad; i++){
-                numerador = Math.floor(Math.random() * (denominador)) + 1;
-                fractionsNumbers.push([numerador,denominador]);
-            }
-            
-        break
-        case 2:
-            //Diferente denominador, diferente numerador, mismo rango
-            rango = 5;
-            for(let i = 0; i < cantidad; i++){
-                denominador = Math.floor(Math.random() * (rango-1)) + 2;
-                numerador = Math.floor(Math.random() * (denominador)) + 1;
-                fractionsNumbers.push([numerador,denominador]);
-            }
-            
-        break
-        case 3:
-            //Mismo denominador, diferente numerador, rango diferente
-            rango = 10;
-            
-            for(let i = 0; i < cantidad; i++){
-                denominador = Math.floor(Math.random() * (rango-1)) + 2;
-                numerador = Math.floor(Math.random() * (denominador)) + 1;
-                fractionsNumbers.push([numerador,denominador]);
-            }
-            
-        break
-        default:
-            numerador = 0;
-            denominador = 1;
-    }
-    return fractionsNumbers;
-}

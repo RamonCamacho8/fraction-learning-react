@@ -1,6 +1,5 @@
 import { useState } from 'react';
 
-import gif from '../../assets/images/fracgif.gif';
 import '../styles/HelpSection.css'
 
 import verbal_step_1 from '../../assets/images/fractions/1.png';
@@ -41,7 +40,6 @@ export default function HelpSection({pApertura, pNeuroticismo, text}){
 function HelpComponent({pApertura, pNeuroticismo}){
 
     const content = pApertura ? visualHelp : verbalHelp;
-    console.log(pApertura, content);
 
     switch (pNeuroticismo){
         case true:

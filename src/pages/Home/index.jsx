@@ -1,6 +1,6 @@
 import AudioRecorder from "../../components/HomeComponents/AudioRecorder";
 import "./style.css";
-import { getHomeObject } from "../../services/getText.js";
+import { getHomeObject } from "../../services/getLang.js";
 import { useState } from "react";
 
 import LanguageSelector from "../../components/LanguageSelector.js";
@@ -10,7 +10,6 @@ let langObject = getHomeObject();
 
 function Home({ setApertura, setNeuroticismo, setUserName, language, setLanguageState}) {
 
- 
   const [languageObject, setLanguageObject] = useState(langObject);
 
   return (

@@ -10,7 +10,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
 
-  const [pApertura, setApertura] = useState(false);
+  const [pApertura, setApertura] = useState(true);
   const [pNeuroticismo, setNeuroticismo] = useState(true);
   const [userName, setUserName] = useState('');
   const [lang, setLang] = useState('es');

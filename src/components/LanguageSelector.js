@@ -1,5 +1,5 @@
 import Dropdown from 'react-bootstrap/Dropdown';
-import { getLanguageList, setCurrentLanguage, getLanguage,  getHomeObject, getCurrentLanguage } from '../services/getText';
+import { getLanguageList, setCurrentLanguage, getLanguage,  getHomeObject, getCurrentLanguage } from '../services/getLang';
 import './styles/LanguageSelector.css';
 
 
