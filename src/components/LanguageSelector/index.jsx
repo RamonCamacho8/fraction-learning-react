@@ -1,6 +1,6 @@
 import Dropdown from 'react-bootstrap/Dropdown';
-import { getLanguageList, setCurrentLanguage, getLanguage,  getHomeObject, getCurrentLanguage } from '../services/getLang';
-import './styles/LanguageSelector.css';
+import { getLanguageList, setCurrentLanguage, getLanguage,  getHomeObject, getCurrentLanguage } from '../../services/getLang.js';
+import './style.css';
 
 
 
@@ -12,7 +12,8 @@ function LanguageSelector({ language, setLanguageState, setLanguageObject}) {
   const handleChangeLanguage = (event) => {
     setCurrentLanguage(event.target.text);
     setLanguageState(getLanguage());
-    setLanguageObject(getHomeObject());    
+    setLanguageObject(getHomeObject()); 
+      
   }
   
 

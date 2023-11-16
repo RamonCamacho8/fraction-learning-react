@@ -1,9 +1,9 @@
-import AudioRecorder from "../../components/HomeComponents/AudioRecorder";
+import AudioComponent from "../../components/AudioComponent";
 import "./style.css";
 import { getHomeObject } from "../../services/getLang.js";
 import { useState } from "react";
 
-import LanguageSelector from "../../components/LanguageSelector.js";
+import LanguageSelector from "../../components/LanguageSelector";
 
 
 let langObject = getHomeObject();
@@ -77,7 +77,7 @@ function InstructionsPanel({ setApertura, setNeuroticismo, languageObject }) {
       <h3>{languageObject.instruction}</h3>
       <h4>{currentInstructions[currentInstructionNum]}</h4>
 
-      <AudioRecorder
+      <AudioComponent
         setApertura={setApertura}
         setNeuroticismo={setNeuroticismo}
         permissionText={buttons.permissions}

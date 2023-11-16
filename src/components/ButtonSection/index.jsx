@@ -1,4 +1,4 @@
-import '../styles/ButtonsSection.css';
+import './style.css';
 
 export default function ButtonsSection({selectedAnswer:selectedAnswer, buttonsText:buttonsText, handleCheck:handleCheck }){
 

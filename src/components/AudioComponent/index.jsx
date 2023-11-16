@@ -30,8 +30,8 @@ const getTextFromServer = async (navigate, setApertura, setNeuroticismo) => {
       // Handle the JSON data here
       console.log(data["apertura"]);
       console.log(data["neuroticismo"]);
-      setApertura(data["apertura"] == "No" ? false : true);
-      setNeuroticismo(data["neuroticismo"] == "No" ? false : true);
+      setApertura(data["apertura"] === "No" ? false : true);
+      setNeuroticismo(data["neuroticismo"] === "No" ? false : true);
       navigate("/board");
     })
     .catch((error) => {

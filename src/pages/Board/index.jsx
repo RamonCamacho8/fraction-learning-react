@@ -1,10 +1,10 @@
 import './style.css';
 
-import StatsSection from '../../components/BoardComponents/StatsSection';
-import HeaderSection from '../../components/BoardComponents/HeaderSection';
-import HelpSection from '../../components/BoardComponents/HelpSection';
-import ProblemSection from '../../components/BoardComponents/ProblemSection';
-import ButtonsSection from '../../components/BoardComponents/ButtonsSection';
+import StatsSection from '../../components/StatsSection';
+import HeaderSection from '../../components/HeaderSection';
+import HelpSection from '../../components/HelpSection';
+import ProblemSection from '../../components/ProblemSection';
+import ButtonsSection from '../../components/ButtonsSection';
 
 import { getBoardObject } from "../../services/getLang.js";
 import { getExercicesByLevel } from "../../services/getExcercices.js";

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import '../styles/HelpSection.css'
+import './style.css'
 
 import verbal_step_1 from '../../assets/images/fractions/1.png';
 import verbal_step_2 from '../../assets/images/fractions/2.png';
