@@ -3,6 +3,7 @@ import { useState } from 'react';
 import './style.css';
 import Board from './pages/Board';
 import Home from './pages/Home';
+import Test from './pages/Test';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -32,6 +33,11 @@ function App() {
         <Route path="/board" element={
         <Board pApertura= {pApertura} pNeuroticismo={pNeuroticismo} userName = {userName}  language = {lang}
         />} />
+        <Route path="/test" element={
+        <Test />
+      } 
+        />
+        
       </Routes>
     
   );

@@ -56,7 +56,7 @@ const audioUpload = async (
   try {
     const response = await fetch(localURLUpload, {
       method: "POST",
-      body: formData,
+      body: formData
     });
 
     if (response.ok) {
@@ -136,7 +136,7 @@ function AudioRecorder({
     setInstruction(1);
   };
 
-  const getMicrophonePermission = async () => {
+  const getMicrophonePermission = async ( setPermission, setStream) => {
     if ("MediaRecorder" in window) {
       try {
         const streamData = await navigator.mediaDevices.getUserMedia({
