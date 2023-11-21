@@ -46,9 +46,10 @@ const test_get_json = () => {
     });
   }
 
-const test_post_text = () => {
+const test_post_text = (text) => {
 
-    let data = "texto";
+    let data = text || "texto";
+    console.log(text);
     
     fetch(`${endpointROOT}/test/post/text`,{
       method: 'POST',
