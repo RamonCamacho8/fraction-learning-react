@@ -3,8 +3,7 @@ import { upload_audio } from "../../services/audio";
 import "./style.css";
 import { useState } from "react";
 import AudioRecorder from "../../components/AudioRecorder";
-
-import audio from "../../assets/audios/spiral.mp3";
+import { getPersonality } from "../../services/personality";
 
 const Test = () => {
 
@@ -31,7 +30,7 @@ const Test = () => {
         <h2>JSON</h2>
         <input type="text" placeholder="key" value={key} onChange={(e) => setKey(e.target.value)} />
         <input type="text" placeholder="value" value={value} onChange={(e) => setValue(e.target.value)} />
-        <button onClick={test_get_json} >GET JSON</button>
+        <button onClick={getPersonality} >GET JSON</button>
         <button onClick={() =>test_post_json({[key]:value})} >POST JSON</button>
       </div>
 

@@ -2,12 +2,14 @@
 const endpointROOT = 'http://localhost:5000/api';
 
 
-const upload_audio = (audioFile) => {
+const upload_audio = async (audioFile) => {
   
   if (audioFile){
     console.log(audioFile);
+    const blobResponse = await fetch(audioFile);
+    const blobData = await blobResponse.blob();
     const formData = new FormData();
-    formData.append('audioFile', audioFile);
+    formData.append('audio', blobData, 'audio.mp3');
 
     fetch(`${endpointROOT}/audio/upload`,{
       method: 'POST',
