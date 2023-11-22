@@ -3,7 +3,7 @@ import './style.css'
 import { Pie } from 'react-chartjs-2';
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
-import { getExercicesByLevel } from '../../services/getExcercices';
+import { getExercicesByLevel } from '../../services/Excercices';
 
 const example ={
 

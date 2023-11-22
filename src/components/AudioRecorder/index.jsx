@@ -1,7 +1,9 @@
 import { useState, useRef } from "react";
 
 import { getMicrophonePermission, startRecording, stopRecording } from "../../utils/recordAudio";
-import { upload_audio } from "../../services/audio";
+import { upload_audio } from "../../services/Audio";
+import { getPersonality } from "../../services/Personality";
+import { usePersonality } from "../../Context/PersonalityContext";
 
 const AudioRecorder = () => {
 
@@ -14,6 +16,9 @@ const AudioRecorder = () => {
     const mimeType = "audio/mp3";
 
 
+    const {setOpeness, setNeuroticism} = usePersonality();
+
+
     const handlePermission = () => {
         getMicrophonePermission(setPermission,setStream);
     }
@@ -23,8 +28,13 @@ const AudioRecorder = () => {
     const handleStop = () => {
         stopRecording(setRecordingStatus,setAudioChunks,setAudio, mediaRecorder, audioChunks, mimeType);
     }
-    const handleSend = () => {
-        upload_audio(audio);
+    const handleSend = async () => {
+
+        await upload_audio(audio);
+        const personality = await getPersonality()
+        setOpeness(personality.openness);
+        setNeuroticism(personality.neuroticism);
+
     }
 
 

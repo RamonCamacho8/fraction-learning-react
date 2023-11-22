@@ -15,13 +15,6 @@ const upload_audio = async (audioFile) => {
       method: 'POST',
         body: formData
       })
-      .then(response => response.json())
-      .then(data => {
-        console.log('Server response:', data);
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
     } else {
       console.error('No file selected');
   }

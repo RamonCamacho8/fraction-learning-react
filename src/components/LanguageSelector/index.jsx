@@ -1,27 +1,28 @@
 import Dropdown from 'react-bootstrap/Dropdown';
-import { getLanguageList, setCurrentLanguage, getLanguage,  getHomeObject, getCurrentLanguage } from '../../services/getLang.js';
+import {getLanguageData, getLanguageList, setCurrentLanguage, getLanguage,  getHomeObject, getCurrentLanguage } from '../../services/Language.js';
+import { useLanguage } from '../../Context/LanguageContext.js';
 import './style.css';
 
 
 
 
-function LanguageSelector({ language, setLanguageState, setLanguageObject}) {
+function LanguageSelector() {
 
-  const currentLanguage = getCurrentLanguage();
+  const {language,languageData, setLanguage, setLanguageData} = useLanguage();
 
   const handleChangeLanguage = (event) => {
-    setCurrentLanguage(event.target.text);
-    setLanguageState(getLanguage());
-    setLanguageObject(getHomeObject()); 
-      
+    setLanguage(event.target.text);
+    console.log(language)
+    setLanguageData(getLanguageData(language));
   }
   
 
-  const languageItems = getLanguageList().map((lang, index) => {
+  const availableLanguages = getLanguageList().map((lang, index) => {
     return (
       
       <Dropdown.Item key={index} onClick={handleChangeLanguage}>{lang}</Dropdown.Item>
-    );
+    
+      );
   });
 
   
@@ -29,11 +30,11 @@ function LanguageSelector({ language, setLanguageState, setLanguageObject}) {
   return (
     <Dropdown>
       <Dropdown.Toggle variant="success" id="dropdown-basic">
-        {currentLanguage}
+        {language}
       </Dropdown.Toggle>
 
       <Dropdown.Menu>
-        {languageItems}
+        {availableLanguages}
       </Dropdown.Menu>
     </Dropdown>
   );

@@ -6,8 +6,8 @@ import HelpSection from '../../components/HelpSection';
 import ProblemSection from '../../components/ProblemSection';
 import ButtonsSection from '../../components/ButtonsSection';
 
-import { getBoardObject } from "../../services/getLang.js";
-import { getExercicesByLevel } from "../../services/getExcercices.js";
+import { getBoardObject } from "../../services/Language.js";
+import { getExercicesByLevel } from "../../services/Excercices.js";
 
 import { useState } from 'react';
 

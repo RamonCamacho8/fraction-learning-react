@@ -5,7 +5,8 @@ import Board from './pages/Board';
 import Home from './pages/Home';
 import Test from './pages/Test';
 
-import { PersonalityContext } from './Context/PersonalityContext';
+import { PersonalityProvider } from './Context/PersonalityContext';
+import { LanguageProvider } from './Context/LanguageContext';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -16,35 +17,36 @@ function App() {
   const [pApertura, setApertura] = useState(true);
   const [pNeuroticismo, setNeuroticismo] = useState(true);
   const [userName, setUserName] = useState('');
-  const [lang, setLang] = useState('es');
 
-
-  const [aperture, setAperture] = useState(false);
-  const [neuroticism, setNeuroticism] = useState(false);
+  const [language, setLanguage] = useState('es');
+  const [aperture, setAperture] = useState(true);
+  const [neuroticism, setNeuroticism] = useState(true);
 
 
   return (
 
-    <Routes>
-      <PersonalityContext.Provider value = {{aperture: [aperture, setAperture], neuroticism: [neuroticism, setNeuroticism]}} /> 
-      <Route path="/" element={
-        <Home
-          setApertura={setApertura}
-          setNeuroticismo={setNeuroticismo}
-          setUserName={setUserName}
-          language={lang}
-          setLanguageState={setLang}
+    <LanguageProvider>
+      <PersonalityProvider>
+        <Routes>
+          <Route path="/" element={
+            <Home
+              setApertura={setApertura}
+              setNeuroticismo={setNeuroticismo}
+              setUserName={setUserName}
+              language={language}
+              setLanguageState={setLanguage}
 
-        />} />
-      <Route path="/board" element={
-        <Board pApertura={pApertura} pNeuroticismo={pNeuroticismo} userName={userName} language={lang}
-        />} />
-      <Route path="/test" element={
-        <Test />
-      }
-      />
-
-    </Routes>
+            />} />
+          <Route path="/board" element={
+            <Board pApertura={pApertura} pNeuroticismo={pNeuroticismo} userName={userName} language={language}
+            />} />
+          <Route path="/test" element={
+            <Test />
+          }
+          />
+        </Routes>
+      </PersonalityProvider>
+    </LanguageProvider>
 
   );
 }
