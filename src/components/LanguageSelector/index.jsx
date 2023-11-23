@@ -1,40 +1,32 @@
-import Dropdown from 'react-bootstrap/Dropdown';
-import DropdownButton from 'react-bootstrap/DropdownButton';
-import {getLanguageData, getLanguageList } from '../../services/Language.js';
-import { useLanguage } from '../../Context/LanguageContext.js';
-import './style.css';
-
-
-
+import Dropdown from "react-bootstrap/Dropdown";
+import DropdownButton from "react-bootstrap/DropdownButton";
+import { getLanguageData, getLanguageList } from "../../services/Language.js";
+import { useLanguage } from "../../Context/LanguageContext.js";
+import "./style.css";
 
 function LanguageSelector() {
+  const { language, setLanguage, setLanguageData } =
+    useLanguage();
 
-  const {language, languageData, setLanguage, setLanguageData} = useLanguage();
-
-  const handleChangeLanguage = (event) => {
-
-    setLanguage(event.target.innerText);
-    setLanguageData(getLanguageData(language));
-    console.log(language);
-
-  }
-  
-
-  const availableLanguages = getLanguageList().map((lang, index) => {
+  const availableLanguages = getLanguageList().map((lang) => {
     return (
-      
-      <Dropdown.Item as="button" key={lang} onClick={handleChangeLanguage} >{lang}</Dropdown.Item>
-    
-      );
+      <Dropdown.Item
+        as="button"
+        key={lang}
+        onClick={() => {
+          setLanguage(lang);
+          setLanguageData(getLanguageData(lang));
+        }}
+      >
+        {lang}
+      </Dropdown.Item>
+    );
   });
 
-  
-
   return (
-
-  <DropdownButton id='dropdown-language-selector' title={`${language}`} >
-    {availableLanguages}
-  </DropdownButton>
+    <DropdownButton className="language-selector" id="dropdown-language-selector" title={language}>
+      {availableLanguages}
+    </DropdownButton>
   );
 }
 

@@ -11,7 +11,9 @@ const getPersonality = async () => {
       },
     }).then((response) => {
       response_ = response.json();
-    })
+    }).catch(error => {
+      console.error('Error:', error);
+    });
     return response_;
 
   }

@@ -14,7 +14,9 @@ const upload_audio = async (audioFile) => {
     fetch(`${endpointROOT}/audio/upload`,{
       method: 'POST',
         body: formData
-      })
+      }).catch(error => {
+        console.error('Error:', error);
+      });
     } else {
       console.error('No file selected');
   }
