@@ -6,21 +6,11 @@ import { useLanguage } from '../../Context/LanguageContext';
 import { usePersonality } from '../../Context/PersonalityContext';
 
 
-const example ={
 
-    problemFractions : [[2,4],[1,4]],
-    answers : [[3,8],[3,16],[2,4],[3,4]],
-    correctAnswer: [3,4]
+function ProblemSection({setSelectedAnswer, exercices, currentExercice, setCurrentExercice}){
 
-}
-function ProblemSection({setSelectedAnswer, exercices}){
-
-    const {languageData} = useLanguage();
-    const traduction = languageData['board'];
     const [difficulty, setDifficulty] = useState('easy');
-    
-
-    const [currentExercice, setCurrentExercice] = useState(exercices[0]);
+  
 
     const handleCorrectAnswer = () => {
         setCurrentExercice(exercices[1]);
@@ -49,7 +39,6 @@ function ResultPanel({options: options, setSelectedAnswer: setSelectedAnswer}){
             <div className="resultText">{traductionText}</div>
             <div className="answerPanel"> {answerComponents} </div>
         </div>
-
 
     );
 }

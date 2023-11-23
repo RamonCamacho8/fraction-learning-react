@@ -14,10 +14,9 @@ import LanguageSelector from "../../components/LanguageSelector";
 
 function Home() {
 
-  const {userName, setUserName} = useUser();
+  const {setUserName} = useUser();
 
-  const {language,languageData} = useLanguage();
-  const {openess, neuroticism} = usePersonality();
+  const {languageData} = useLanguage();
   const [instruction, setInstruction] = useState(0);
 
   const homeTraduction = languageData['home'];

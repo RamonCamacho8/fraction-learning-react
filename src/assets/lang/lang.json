@@ -73,7 +73,11 @@
         "time": "Tiempo transcurrido:",
         "trys": "Intentos:"
       },
-      "helpPanel": "Panel de ayuda."
+      "helpPanel": "Panel de ayuda.",
+      "buttons": {
+        "check": "revisar",
+        "next": "Siguiente"
+      }
     }
   },
 
@@ -147,7 +151,11 @@
         "time": "Time Elapsed:",
         "trys": "Trys:"
       },
-      "helpPanel": "Help Panel."
+      "helpPanel": "Help Panel.",
+      "buttons": {
+        "check": "Check",
+        "next": "Next"
+      }
     }
   }
 }

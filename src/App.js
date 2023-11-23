@@ -12,12 +12,6 @@ import { UserProvider } from "./Context/UserContext";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
-  const [pApertura, setApertura] = useState(true);
-  const [pNeuroticismo, setNeuroticismo] = useState(true);
-  const [userName, setUserName] = useState("");
-
-  const [language, setLanguage] = useState("es");
-
 
   return (
     <UserProvider>
@@ -25,7 +19,7 @@ function App() {
         <PersonalityProvider>
 
           <Routes>
-            <Route path="/" element={<Home setUserName={setUserName} />} />
+            <Route path="/" element={<Home  />} />
             <Route path="/board" element={ <Board /> } />
             <Route path="/test" element={<Test />} />
           </Routes>
