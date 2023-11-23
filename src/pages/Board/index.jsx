@@ -1,47 +1,65 @@
-import './style.css';
+import "./style.css";
 
-import StatsSection from '../../components/StatsSection';
-import HeaderSection from '../../components/HeaderSection';
-import HelpSection from '../../components/HelpSection';
-import ProblemSection from '../../components/ProblemSection';
-import ButtonsSection from '../../components/ButtonsSection';
+import StatsSection from "../../components/StatsSection";
+import HeaderSection from "../../components/HeaderSection";
+import HelpSection from "../../components/HelpSection";
+import ProblemSection from "../../components/ProblemSection";
+import ButtonsSection from "../../components/ButtonsSection";
 
-import { getBoardObject } from "../../services/getLang.js";
-import { getExercicesByLevel } from "../../services/getExcercices.js";
+import { getExercicesByLevel } from "../../services/Excercices.js";
+import { useLanguage } from "../../Context/LanguageContext.js";
 
-import { useState } from 'react';
+import { useState } from "react";
 
+export default function Board({}) {
+  const { languageData } = useLanguage();
+  const lang = languageData["board"];
 
-export default function Board({pApertura,pNeuroticismo, userName, language}){
+  const exercises = getExercicesByLevel("easy");
 
-    const lang = getBoardObject(language);
-    const exercises = getExercicesByLevel('easy');
+  const [trys, setTrys] = useState(0);
+  const [exerciceIndex, setExerciceIndex] = useState(0);
+  const [currentExercice, setCurrentExercice] = useState(exercises[exerciceIndex]);
+  const [selectedAnswer, setSelectedAnswer] = useState(null);
+  const [correctAnswer, setCorrectAnswer] = useState(currentExercice.answer);
 
-    const [trys, setTrys] = useState(0);
-    const [selectedAnswer, setSelectedAnswer] = useState(null);
-    
+  const handleRevision = () => {
+    if (selectedAnswer === null) {
+      alert("No has seleccionado ninguna respuesta");
+      return;
+    } else if ( currentExercice.options[selectedAnswer][0] / currentExercice.options[selectedAnswer][1] === correctAnswer[0] / correctAnswer[1]) {
+        alert("Correcto");
+        setTrys(0);
+        setExerciceIndex(exerciceIndex + 1);
+        console.log(exerciceIndex);
+        setCurrentExercice(exercises[exerciceIndex]);
+        setSelectedAnswer(null);
 
-    const handleRevision = () => {
-        setTrys(trys + 1);
-        
+    } else {
+      alert("Incorrecto");
+      setTrys(trys + 1);
     }
 
 
+    
+    
+  };
 
-    return(
-
-        <div className="board">
-            <HeaderSection name={userName} text = {lang.headerPanel} />
-            <ProblemSection pApertura={pApertura} 
-            textProblem = {lang.problemPanel}
-            textAnswer = {lang.answerPanel} 
-            setSelectedAnswer={setSelectedAnswer} 
-            exercices={exercises}
-            />
-            <ButtonsSection selectedAnswer={selectedAnswer} handleCheck={handleRevision} />
-            <HelpSection pApertura={pApertura} pNeuroticismo={pNeuroticismo} text = {lang.helpPanel}/>
-            <StatsSection text = {lang.statsPanel} trys={trys} />
-        </div>
-    );
-
+  return (
+    <div className="board">
+      <HeaderSection />
+      <ProblemSection
+        setSelectedAnswer={setSelectedAnswer}
+        setCorrectAnswer={setCorrectAnswer}
+        currentExercice={currentExercice}
+        setCurrentExercice={setCurrentExercice}
+        exercices={exercises}
+      />
+      <ButtonsSection
+        handleCheck={handleRevision}
+      />
+      <HelpSection/>
+      <StatsSection text={lang.statsPanel} trys={trys} />
+    </div>
+  );
 }

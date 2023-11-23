@@ -2,54 +2,58 @@ import 'chart.js/auto';
 import './style.css'
 import { Pie } from 'react-chartjs-2';
 import { useState } from 'react';
-import { useNavigate } from "react-router-dom";
-import { getExercicesByLevel } from '../../services/getExcercices';
+import { useLanguage } from '../../Context/LanguageContext';
+import { usePersonality } from '../../Context/PersonalityContext';
 
-const example ={
 
-    problemFractions : [[2,4],[1,4]],
-    answers : [[3,8],[3,16],[2,4],[3,4]],
-    correctAnswer: [3,4]
 
-}
+function ProblemSection({setSelectedAnswer, exercices, currentExercice, setCurrentExercice}){
 
-export default function ProblemSection({pApertura, textProblem, textAnswer, setSelectedAnswer : setSelectedAnswer, exercices:exercices}){
+    const [difficulty, setDifficulty] = useState('easy');
+  
 
-    const difficulty = 'easy'
-    
-
-    const [currentExercice, setCurrentExercice] = useState(exercices[0]);
-   
     const handleCorrectAnswer = () => {
         setCurrentExercice(exercices[1]);
     }
     
 
-
     return(
         <div className="problemSection">
-            <ResultPanel text = {textAnswer} options={currentExercice.options} pApertura={pApertura} setSelectedAnswer={setSelectedAnswer} />
-            <ProcedurePanel text ={textProblem} pApertura={pApertura} fractions={currentExercice.fractions}/>
+            
+            <ResultPanel options={currentExercice.options} setSelectedAnswer={setSelectedAnswer}/>
+            <ProcedurePanel fractions={currentExercice.fractions}/>
+
         </div>
     );
 
 }
 
-function ResultPanel({options: options, text, pApertura, setSelectedAnswer: setSelectedAnswer}){
-
-    
+function ResultPanel({options: options, setSelectedAnswer: setSelectedAnswer}){
 
     const answerComponents = AnswerPanels({options: options, setSelectedAnswer: setSelectedAnswer});
-
+    let traductionText = useLanguage().languageData['board'].answerPanel;
 
     return(
 
         <div className="resultPanel">
-            <div className="resultText">{text}</div>
+            <div className="resultText">{traductionText}</div>
             <div className="answerPanel"> {answerComponents} </div>
         </div>
 
+    );
+}
 
+function ProcedurePanel({fractions}){
+
+    let hasOpenness = usePersonality().openess;
+    let fractionsComponents = fractionComponentsGenerator({pApertura: hasOpenness, fractionsNumbers: fractions, colorType: 'multi' });
+    let traductionText = useLanguage().languageData['board'].problemPanel;
+
+    return (
+        <div className="procedurePanel">
+            <div className='fractionsText'>{traductionText}</div>
+            <div className="fractions"> {fractionsComponents} </div>
+        </div>
     );
 }
 
@@ -94,20 +98,7 @@ function AnswerPanels({options: options,setSelectedAnswer}){
 
 
 
-function ProcedurePanel({pApertura, fractions, text}){
 
-    let fractionsComponents = fractionComponentsGenerator({pApertura: pApertura, fractionsNumbers: fractions, colorType: 'multi' });
-    
-
-
-
-    return (
-        <div className="procedurePanel">
-            <div className='fractionsText'>{text}</div>
-            <div className="fractions"> {fractionsComponents} </div>
-        </div>
-    );
-}
 
 
 //Fraction Components
@@ -225,3 +216,5 @@ function fractionComponentsGenerator({pApertura, fractionsNumbers, colorType = '
 
 }
 
+
+export default ProblemSection;

@@ -1,49 +1,53 @@
-function Title({title, subject}){
-    return(
-        <div className="title">
-            <div className="tema">{title}</div>
-            <div className="titleField">{subject}</div>  
-        </div>
-        
-    );
-}
+import { useLanguage } from "../../Context/LanguageContext.js";
 
-function ActualDate({dateName, monthsList}){
+const HeaderSection = () => {
+    
+  const { languageData } = useLanguage();
+  const headerTraduction = languageData["board"].headerPanel;
+
+  const Title = () => {
+    return (
+      <div className="title">
+        <div className="tema">{headerTraduction.title}</div>
+        <div className="titleField">{headerTraduction.subject}</div>
+      </div>
+    );
+  };
+
+  const ActualDate = () => {
     const date = new Date();
     const day = date.getDate();
     const month = date.getMonth();
     const year = date.getFullYear();
 
-    const months = monthsList
+    const months = headerTraduction.months;
 
     let fullDate = `${day} / ${months[month]} / ${year}`;
 
-    return(
-        <div>
-            <div className="date">{dateName}</div>
-            <div className="dateField">{fullDate}</div>
-        </div>
-        
+    return (
+      <div>
+        <div className="date">{headerTraduction.date}</div>
+        <div className="dateField">{fullDate}</div>
+      </div>
     );
-}
+  };
 
-function Student({name, nameHolder}){
-    name = name || "Invitado";
-    return(
-         <div className="student">
-            <div className="studentName">{nameHolder}</div>
-            <div className="name">{name}</div>
-        </div>
-        
+  const Student = () => {
+    return (
+      <div className="student">
+        <div className="studentName">{headerTraduction.studentHolder}</div>
+        <div className="name">name</div>
+      </div>
     );
-}
+  };
 
-export default function HeaderSection({name, text}){
-    return(
-        <div className="headerSection">
-            <Title title={text.title} subject={text.subject} />
-            <Student name={name} nameHolder={text.studentHolder} />
-            <ActualDate dateName={text.date} monthsList={text.months} />
-        </div>
-    );
-}
+  return (
+    <div className="headerSection">
+      <Title />
+      <Student />
+      <ActualDate />
+    </div>
+  );
+};
+
+export default HeaderSection;

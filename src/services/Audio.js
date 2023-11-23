@@ -14,12 +14,7 @@ const upload_audio = async (audioFile) => {
     fetch(`${endpointROOT}/audio/upload`,{
       method: 'POST',
         body: formData
-      })
-      .then(response => response.json())
-      .then(data => {
-        console.log('Server response:', data);
-      })
-      .catch(error => {
+      }).catch(error => {
         console.error('Error:', error);
       });
     } else {

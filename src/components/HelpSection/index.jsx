@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useLanguage } from '../../Context/LanguageContext';
+import { usePersonality } from '../../Context/PersonalityContext';
 
 import './style.css'
 
@@ -22,26 +24,31 @@ const visualHelp =[visual_step_1,visual_step_2,visual_step_3,visual_step_4,globa
 
 
 
-export default function HelpSection({pApertura, pNeuroticismo, text}){
+export default function HelpSection(){
 
-    pApertura = pApertura// True = visual, False = verbal
-    pNeuroticismo = pNeuroticismo// True = global, False = secuencial
+    const traductionText = useLanguage().languageData['board'].helpPanel;
 
     return(
+
         <div className="helpsSection">
-            <div className="helpsText"> {text} </div>
-            <HelpComponent pApertura={pApertura} pNeuroticismo={pNeuroticismo}/>
+            <div className="helpsText"> {traductionText} </div>
+            <HelpComponent />
         </div>
+
     );
 }
 
 
 
-function HelpComponent({pApertura, pNeuroticismo}){
+function HelpComponent(){
 
-    const content = pApertura ? visualHelp : verbalHelp;
+    const hasOpenness = usePersonality().openess;
+    const hasNeuroticism = usePersonality().neuroticism;
+    const content = hasOpenness ? visualHelp : verbalHelp;
 
-    switch (pNeuroticismo){
+
+
+    switch (hasNeuroticism){
         case true:
             return (GlobalHelp({content: content}));
         case false:
@@ -72,8 +79,6 @@ function SequentialHelp({content}){
 
     const [actualStep, setActualStep] = useState(0);
     const [actualContent, setActualContent] = useState(content[0]);
-    const [isLeftDisabled, setIsLeftDisabled] = useState(true);
-    const [isRightDisabled, setIsRightDisabled] = useState(false);
 
     const handleClick = (number) => {
         

@@ -1,94 +1,74 @@
-import AudioComponent from "../../components/AudioComponent";
 import "./style.css";
-import { getHomeObject } from "../../services/getLang.js";
 import { useState } from "react";
+import { useLanguage } from "../../Context/LanguageContext.js";
+import { usePersonality } from "../../Context/PersonalityContext.js";
+import AudioRecorder from "../../components/AudioRecorder";
+import { useNavigate } from "react-router-dom";
+import { useUser } from "../../Context/UserContext";
 
 import LanguageSelector from "../../components/LanguageSelector";
 
 
-let langObject = getHomeObject();
 
-function Home({ setApertura, setNeuroticismo, setUserName, language, setLanguageState}) {
 
-  const [languageObject, setLanguageObject] = useState(langObject);
+
+function Home() {
+
+  const {setUserName} = useUser();
+
+  const {languageData} = useLanguage();
+  const [instruction, setInstruction] = useState(0);
+
+  const homeTraduction = languageData['home'];
+
+  const navigate = useNavigate();
+
+  function Login() {
+
+    const handleChange = (e) => {
+      setUserName(e.target.value);
+    };
+  
+    return (
+      <div className="login">
+        <h3>{homeTraduction.studentHolder.title}</h3>
+        <input
+          type="text"
+          placeholder={homeTraduction.studentHolder.content}
+          onChange={handleChange}
+        />
+      </div>
+    );
+  }
+
+  const InstructionsPanel = () => {
+
+    return(
+      <div className="instructions">
+          
+          <h3>{homeTraduction.instruction}</h3>
+          <h4>{homeTraduction.instructions[instruction].content}</h4>
+
+      </div>
+    )
+  }
+  
 
   return (
     <div className="container">
       <div className="mainPanel">
-        <div className="title">
 
-          <div>
-            <h1>{languageObject.welcome}</h1>
-          </div>
-          
-          <div>
-            <LanguageSelector language={language} setLanguageState={setLanguageState} setLanguageObject={setLanguageObject} />
-          </div>
-          
-        </div>
+        <h1>{homeTraduction.welcome}</h1>
+        <Login />
+        <LanguageSelector />
+        <InstructionsPanel/>
+        <AudioRecorder setInstruction={setInstruction} />
 
-        <Login setUserName={setUserName} languageObject={languageObject} />
-        <InstructionsPanel
-          setApertura={setApertura}
-          setNeuroticismo={setNeuroticismo}
-          languageObject={languageObject}
-        />
+        <button onClick={() => {navigate('/board')}} >Continuar</button>
       </div>
     </div>
   );
 }
 
-function Login({ setUserName, languageObject }) {
-  const handleChange = (e) => {
-    setUserName(e.target.value);
-  };
-
-  return (
-    <div className="login">
-      <h3>{languageObject.studentHolder.title}</h3>
-      <input
-        type="text"
-        placeholder={languageObject.studentHolder.content}
-        onChange={handleChange}
-      />
-    </div>
-  );
-}
-
-function InstructionsPanel({ setApertura, setNeuroticismo, languageObject }) {
-
-  const buttons = languageObject.buttons;
-  let currentInstructions = languageObject.instructions.map((instruction) => {
-    return instruction.content;
-  });
-
-
-  const [currentInstructionNum, setCurrentInstructionNum] = useState(0);
-  
-
-  const handleInstructionChange = (num) => {
-  
-    setCurrentInstructionNum(num);
-    
-  };
-
-  return (
-    <div className="instructions">
-      <h3>{languageObject.instruction}</h3>
-      <h4>{currentInstructions[currentInstructionNum]}</h4>
-
-      <AudioComponent
-        setApertura={setApertura}
-        setNeuroticismo={setNeuroticismo}
-        permissionText={buttons.permissions}
-        recordText={buttons.record}
-        recordAgainText={buttons.recordAgain}
-        stopText={buttons.stop}
-        sendText={buttons.send}
-        setInstruction={handleInstructionChange}
-      />
-    </div>
-  );
-}
 
 export default Home;
