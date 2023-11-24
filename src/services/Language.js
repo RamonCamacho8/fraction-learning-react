@@ -1,4 +1,4 @@
-import langObj from '../assets/lang/lang.json';
+import langObj from '../Persistence/lang/lang.json';
 
 
 let languageDictionary =  Object.keys(langObj)

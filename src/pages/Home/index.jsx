@@ -14,7 +14,7 @@ import LanguageSelector from "../../components/LanguageSelector";
 
 function Home() {
 
-  const {setUserName} = useUser();
+  const {userName,setUserName} = useUser();
 
   const {languageData} = useLanguage();
   const [instruction, setInstruction] = useState(0);
@@ -25,17 +25,14 @@ function Home() {
 
   function Login() {
 
-    const handleChange = (e) => {
-      setUserName(e.target.value);
-    };
-  
     return (
       <div className="login">
         <h3>{homeTraduction.studentHolder.title}</h3>
         <input
           type="text"
           placeholder={homeTraduction.studentHolder.content}
-          onChange={handleChange}
+          onChange={() => setUserName()}
+          value={userName}
         />
       </div>
     );

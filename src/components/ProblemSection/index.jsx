@@ -2,35 +2,29 @@ import 'chart.js/auto';
 import './style.css'
 import { Pie } from 'react-chartjs-2';
 import { useState } from 'react';
+import { useRef } from 'react';
 import { useLanguage } from '../../Context/LanguageContext';
 import { usePersonality } from '../../Context/PersonalityContext';
+import { useExercices } from '../../Context/ExercicesContext';
+import { isCorrectAnswer } from '../../Controllers/ExercicesController';
 
-
-
-function ProblemSection({setSelectedAnswer, exercices, currentExercice, setCurrentExercice}){
-
-    const [difficulty, setDifficulty] = useState('easy');
+function ProblemSection(){
   
-
-    const handleCorrectAnswer = () => {
-        setCurrentExercice(exercices[1]);
-    }
-    
 
     return(
         <div className="problemSection">
             
-            <ResultPanel options={currentExercice.options} setSelectedAnswer={setSelectedAnswer}/>
-            <ProcedurePanel fractions={currentExercice.fractions}/>
+            <ResultPanel />
+            <ProcedurePanel />
 
         </div>
     );
 
 }
 
-function ResultPanel({options: options, setSelectedAnswer: setSelectedAnswer}){
+function ResultPanel(){
 
-    const answerComponents = AnswerPanels({options: options, setSelectedAnswer: setSelectedAnswer});
+    const answerComponents = AnswersPanel();
     let traductionText = useLanguage().languageData['board'].answerPanel;
 
     return(
@@ -43,11 +37,14 @@ function ResultPanel({options: options, setSelectedAnswer: setSelectedAnswer}){
     );
 }
 
-function ProcedurePanel({fractions}){
+function ProcedurePanel(){
 
     let hasOpenness = usePersonality().openess;
+    const {currentExercice} = useExercices();
+    let fractions = currentExercice.fractions;
     let fractionsComponents = fractionComponentsGenerator({pApertura: hasOpenness, fractionsNumbers: fractions, colorType: 'multi' });
-    let traductionText = useLanguage().languageData['board'].problemPanel;
+    
+    const traductionText = useLanguage().languageData['board'].problemPanel;
 
     return (
         <div className="procedurePanel">
@@ -57,38 +54,29 @@ function ProcedurePanel({fractions}){
     );
 }
 
-function AnswerPanel({value, id, setSelectedAnswer}){
+function AnswerButton({value, id}){
 
-
-    const answerHandler = (e) => {
-
-        setSelectedAnswer(e.target.id)
-        //get the parent element and the iterate through the children to change the background color
-        const parentElement = e.target.parentElement;
-        const children = parentElement.children;
-        for(let i = 0; i < children.length; i++){
-            if(children[i].id !== e.target.id){
-                children[i].style.backgroundColor = 'rgb(39, 76, 67)';
-            }
-            else {
-                children[i].style.backgroundColor = 'rgb(26, 50, 44)';
-            }
-        }
-    }
+    const {setSelectedAnswer} = useExercices();
+    
 
     return (
 
-        <button id={id} className="answerButton" value={value} onClick={answerHandler}>{value[0]+"/"+value[1]}</button>
+        <button id={id} className="answerButton" value={value} onClick={
+            () => {setSelectedAnswer(id)}
+        } >{value[0]+"/"+value[1]}</button>
     );
 
 }
 
-function AnswerPanels({options: options,setSelectedAnswer}){
+function AnswersPanel(){
+
+    const {currentExercice} = useExercices();
+    const options = currentExercice.options;
 
     let answerPanels = [];
     for(let i = 0; i < options.length; i++){
 
-        answerPanels.push(<AnswerPanel key={i+'-'+options[i]} value={options[i]}  id={i} setSelectedAnswer={setSelectedAnswer} />);
+        answerPanels.push(<AnswerButton key={i+'-'+options[i]} value={options[i]}  id={i} />);
         
     }
     return answerPanels;
@@ -131,7 +119,6 @@ function FractionPieChartComponent({ numerador, denominador, color }) {
     };
 
     const [optionsState, setOptions] = useState(options);
-
     const [dataState, setDataState] = useState(data);
 
 
