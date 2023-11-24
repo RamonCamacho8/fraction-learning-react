@@ -1,5 +1,15 @@
-import exercices from '../assets/exercices/exercices.json';
+import exercices from '../Persistence/exercices/exercices.json';
 
-export function getExercicesByLevel(level = 'easy'){
+const getExercicesByLevel = (level = 'easy') => {
     return exercices[level];
 }
+
+const getExercices =() =>{
+    return exercices;
+}
+
+const getDifficulties = () => {
+    return Object.keys(exercices);
+}
+
+export { getExercicesByLevel, getExercices, getDifficulties};
