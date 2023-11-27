@@ -8,9 +8,6 @@ import { useLanguage } from "../../Context/LanguageContext";
 
 const AudioRecorder = ({audioName, stream, permission}) => {
     
-
-    //const [permission, setPermission] = useState(false);
-    //const [stream, setStream] = useState(null);
     const mediaRecorder = useRef(null);
     const [recordingStatus, setRecordingStatus] = useState("inactive");
     const [audioChunks, setAudioChunks] = useState([]);
@@ -27,8 +24,22 @@ const AudioRecorder = ({audioName, stream, permission}) => {
     }
     const handleStop = async () => {
         
-        stopRecording(setRecordingStatus,setAudioChunks,setAudio, mediaRecorder, audioChunks, mimeType);
-        await upload_audio(audio, audioName);
+        //stopRecording(setRecordingStatus,setAudioChunks,setAudio, mediaRecorder, audioChunks, mimeType);
+        setRecordingStatus("inactive");
+               
+        mediaRecorder.current.onstop = async () => {
+            //creates a blob file from the audiochunks data
+            const audioBlob = new Blob(audioChunks, { type: mimeType });
+            //creates a playable URL from the blob file.
+            const audioUrl = URL.createObjectURL(audioBlob);
+            console.log(1,audioUrl);
+            setAudio(audioUrl);
+            setAudioChunks([]);
+            await upload_audio(audioUrl, audioName);
+        };
+        
+        mediaRecorder.current.stop();
+        
 
     }
 
@@ -38,7 +49,9 @@ const AudioRecorder = ({audioName, stream, permission}) => {
             {permission ? 
             (recordingStatus === "inactive" ? 
             (audio ? <button onClick={handleStart} >{audioTraduction.recordAgain}</button> : <button onClick={handleStart} >{audioTraduction.record}</button> )
-             : <button onClick={handleStop} >{audioTraduction.stop}</button>) : null}
+             : <button onClick={    
+                    handleStop  
+             } >{audioTraduction.stop}</button>) : null}
 
             
         </div>

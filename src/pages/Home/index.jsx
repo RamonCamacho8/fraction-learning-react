@@ -2,6 +2,7 @@ import "./style.css";
 import { useState } from "react";
 import { useLanguage } from "../../Context/LanguageContext.js";
 import { usePersonality } from "../../Context/PersonalityContext.js";
+import { getPersonality, getPersonality_v2 } from "../../services/Personality";
 import AudioRecorder from "../../components/AudioRecorder";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../../Context/UserContext";
@@ -17,9 +18,10 @@ function Home() {
   const {userName,setUserName} = useUser();
 
   const {languageData} = useLanguage();
-  const [instruction, setInstruction] = useState(0);
   const [permission, setPermission] = useState(false);
   const [stream, setStream] = useState(null);
+  const {openness, neuroticism} = usePersonality();
+  const {setOpenness, setNeuroticism} = usePersonality();
 
   const homeTraduction = languageData['home'];
 
@@ -50,7 +52,7 @@ function Home() {
           <ol>
             { 
               homeTraduction.instructions.map((instruction,index) => {
-                return <li key={index}>{instruction}</li>
+                return <li key={`instruction-${index}`}>{instruction}</li>
               })
             }
           </ol>
@@ -58,6 +60,19 @@ function Home() {
     )
   }
 
+  async function handleContinue() {
+    let response = await getPersonality_v2();
+
+    let neuroticism_ = response.neuroticism === 'Si' ? true : false;
+    let openness_ = response.openness === 'Si' ? true : false;
+    console.log(neuroticism_, openness_);
+
+    setNeuroticism(neuroticism_);
+    setOpenness(openness_);
+    console.log(response.openness, response.neuroticism);
+    console.log(openness, neuroticism);
+    navigate('/board')
+  }
 
   
 
@@ -69,17 +84,22 @@ function Home() {
         <Login />
         <LanguageSelector />
         <InstructionsPanel/>
-        {permission ? null : <button onClick={() => {getMicrophonePermission(setPermission,setStream)}} >{homeTraduction.buttons.permissions}</button>}
+        {permission ? null : <button className="permissionsButton" onClick={() => {getMicrophonePermission(setPermission,setStream)}} >{homeTraduction.buttons.permissions}</button>}
         {
           homeTraduction.questions.map((question,index) => {
-            return <div className="question-record">
+            return <div key={`question-${index}`} className="question-record">
               <p key={index}>{question}</p>
-              <AudioRecorder audioName={`question${index}`} stream={stream} permission={permission} />
+              <AudioRecorder 
+              key={`AudioRecorder-${index}`} audioName={`question${index}`} 
+              stream={stream} permission={permission}
+              />
               </div>
           })
         }
 
-        <button onClick={() => {navigate('/board')}} >Continuar</button>
+        <button onClick={
+          handleContinue
+        } >Continuar</button>
       </div>
     </div>
   );

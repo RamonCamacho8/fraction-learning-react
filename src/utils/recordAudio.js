@@ -43,6 +43,7 @@ const getMicrophonePermission = async (setPermission,setStream) => {
       const audioBlob = new Blob(audioChunks, { type: mimeType });
       //creates a playable URL from the blob file.
       const audioUrl = URL.createObjectURL(audioBlob);
+      console.log(audioUrl);
       setAudio(audioUrl);
       setAudioChunks([]);
     };

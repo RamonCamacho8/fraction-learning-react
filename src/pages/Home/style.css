@@ -69,6 +69,11 @@ li {
     text-align: center;
 }
 
+.permissionsButton{
+    animation:brath 2s  linear infinite;
+    -webkit-font-smoothing: antialiased;
+}
+
 input {
     border-radius: 5px;
     border: 1px solid black;
@@ -90,5 +95,13 @@ button:hover {
 
 button:disabled {
     background-color: rgb(39, 76, 67);
-    color: rgb(255, 255, 255);}
+    color: rgb(255, 255, 255);
+}
 
+@keyframes brath{
+    0%{transform: scale(1);}
+    25%{transform: scale(1.1);}
+    50%{transform: scale(1);}
+    75%{transform: scale(1.1);}
+    100%{transform: scale(1);}
+}

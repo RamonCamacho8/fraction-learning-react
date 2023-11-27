@@ -2,11 +2,9 @@ import 'chart.js/auto';
 import './style.css'
 import { Pie } from 'react-chartjs-2';
 import { useState } from 'react';
-import { useRef } from 'react';
 import { useLanguage } from '../../Context/LanguageContext';
 import { usePersonality } from '../../Context/PersonalityContext';
 import { useExercices } from '../../Context/ExercicesContext';
-import { isCorrectAnswer } from '../../Controllers/ExercicesController';
 
 function ProblemSection(){
   
@@ -39,10 +37,10 @@ function ResultPanel(){
 
 function ProcedurePanel(){
 
-    let hasOpenness = usePersonality().openess;
+    let hasOpenness = usePersonality().openness;
     const {currentExercice} = useExercices();
     let fractions = currentExercice.fractions;
-    let fractionsComponents = fractionComponentsGenerator({pApertura: hasOpenness, fractionsNumbers: fractions, colorType: 'multi' });
+    let fractionsComponents = fractionComponentsGenerator({hasOpenness: hasOpenness, fractionsNumbers: fractions, colorType: 'multi' });
     
     const traductionText = useLanguage().languageData['board'].problemPanel;
 
@@ -169,9 +167,9 @@ function colorSelector({colorOption}){
 
 }
 
-function fractionComponentSelector({pApertura}){
-
-    switch(pApertura){
+function fractionComponentSelector({hasOpenness}){
+    
+    switch(hasOpenness){
         case true:
             return FractionPieChartComponent;
         case false:
@@ -182,9 +180,9 @@ function fractionComponentSelector({pApertura}){
 
 }
 
-function fractionComponentsGenerator({pApertura, fractionsNumbers, colorType = 'multi'}){
+function fractionComponentsGenerator({hasOpenness, fractionsNumbers, colorType = 'multi'}){
 
-    let Component = fractionComponentSelector({pApertura: pApertura});
+    let Component = fractionComponentSelector({hasOpenness: hasOpenness});
     let fractionsComponents = [];
     
 

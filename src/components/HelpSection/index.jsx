@@ -42,10 +42,11 @@ export default function HelpSection(){
 
 function HelpComponent(){
 
-    const hasOpenness = usePersonality().openess;
+    const hasOpenness = usePersonality().openness;
     const hasNeuroticism = usePersonality().neuroticism;
     const content = hasOpenness ? visualHelp : verbalHelp;
 
+    console.log('From HelpComponent',hasOpenness,hasNeuroticism);
 
 
     switch (hasNeuroticism){

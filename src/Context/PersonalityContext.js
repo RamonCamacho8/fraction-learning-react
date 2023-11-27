@@ -6,11 +6,11 @@ const PersonalityContext = createContext();
 
 export const PersonalityProvider = (props) => {
     
-    const [openess, setOpeness] = useState(true);
+    const [openness, setOpenness] = useState(true);
     const [neuroticism, setNeuroticism] = useState(true);
 
     return (
-        <PersonalityContext.Provider value={{openess, setOpeness, neuroticism, setNeuroticism}}>
+        <PersonalityContext.Provider value={{openness, setOpenness, neuroticism, setNeuroticism}}>
             {props.children}
         </PersonalityContext.Provider>
     );
