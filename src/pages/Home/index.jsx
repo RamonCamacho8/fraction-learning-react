@@ -5,7 +5,7 @@ import { usePersonality } from "../../Context/PersonalityContext.js";
 import AudioRecorder from "../../components/AudioRecorder";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../../Context/UserContext";
-
+import { getMicrophonePermission } from "../../utils/recordAudio.js";
 import LanguageSelector from "../../components/LanguageSelector";
 
 
@@ -18,6 +18,8 @@ function Home() {
 
   const {languageData} = useLanguage();
   const [instruction, setInstruction] = useState(0);
+  const [permission, setPermission] = useState(false);
+  const [stream, setStream] = useState(null);
 
   const homeTraduction = languageData['home'];
 
@@ -44,11 +46,19 @@ function Home() {
       <div className="instructions">
           
           <h3>{homeTraduction.instruction}</h3>
-          <h4>{homeTraduction.instructions[instruction].content}</h4>
-
+          <p></p>
+          <ol>
+            { 
+              homeTraduction.instructions.map((instruction,index) => {
+                return <li key={index}>{instruction}</li>
+              })
+            }
+          </ol>
       </div>
     )
   }
+
+
   
 
   return (
@@ -59,7 +69,15 @@ function Home() {
         <Login />
         <LanguageSelector />
         <InstructionsPanel/>
-        <AudioRecorder setInstruction={setInstruction} />
+        {permission ? null : <button onClick={() => {getMicrophonePermission(setPermission,setStream)}} >{homeTraduction.buttons.permissions}</button>}
+        {
+          homeTraduction.questions.map((question,index) => {
+            return <div className="question-record">
+              <p key={index}>{question}</p>
+              <AudioRecorder audioName={`question${index}`} stream={stream} permission={permission} />
+              </div>
+          })
+        }
 
         <button onClick={() => {navigate('/board')}} >Continuar</button>
       </div>
