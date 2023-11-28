@@ -1,16 +1,14 @@
 import { useState, useRef } from "react";
-
-import { getMicrophonePermission, startRecording, stopRecording } from "../../utils/recordAudio";
+import { FaPlayCircle } from "react-icons/fa";
+import { FaCircleStop } from "react-icons/fa6";
+import {  startRecording } from "../../utils/recordAudio";
 import { upload_audio } from "../../services/Audio";
-import { getPersonality } from "../../services/Personality";
-import { usePersonality } from "../../Context/PersonalityContext";
 import { useLanguage } from "../../Context/LanguageContext";
+import { IoReloadCircle } from "react-icons/io5";
 
-const AudioRecorder = ({setInstruction}) => {
+
+const AudioRecorder = ({audioName, stream, permission}) => {
     
-
-    const [permission, setPermission] = useState(false);
-    const [stream, setStream] = useState(null);
     const mediaRecorder = useRef(null);
     const [recordingStatus, setRecordingStatus] = useState("inactive");
     const [audioChunks, setAudioChunks] = useState([]);
@@ -20,45 +18,49 @@ const AudioRecorder = ({setInstruction}) => {
 
     const audioTraduction = languageData['audio'];
 
-    const {setOpeness, setNeuroticism} = usePersonality();
 
-
-    const handlePermission = () => {
-        getMicrophonePermission(setPermission,setStream);
-        setInstruction(1);
-    }
     const handleStart = () => {
         startRecording(setRecordingStatus, setAudioChunks, stream, mimeType,mediaRecorder);
-        setInstruction(2);
-    }
-    const handleStop = () => {
-        stopRecording(setRecordingStatus,setAudioChunks,setAudio, mediaRecorder, audioChunks, mimeType);
-        setInstruction(3);
-    }
-    const handleSend = async () => {
-
-        await upload_audio(audio);
-        const personality = await getPersonality()
-        if(personality){
-            setInstruction(4);
-            setOpeness(personality.openness);
-            setNeuroticism(personality.neuroticism);
-        }
         
+    }
+    const handleStop = async () => {
+        
+        //stopRecording(setRecordingStatus,setAudioChunks,setAudio, mediaRecorder, audioChunks, mimeType);
+        setRecordingStatus("inactive");
+               
+        mediaRecorder.current.onstop = async () => {
+            //creates a blob file from the audiochunks data
+            const audioBlob = new Blob(audioChunks, { type: mimeType });
+            //creates a playable URL from the blob file.
+            const audioUrl = URL.createObjectURL(audioBlob);
+            console.log(1,audioUrl);
+            setAudio(audioUrl);
+            setAudioChunks([]);
+            await upload_audio(audioUrl, audioName);
+        };
+        
+        mediaRecorder.current.stop();
 
+    }
+
+    const handleRestart = () => {
+        setAudio(null);
     }
 
 
     return (
         <div className="AudioRecorder">
 
-            {permission ? null : <button onClick={handlePermission} >
-                {audioTraduction.permissions}</button>}
+
             {permission ? 
             (recordingStatus === "inactive" ? 
-            (audio ? <button onClick={handleStart} >{audioTraduction.recordAgain}</button> : <button onClick={handleStart} >{audioTraduction.record}</button> )
-             : <button onClick={handleStop} >{audioTraduction.stop}</button>) : null}
-            {audio ? (<button onClick={handleSend} >{audioTraduction.send}</button>)  : null}
+            (audio ? <button className='audio-button' onClick={handleRestart} ><IoReloadCircle/></button>
+             : 
+             <button className='audio-button' onClick={handleStart} ><FaPlayCircle/></button> 
+             ) : (
+             <button className='audio-button' onClick={handleStop} ><FaCircleStop/></button>)) 
+             : null}
+
             
         </div>
     );

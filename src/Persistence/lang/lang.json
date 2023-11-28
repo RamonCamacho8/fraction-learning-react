@@ -8,23 +8,17 @@
         "title": "Nombre del alumno:",
         "content": "Escribe tu nombre aquí."
       },
-      "instruction": "Intrucciones",
-      "instructions": [
-        {
-          "content": "Otorga permisos al micrófono presionando el botón."
-        },
-        {
-          "content": "Presiona 'Grabar' y contesta la siguiente pregunta: \n ¿Qué es lo que te gusta y qué no te gusta?"
-        },
-        {
-          "content": "Presiona 'Detener' cuando termines."
-        },
-        {
-          "content": "Presiona 'Enviar' para enviar tu respuesta. O 'Grabar de Nuevo' para volver a grabar."
-        },
-        {
-          "content": "Presiona 'Continuar' para continuar al pizarrón."
-        }
+      "instruction": "Intrucciones:",
+      "instructions" :[
+        "Otorga permisos al micrófono presionando el botón 'Otorgar permisos'.",
+        "Para cada pregunta presiona 'Grabar' y respondela. ",
+        "Presiona 'Detener' cuando termines.",
+        "Al finalizar de contestar todas las preguntas presiona 'Continuar' o puedes grabar de nuevo presionando el botón."
+      ],
+      "questions" : [
+        "¿Qué es lo que te motiva? ¿Qué es lo que más te gusta?",
+        "¿Cuál es tu materia favorita? ¿Por qué?",
+        "¿Cuál es tu deporte favorito? ¿Por qué?"
       ],
       "buttons": {
         "permissions": "Otorgar permisos al Microfono",
@@ -89,23 +83,17 @@
         "title": "Student Name:",
         "content": "Write your name here."
       },
-      "instruction": "Instructions",
+      "instruction": "Instructions:",
       "instructions": [
-        {
-          "content": "Grant microphone permissions by pressing the button."
-        },
-        {
-          "content": "Press 'Record' and answer the following question: \n What do you like and what do you not like?"
-        },
-        {
-          "content": "Press 'Stop' when you are done. "
-        },
-        {
-          "content": "Press 'Send' to send your answer. Or 'Record Again' to record again."
-        },
-        {
-          "content": "Press 'Continue' to continue to the board."
-        }
+        "Grant microphone permissions by pressing the 'Grant Permissions' button.",
+        "For each question press 'Record' and answer it.",
+        "Press 'Stop' when you are done.",
+        "When you are done answering press 'Continue'."
+      ],
+      "questions" : [
+        "What motivates you? What do you like the most?",
+        "What is your favorite subject? Why?",
+        "What is your favorite sport? Why?"
       ],
       "buttons": {
         "permissions": "Grant Microphone Permissions",
