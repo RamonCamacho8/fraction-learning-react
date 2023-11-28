@@ -13,7 +13,7 @@
         "Otorga permisos al micrófono presionando el botón 'Otorgar permisos'.",
         "Para cada pregunta presiona 'Grabar' y respondela. ",
         "Presiona 'Detener' cuando termines.",
-        "Al finalizar de contestar presiona 'Continuar"
+        "Al finalizar de contestar todas las preguntas presiona 'Continuar' o puedes grabar de nuevo presionando el botón."
       ],
       "questions" : [
         "¿Qué es lo que te motiva? ¿Qué es lo que más te gusta?",

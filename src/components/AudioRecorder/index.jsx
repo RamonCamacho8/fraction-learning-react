@@ -1,10 +1,11 @@
 import { useState, useRef } from "react";
-
-import { getMicrophonePermission, startRecording, stopRecording } from "../../utils/recordAudio";
+import { FaPlayCircle } from "react-icons/fa";
+import { FaCircleStop } from "react-icons/fa6";
+import {  startRecording } from "../../utils/recordAudio";
 import { upload_audio } from "../../services/Audio";
-import { getPersonality, getPersonality_v2 } from "../../services/Personality";
-import { usePersonality } from "../../Context/PersonalityContext";
 import { useLanguage } from "../../Context/LanguageContext";
+import { IoReloadCircle } from "react-icons/io5";
+
 
 const AudioRecorder = ({audioName, stream, permission}) => {
     
@@ -39,19 +40,26 @@ const AudioRecorder = ({audioName, stream, permission}) => {
         };
         
         mediaRecorder.current.stop();
-        
 
     }
+
+    const handleRestart = () => {
+        setAudio(null);
+    }
+
 
     return (
         <div className="AudioRecorder">
 
+
             {permission ? 
             (recordingStatus === "inactive" ? 
-            (audio ? <button onClick={handleStart} >{audioTraduction.recordAgain}</button> : <button onClick={handleStart} >{audioTraduction.record}</button> )
-             : <button onClick={    
-                    handleStop  
-             } >{audioTraduction.stop}</button>) : null}
+            (audio ? <button className='audio-button' onClick={handleRestart} ><IoReloadCircle/></button>
+             : 
+             <button className='audio-button' onClick={handleStart} ><FaPlayCircle/></button> 
+             ) : (
+             <button className='audio-button' onClick={handleStop} ><FaCircleStop/></button>)) 
+             : null}
 
             
         </div>

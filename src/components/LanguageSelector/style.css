@@ -1,3 +1,5 @@
 .dropdown-toggle{ 
     background-color: rgb(39, 76, 67) !important;
+    border-color: white !important;
+    margin: 10px !important;
 }
