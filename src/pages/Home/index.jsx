@@ -3,7 +3,7 @@ import { useState } from "react";
 import { IconContext } from "react-icons";
 import { useLanguage } from "../../Context/LanguageContext.js";
 import { usePersonality } from "../../Context/PersonalityContext.js";
-import { getPersonality, getPersonality_v2 } from "../../services/Personality";
+import { getPersonality_v2 } from "../../services/Personality";
 import AudioRecorder from "../../components/AudioRecorder";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../../Context/UserContext";
