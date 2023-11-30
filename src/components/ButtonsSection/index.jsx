@@ -3,11 +3,13 @@ import { useLanguage } from '../../Context/LanguageContext';
 import { useExercices } from '../../Context/ExercicesContext';
 import { isCorrectAnswer } from '../../Controllers/ExercicesController';
 import { useNavigate } from 'react-router-dom';
+import { useStats } from '../../Context/StatsContext';
 
 export default function ButtonsSection(){
 
     const { languageData } = useLanguage();
     const traductionText = languageData['board'];
+    const {trys,setTrys, setTime} = useStats();
     
     const {selectedAnswer, currentExercice,hasNextExercice, nextExercice, hastNextDifficulty, nextDifficulty} = useExercices();
 
@@ -27,10 +29,11 @@ export default function ButtonsSection(){
                         }else{
                             navigate('/');
                         }
+                        setTrys(0);
+                        setTime(0);
                     }
                     else {
-                        alert('Wrong answer');
-
+                        setTrys(trys+1);
                     }
 
                 }}>{traductionText.buttons.check}</button>
@@ -40,22 +43,12 @@ export default function ButtonsSection(){
     }
 
     
-    const NextButton = () => {
-
-        return(
-            <div className="nextButton">
-                <button className="nextText">{traductionText.buttons.next}</button>
-            </div>
-        );
-
-    }
 
 
     return(
         <div className="buttonsSection">
 
             <CheckButton />
-            <NextButton  />
             
         </div>
     );

@@ -71,6 +71,11 @@
       "buttons": {
         "check": "revisar",
         "next": "Siguiente"
+      },
+      "difficulty": {
+        "easy": "Fácil",
+        "medium": "Medio",
+        "hard": "Difícil"
       }
     }
   },
@@ -143,6 +148,11 @@
       "buttons": {
         "check": "Check",
         "next": "Next"
+      },
+      "difficulty": {
+        "easy": "Easy",
+        "medium": "Medium",
+        "hard": "Hard"
       }
     }
   }

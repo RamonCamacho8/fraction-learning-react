@@ -23,3 +23,10 @@
   .button:active {
     transform: scale(0.9);
   }
+
+  .checkText{
+    border: 4px dashed white;
+    border-radius: 20px;
+    padding: 20px;
+
+  }

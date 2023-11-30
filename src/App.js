@@ -8,6 +8,7 @@ import Test from "./pages/Test";
 import { PersonalityProvider } from "./Context/PersonalityContext";
 import { LanguageProvider } from "./Context/LanguageContext";
 import { UserProvider } from "./Context/UserContext";
+import { StatsProvider } from "./Context/StatsContext";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -15,6 +16,7 @@ function App() {
 
   return (
     <UserProvider>
+      <StatsProvider>
       <LanguageProvider>
         <PersonalityProvider>
 
@@ -26,6 +28,7 @@ function App() {
 
         </PersonalityProvider>
       </LanguageProvider>
+      </StatsProvider>
     </UserProvider>
   );
 }
