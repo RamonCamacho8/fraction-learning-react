@@ -1,6 +1,6 @@
 
 const endpointROOT = 'http://localhost:5000/api';
-
+const apinetROOT = 'https://apinet.hopto.org/';
 
 const upload_audio = async (audioFile, audioName = 'test_2') => {
   let ext = 'mp3';
@@ -13,7 +13,7 @@ const upload_audio = async (audioFile, audioName = 'test_2') => {
     const formData = new FormData();
     formData.append('audio', blobData, audioName);
 
-    fetch(`${endpointROOT}/audio/upload`,{
+    fetch(`${apinetROOT}/fractionlearning/upload`,{
       method: 'POST',
         body: formData
       }).catch(error => {
