@@ -1,9 +1,15 @@
+@font-face {
+    font-family: 'Comic Sans MS';
+    src: url('../../assets/fonts/ComicSansMS3.ttf');
+}
+
+
 .container {
 
     display: grid;
     background-color: rgb(255, 255, 255);
-    width: 100vw;
-    height: 100vh;
+    width: 100dvw;
+    height: 100dvh;
     place-items: center;
     
 }
@@ -22,13 +28,38 @@
     justify-content: space-between;
     box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
     width: 50%;
-    
     padding: 40px;
+    margin: 20px;
 }
+
+
+/* For cellphones (up to 767px wide) */
+@media only screen and (max-width: 767px) {
+    /* Your CSS styles for cellphones go here */
+    .mainPanel{
+        width: 100%;
+        padding: 10px;
+    }
+  }
+  
+  /* For tablets (768px to 1023px wide) */
+  @media only screen and (min-width: 768px) and (max-width: 1023px) {
+    /* Your CSS styles for tablets go here */
+    .mainPanel{
+        width: 100%;
+        padding: 10px;
+    }
+  }
+  
+  /* For PCs (1024px and wider) */
+  @media only screen and (min-width: 1024px) {
+    /* Your CSS styles for PCs go here */
+  }
+
 
 .mainPanel > * {
     color: white;
-    font-family: 'Comic Sans MS', cursive, sans-serif;
+    font-family: 'Comic Sans MS';
 }
 
 li {
@@ -64,8 +95,6 @@ li {
     flex-direction: column;
     width: 100%;
     font-size: large;
-    
-
 }
 
 .title {
@@ -148,3 +177,5 @@ button:disabled {
     75%{transform: scale(1.1);}
     100%{transform: scale(1);}
 }
+
+
