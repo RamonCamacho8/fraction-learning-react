@@ -15,17 +15,13 @@ export default function Board({}) {
   const lang = languageData["board"];
 
   return (
-    <div className="board">
+    <div className="board-container">
       <HeaderSection />
-
-      <ExercicesProvider>
-        <ProblemSection />
-
-        <ButtonsSection  />
-
-        <StatsSection text={lang.statsPanel}/>
-        
-      </ExercicesProvider>
+        <ExercicesProvider>
+          <StatsSection/>
+          <ProblemSection />
+          <ButtonsSection  />
+        </ExercicesProvider>
       <HelpSection />
 
       

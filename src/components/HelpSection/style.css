@@ -1,48 +1,6 @@
-.visualHelp{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-}
-
-.helpsSection {
-    display: flex;
+.globalHelp img {
     width: 100%;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
 }
-
-.sequentialHelp {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.helpsText {
-    text-align: center;
-    width: stretch;
-    border-bottom: 2px dashed #ffffff;
-}
-
-.sequentialHelpContent {
-    padding: 10px;
-    width: 100%;
-    display: grid;
-    place-items: center;
-}
-.globalHelp{
-    padding: 10px;
-    width: 100%;
-    display: grid;
-    place-items: center;
-}
-
-img {
-    width: min(100%, 400px);
-}
-
-
-

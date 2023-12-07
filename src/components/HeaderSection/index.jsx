@@ -1,4 +1,5 @@
 import { useLanguage } from "../../Context/LanguageContext.js";
+import "./style.css";
 
 const HeaderSection = () => {
     
@@ -8,8 +9,8 @@ const HeaderSection = () => {
   const Title = () => {
     return (
       <div className="title">
-        <div className="tema">{headerTraduction.title}</div>
-        <div className="titleField">{headerTraduction.subject}</div>
+        <h1>{headerTraduction.title}</h1>
+        <h2>{headerTraduction.subject}</h2>
       </div>
     );
   };
@@ -25,27 +26,30 @@ const HeaderSection = () => {
     let fullDate = `${day} / ${months[month]} / ${year}`;
 
     return (
-      <div>
-        <div className="date">{headerTraduction.date}</div>
-        <div className="dateField">{fullDate}</div>
+      <div className="dateInformation">
+        <h5>{headerTraduction.date}</h5>
+        <h6>{fullDate}</h6>
       </div>
     );
   };
 
   const Student = () => {
     return (
-      <div className="student">
-        <div className="studentName">{headerTraduction.studentHolder}</div>
-        <div className="name">name</div>
+      <div className="studentInformation">
+        <h5>{headerTraduction.studentHolder}</h5>
+        <h6>Ramon Camacho</h6>
       </div>
     );
   };
 
   return (
     <div className="headerSection">
+      
+      <div className="info">
+        <Student />
+        <ActualDate />
+      </div>
       <Title />
-      <Student />
-      <ActualDate />
     </div>
   );
 };

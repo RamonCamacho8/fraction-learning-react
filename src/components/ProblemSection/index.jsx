@@ -1,5 +1,5 @@
 import 'chart.js/auto';
-import './style.css'
+import './style.css';
 import { Pie } from 'react-chartjs-2';
 import { useState } from 'react';
 import { useLanguage } from '../../Context/LanguageContext';
@@ -11,10 +11,8 @@ function ProblemSection(){
 
     return(
         <div className="problemSection">
-            
-            <ResultPanel />
             <ProcedurePanel />
-
+            <ResultPanel />
         </div>
     );
 
@@ -28,7 +26,7 @@ function ResultPanel(){
     return(
 
         <div className="resultPanel">
-            <div className="resultText">{traductionText}</div>
+            <h5 className="resultText">{traductionText}</h5>
             <div className="answerPanel"> {answerComponents} </div>
         </div>
 
@@ -46,7 +44,7 @@ function ProcedurePanel(){
 
     return (
         <div className="procedurePanel">
-            <div className='fractionsText'>{traductionText}</div>
+            <h5 className='fractionsText'>{traductionText}</h5>
             <div className="fractions"> {fractionsComponents} </div>
         </div>
     );
@@ -194,6 +192,8 @@ function fractionComponentsGenerator({hasOpenness, fractionsNumbers, colorType =
 
         fractionsComponents.push(<Component key={componetKey} numerador={numerador} denominador={denominador}  color = {colorSelector({colorOption:colorType})}/>, <Symbol key={symbolKey} symbol={symbol} />);
     }
+
+    fractionsComponents.pop();
 
 
     return fractionsComponents;

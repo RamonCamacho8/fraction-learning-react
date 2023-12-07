@@ -1,0 +1,42 @@
+.statsSection {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+    border-bottom: 3px dashed white;
+}
+
+.statsSection > div {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 10px;
+    align-items: center;
+}
+
+.statsSection > div > h6 {
+    margin: 0;
+}
+
+.react-icons {
+    width: 30px;
+    height: 30px;
+}
+
+.icon{
+    padding: 5px;
+}
+
+.timePanel {
+    width: 50%;
+}
+
+.errorsPanel {
+    width: 25%;
+}
+
+
+.levelPanel {
+    width: 25%;
+}

@@ -1,82 +1,21 @@
-.board {  
 
+
+.board-container {
+  width: 100svw;
+  height: 100svh; 
+  background-color: var(--chalkboard-color);
+  padding: 20px;
+
+}
+
+.board-container * {
   font-family: 'Chalktastic';
-  font-size: 150%;
-  color : #ffffff;
-
-  display: grid;
-  grid-template-columns: 0.5fr 1.5fr 1fr;
-  grid-template-rows: 0.4fr 2.1fr 0.5fr;
-  gap: 0px 0px;
-  grid-auto-flow: row;
-  grid-template-areas:
-    "headerSection headerSection headerSection"
-    "statsSection problemSection problemSection"
-    "helpsSection helpsSection buttonsSection";
-
-  width: 100vw;
-  height: 100vh;
-  background-color: rgb(39, 76, 67);
-  
+  color : white;
 }
 
-
-
-.title { grid-area: title; 
-  font-size: 150%;
-  text-align: center;
+.board-container > * {
+  margin: 10px;
 }
-
-.headerSection {  
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-  gap: 0px 0px;
-  grid-auto-flow: row;
-  grid-template-areas:
-    "title title title"
-    "student student date";
-  grid-area: headerSection;
-}
-
-.student { grid-area: student; }
-
-.date { grid-area: date;
-  text-align: left; }
-
-.dateField{
-  text-align: right;
-}
-
-
-
-.helpsSection{
-  grid-area: helpsSection;
-}
-
-
-.statsSection {  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr 1fr 1fr 1fr;
-  gap: 0px 0px;
-  grid-auto-flow: row;
-  grid-template-areas:
-    "levelPanel"
-    "Time"
-    "Erros"
-    "helpsPanel";
-  grid-area: statsSection;
-}
-
-.Time { grid-area: Time; }
-
-.Erros { grid-area: Erros; }
-
-.helpsPanel { grid-area: helpsPanel; }
-
-.levelPanel { grid-area: levelPanel; }
-
-
 
 
 @font-face {

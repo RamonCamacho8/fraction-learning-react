@@ -1,32 +1,6 @@
-.buttonsSection { 
-    grid-area: buttonsSection;
+.buttonsSection {
     display: flex;
-    flex-direction: column;
-    justify-content: space-around;
+    flex-direction: row;
+    justify-content: center;
     align-items: center;
-   }
-  
-
-  .button {
-    width: max-content;
-    border-radius: 5px;
-    background: none;
-    border: 2px dashed white;
-    text-decoration: none;
-    color: white;
-  }
-  
-  .button:hover {
-    cursor: pointer;
-    background-color: rgb(22, 44, 39);
-  }
-  .button:active {
-    transform: scale(0.9);
-  }
-
-  .checkText{
-    border: 4px dashed white;
-    border-radius: 20px;
-    padding: 20px;
-
-  }
+}

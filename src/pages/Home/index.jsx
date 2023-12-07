@@ -66,7 +66,8 @@ function Home() {
   }
 
   return (
-  <IconContext.Provider value={{ style: { verticalAlign: 'top'}, size: '2em' }}>    <div className="container">
+  <IconContext.Provider value={{ style: { verticalAlign: 'top'}, size: '2em' }}>    
+  <div className="container">
       <div className="mainPanel">
         <h1 className="welcome">{homeTraduction.welcome}</h1>
         <Login />

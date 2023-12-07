@@ -1,135 +1,79 @@
-.problemSection {
-    display: grid;
-    grid-template-columns: 1.6fr 0.4fr;
-    grid-template-rows: 1fr 1fr 1fr;
-    gap: 0px 0px;
-    grid-auto-flow: row;
-    grid-template-areas:
-        "procedurePanel resultPanel"
-        "procedurePanel resultPanel"
-        "procedurePanel resultPanel";
-    grid-area: problemSection;
-    
-
+.problemSection > div {
+    margin: 10px;
 }
+
 
 .procedurePanel {
-    grid-area: procedurePanel;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-}
-
-
-.fractions {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    width: 100%;
-    height: 100%;
-    align-items: center;
-    justify-content: space-around;
-}
-
-
-.fraction {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: stretch;
-    height: stretch;
-    font-size: larger;
-    padding: 10px;
+    border-bottom: 3px dashed white;
+    padding: 20px;
 }
-
-.pieFraction {
-    width: min(99%, 150px);
-    height: stretch;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    
-}
-
-@media only screen and (max-width: 768px) {
-    .fractions {
-        display: flex;
-        flex-direction: column;
-        width: stretch;
-        height: stretch;
-        align-items: center;
-        justify-content: start;
-    }
-}
-
-.SymbolComponent {
-    height: -webkit-fill-available;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 4vw;
-
-}
-
 
 .resultPanel {
-    grid-area: resultPanel;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    
 }
 
-.fractionsText{
-    width: stretch;
-    height: 20%;
+.resultText {
     text-align: center;
-    padding: 10px;
-    
 }
 
-.fractionBar{
+.fractions {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
-    width: stretch;
-}
-
-.resultText{
-    width: stretch;
-    height: 20%;
-    padding: 10px;
-}
-
-.answerPanel{
-    display: grid;
-    grid-template-columns:repeat(2, 1fr);
-    grid-template-rows: repeat(2, 1fr);
+    justify-content: space-between;
     align-items: center;
-    gap: 10px 10px;
-    width: stretch;
-    height: stretch;
-    background: none;
-}
-
-.answerButton{
-    width: 100%;
-    height: 50%;
-    background: none;
-    color: #ffffff;
-    border: 2px dashed #ffffff;
-    border-radius: 30px;
 }
 
 
 
-.answerButton:hover {
-    background: rgb(26, 50, 44);
+.pieFraction canvas {
+    width: 100% !important;
+    height: 100% !important;
+    
 }
 
-.answerButton:focus {
-    background-color: rgb(26, 50, 44);
+.answerPanel {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+    width: 80%;
 }
 
+.answerPanel button {
+
+    
+}
+
+/* For cellphones (up to 767px wide) */
+@media only screen and (max-width: 767px) {
+    /* Your CSS styles for cellphones go here */
+    .pieFraction {
+        width: 150px;
+        height: 150px;
+    }
+  }
+  
+  /* For tablets (768px to 1023px wide) */
+  @media only screen and (min-width: 768px) and (max-width: 1023px) {
+    /* Your CSS styles for tablets go here */
+    .pieFraction {
+        width: 200px;
+        height: 200px;
+    }
+  }
+  
+  /* For PCs (1024px and wider) */
+  @media only screen and (min-width: 1024px) {
+    /* Your CSS styles for PCs go here */
+    .pieFraction {
+        width: 300px;
+        height: 300px;
+    }
+  }

@@ -1,0 +1,24 @@
+.title {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    border-bottom: 5px dashed white;
+    border-top: 5px dashed white;
+    padding: 10px;
+    
+}
+
+.info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.studentInformation{
+    width: 50%;
+}
+
+.dateInformation{
+    width: 50%;
+    text-align: right;
+}
