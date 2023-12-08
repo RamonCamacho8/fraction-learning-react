@@ -30,8 +30,8 @@ export default function HelpSection(){
 
     return(
 
-        <div className="helpsSection">
-            <div className="helpsText"> {traductionText} </div>
+        <div className="help-section">
+            <div className="help-text"> {traductionText} </div>
             <HelpComponent />
         </div>
 
@@ -65,8 +65,8 @@ function GlobalHelp({content}){
     
 
     return (
-        <div className="globalHelp">
-            <img  key='last image' className="visualHelp global" src={content[content.length -1]} alt="visualHelp global" border="0"/>
+        <div className="global-help">
+            <img  key='last image' className="visual-help global" src={content[content.length -1]} alt="visualHelp global" border="0"/>
         </div>
     );
 
@@ -99,24 +99,19 @@ function SequentialHelp({content}){
         setActualContent(content[actualStep + number]);
 
     }
-
-
-
     
     return (
-        <div className="sequentialHelp">
-            <div className="sequentialHelpButtons">
+        <div className="sequential-help">
+            <div className="sequential-help-buttons">
                 <button onClick={() => handleClick(-1)  } > {'<'} </button>
             </div>
-            <div className="sequentialHelpContent">
-                <img className="sequentialHelpImage" src={actualContent} border="0"/>
+            <div className="sequential-help-content">
+                <img className="sequential-help-image" src={actualContent} border="0"/>
             </div>
-            <div className="sequentialHelpButtons">
+            <div className="sequential-help-buttons">
                 <button  onClick={() => handleClick(1)}> {'>'} </button>
             </div>
         </div>
     );
-   
-
 
 }

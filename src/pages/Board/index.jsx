@@ -14,10 +14,10 @@ export default function Board({}) {
   const lang = languageData["board"];
 
   return (
-    <div className="board-container">
-      <HeaderSection />
-      <ExercicesProvider>
-        <div className="problem-stats">
+    <ExercicesProvider>
+      <div className="board-container">
+        <HeaderSection />
+        <div className="content-section">
           <StatsSection />
           <ProblemSection />
         </div>
@@ -25,7 +25,7 @@ export default function Board({}) {
           <ButtonsSection />
           <HelpSection />
         </div>
-      </ExercicesProvider>
-    </div>
+      </div>
+    </ExercicesProvider>
   );
 }

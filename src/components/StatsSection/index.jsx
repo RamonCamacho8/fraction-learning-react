@@ -86,7 +86,7 @@ export default function StatsSection(){
     }
 
     return(
-        <div className="statsSection">
+        <div className="stats-section">
             <IconContext.Provider value={{ className: 'react-icons' }}>
                 <TrysPanel />
                 <TimePanel  />

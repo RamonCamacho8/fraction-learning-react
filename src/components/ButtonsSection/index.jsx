@@ -19,8 +19,8 @@ export default function ButtonsSection(){
     const CheckButton = () => 
     {
         return(
-            <div className="checkButton">
-                <button className="checkText" onClick={() =>{
+            <div className="check-button-div">
+                <button className="check-button" onClick={() =>{
                     if(isCorrectAnswer(selectedAnswer, currentExercice )){
                         if(hasNextExercice()){
                             nextExercice();
@@ -46,7 +46,7 @@ export default function ButtonsSection(){
 
 
     return(
-        <div className="buttonsSection">
+        <div className="buttons-section">
 
             <CheckButton />
             

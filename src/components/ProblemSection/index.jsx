@@ -9,10 +9,7 @@ import { useExercices } from "../../Context/ExercicesContext";
 function ProblemSection() {
   return (
     <>
-      
-      <div className="problemSection">
-        <ProcedurePanel />
-      </div>
+      <ProcedurePanel />
       <ResultPanel />
     </>
   );
@@ -23,9 +20,8 @@ function ResultPanel() {
   let traductionText = useLanguage().languageData["board"].answerPanel;
 
   return (
-    <div className="resultPanel">
-      <h5 className="resultText">{traductionText}</h5>
-      <div className="answerPanel"> {answerComponents} </div>
+    <div className="result-section">
+      <div className="answers-panels"> {answerComponents} </div>
     </div>
   );
 }
@@ -43,8 +39,7 @@ function ProcedurePanel() {
   const traductionText = useLanguage().languageData["board"].problemPanel;
 
   return (
-    <div className="procedurePanel">
-      <h5 className="fractionsText">{traductionText}</h5>
+    <div className="problem-section">
       <div className="fractions"> {fractionsComponents} </div>
     </div>
   );
@@ -119,7 +114,7 @@ function FractionPieChartComponent({ numerador, denominador, color }) {
   const [dataState, setDataState] = useState(data);
 
   return (
-    <div className="pieFraction">
+    <div className="pie-fraction">
       <Pie data={dataState} options={optionsState} />
     </div>
   );
@@ -136,7 +131,7 @@ function FractionNumberComponent({ numerador, denominador }) {
 }
 
 function Symbol({ symbol }) {
-  return <div className="SymbolComponent">{symbol}</div>;
+  return <div className="symbol-component">{symbol}</div>;
 }
 
 //Functions for fraction components
