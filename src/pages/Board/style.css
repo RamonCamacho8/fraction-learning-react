@@ -22,3 +22,40 @@
   font-family: 'Chalktastic';
   src: url('../../assets/fonts/Chalktastic-x1nR.ttf');
 }
+
+
+.problem-stats {
+  display: flex;
+  flex-direction: row;
+  
+}
+
+.bottom-section {
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* For cellphones (up to 767px wide) */
+@media only screen and (max-width: 767px) {
+  /* Your CSS styles for cellphones go here */
+  .problem-stats {
+    flex-direction: column;
+  }
+}
+
+/* For tablets (768px to 1023px wide) */
+@media only screen and (min-width: 768px) and (max-width: 1023px) {
+  /* Your CSS styles for tablets go here */
+  .problem-stats {
+    justify-content: space-between;
+  }
+}
+
+/* For PCs (1024px and wider) */
+@media only screen and (min-width: 1024px) {
+  /* Your CSS styles for PCs go here */
+  .problem-stats {
+    justify-content: space-between;
+  }
+}

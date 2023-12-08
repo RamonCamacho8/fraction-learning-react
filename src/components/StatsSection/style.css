@@ -1,16 +1,16 @@
 .statsSection {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: wrap;
-    justify-content: center;
-    text-align: center;
-    border-bottom: 3px dashed white;
+    justify-content: space-between;
+    align-items: left;
+    border-bottom: none;
 }
 
 .statsSection > div {
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-between;
     padding: 10px;
     align-items: center;
 }
@@ -28,15 +28,61 @@
     padding: 5px;
 }
 
+.levelPanel {
+    width: 100%;
+}
 .timePanel {
-    width: 50%;
+    width: 100%;
 }
 
 .errorsPanel {
-    width: 25%;
+    width: 100%;
 }
 
 
-.levelPanel {
-    width: 25%;
-}
+/* For cellphones (up to 767px wide) */
+@media only screen and (max-width: 767px) {
+    /* Your CSS styles for cellphones go here */
+    .statsSection {
+        flex-direction: row;
+        width: 100%;
+        border-right: none;
+        justify-content: center;
+    }
+    .statsSection > div{
+        justify-content: center;
+    }
+    .levelPanel {
+        width: 25%;
+    }
+    .timePanel {
+        width: 50%;
+    }
+    
+    .errorsPanel {
+        width: 25%;
+    }
+  }
+  
+  /* For tablets (768px to 1023px wide) */
+  @media only screen and (min-width: 768px) and (max-width: 1023px) {
+    /* Your CSS styles for tablets go here */
+    .statsSection{
+        width: 30%;
+    }
+    .resultPanel {
+        width: 30%;
+    }
+  }
+  
+  /* For PCs (1024px and wider) */
+  @media only screen and (min-width: 1024px) {
+    /* Your CSS styles for PCs go here */
+    .statsSection{
+        width: 20%;
+    }
+
+    .resultPanel {
+        width: 20%;
+    }
+  }

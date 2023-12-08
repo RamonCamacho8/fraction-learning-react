@@ -55,9 +55,8 @@ export default function StatsSection(){
             
     
             <div className="timePanel">
-                <h6 className="timeField">{stringTime}</h6>
                 {visual ? (<div className="icon"><FaClock/></div>) : (<h5 className="time">{traductionText.time}</h5>)}
-                
+                <h6 className="timeField">{stringTime}</h6>
             </div>
         );
     
@@ -66,9 +65,9 @@ export default function StatsSection(){
     const LevelPanel = () => {
         return(
             <div className="levelPanel">
-                <h6 className="levelField">{difficultyText[difficulty]}</h6>
                 {visual ? (<div className="icon"><FaFlagCheckered/></div>) : (<h5 className="level">{traductionText.level}</h5>)}
-                
+                <h6 className="levelField">{difficultyText[difficulty]}</h6>
+
             </div>
         );
     }
@@ -77,9 +76,9 @@ export default function StatsSection(){
 
         return(
             <div className="errorsPanel">
-                <h6 className="errorsField">{`${trys}`}</h6>
-                {visual ? (<div className="icon"><MdError/></div>) : (<h5 className="errors">{traductionText.errors}</h5>)}
                 
+                {visual ? (<div className="icon"><MdError/></div>) : (<h5 className="errors">{traductionText.errors}</h5>)}
+                <h6 className="errorsField">{`${trys}`}</h6>
             </div>
         );
 
@@ -92,7 +91,6 @@ export default function StatsSection(){
                 <TrysPanel />
                 <TimePanel  />
                 <LevelPanel />
-                
             </IconContext.Provider>
         </div>
     );
