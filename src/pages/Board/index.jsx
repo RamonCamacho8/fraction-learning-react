@@ -15,15 +15,17 @@ export default function Board({}) {
 
   return (
     <ExercicesProvider>
-      <div className="board-container">
-        <HeaderSection />
-        <div className="content-section">
-          <StatsSection />
-          <ProblemSection />
-        </div>
-        <div className="bottom-section">
-          <ButtonsSection />
-          <HelpSection />
+      <div className="main-container">
+        <div className="board-container">
+          <HeaderSection />
+          <div className="content-section">
+            <StatsSection />
+            <ProblemSection />
+          </div>
+          <div className="bottom-section">
+            <ButtonsSection />
+            <HelpSection />
+          </div>
         </div>
       </div>
     </ExercicesProvider>

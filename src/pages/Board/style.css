@@ -1,0 +1,343 @@
+.main-container {
+    background-color: wheat;
+    height: 100svh;
+    width: 100svw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.board-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: min(100%, 1024px);
+    padding: 20px;
+    background-color: var(--chalkboard-color);
+    color: var(--text-color);
+    font-family: 'Chalkboard';
+    border: 10px solid gray;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+    aspect-ratio: 68/48;
+}
+
+.board-container > div {
+    width: 100%;
+}
+
+.title{
+    margin-top: 10px;
+}
+.react-icons{
+
+    font-size: 40px;
+    margin: 10px;
+    font-weight: bold;
+
+}
+
+.info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 2px dashed var(--text-color);
+}
+
+.info > * {
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    width: 50%;
+    justify-content: center;
+    align-items: center;
+}
+
+.date > *{
+    margin: 10px;
+}
+
+.student > *{
+    margin: 10px; 
+    
+}
+
+
+
+.title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.fractions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+}
+
+.pie-fraction {
+    width: 150px;
+    height: 150px;
+}
+
+.pie-fraction canvas {
+    width: 100px;
+    height: 100px;
+}
+
+.help-img {
+    width: 100%;
+    height: 100%;
+}
+
+.help-img img {
+
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+}
+
+.content-section{
+    justify-content: space-between;
+    height: 50%;
+    
+}
+.content-section > div {
+    margin: 10px;
+}
+
+.stats-section{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+.stats-section > div {
+    display: flex;
+    flex-direction: row;
+}
+
+.errors-panel{
+    width: 100%;
+}
+
+.level-panel{
+    width: 100%;
+}
+
+.answers-panels {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    justify-items: center;
+    align-items: center;
+}
+
+.answers-panels > * {
+    background-color: var(--chalkboard-color);
+    color: var(--text-color);
+    border: 2px solid var(--text-color);
+    border-radius: 10px;
+    padding: 5px;
+    margin: 5px;
+    width: min(80%, 60px);
+    aspect-ratio: 1/1;
+    
+}
+
+.bottom-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.buttons-section{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.check-button {
+    background-color: var(--chalkboard-color);
+    color: var(--text-color);
+    border: 2px solid var(--text-color);
+    border-radius: 10px;
+    padding: 10px;
+    margin: 5px;
+}
+
+.help-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+.symbol-component {
+    width: 50px;
+    text-align: center;
+    font-size: 50px;
+}
+
+
+
+/* For cellphones (up to 767px wide) */
+@media only screen and (max-width: 767px) {
+
+    /* Your CSS styles for cellphones go here */
+    .main-container {
+        height: 100svh;
+    }
+    .board-container {
+        height: 100%;
+        border: none;
+        border-radius: 0px;
+    }
+
+    .content-section {
+        display: flex;
+        flex-direction: column;
+        
+    }
+
+    .stats-section {
+        flex-direction: row;
+    }
+
+    .stats-section > div {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .errors-panel{
+        width: 25%;
+    }
+    .level-panel{
+        width: 25%;
+    }
+
+    .answers-panels {
+        grid-template-rows: 1fr;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+
+    .info > * {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .info > * > * {
+        margin: 0px;
+    }
+
+    .react-icons{
+
+        font-size: 35px;
+    
+    }
+}
+
+/* For tablets (768px to 1023px wide) */
+@media only screen and (min-width: 768px) and (max-width: 1023px) {
+
+    /* Your CSS styles for tablets go here */
+    .content-section {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .stats-section {
+        width: 20%;
+        justify-content: space-around;
+
+    }
+
+    .stats-section > div {
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    
+    .time-field{
+        width: 50%;
+    }
+
+    .level-field{
+        width: 50%;
+    }
+
+    .errors-field{
+        width: 50%;
+    }
+
+    .answers-panels{
+        width: 20%;
+    }
+
+    .global-help {
+        width: 400px;
+    }
+
+
+}
+
+/* For PCs (1024px and wider) */
+@media only screen and (min-width: 1024px) {
+
+    /* Your CSS styles for PCs go here */
+    .content-section {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .stats-section {
+        width: 20%;
+        justify-content: space-around;
+    }
+    .stats-section > div {
+        justify-content: space-between;
+        align-items: center;
+
+    }
+    .answers-panels{
+        width: 20%;
+    }
+
+    .global-help {
+        width: 400px;
+    }
+    .time-field{
+        width: 50%;
+    }
+
+    .level-field{
+        width: 50%;
+    }
+
+    .errors-field{
+        width: 50%;
+    }
+
+}
+
+
+
+@font-face {
+    font-family: 'Chalkboard';
+    src: url('../../assets/fonts/Chalktastic-x1nR.ttf')
+}

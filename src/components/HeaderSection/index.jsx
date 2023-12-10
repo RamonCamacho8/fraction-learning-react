@@ -26,7 +26,7 @@ const HeaderSection = () => {
     let fullDate = `${day} / ${months[month]} / ${year}`;
 
     return (
-      <div className="dateInformation">
+      <div className="date">
         <h5>{headerTraduction.date}</h5>
         <h6>{fullDate}</h6>
       </div>
@@ -35,7 +35,7 @@ const HeaderSection = () => {
 
   const Student = () => {
     return (
-      <div className="studentInformation">
+      <div className="student">
         <h5>{headerTraduction.studentHolder}</h5>
         <h6>Ramon Camacho</h6>
       </div>
@@ -43,7 +43,7 @@ const HeaderSection = () => {
   };
 
   return (
-    <div className="headerSection">
+    <div className="header-section">
       
       <div className="info">
         <Student />

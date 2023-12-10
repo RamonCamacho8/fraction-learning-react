@@ -20,9 +20,7 @@ function ResultPanel() {
   let traductionText = useLanguage().languageData["board"].answerPanel;
 
   return (
-    <div className="result-section">
       <div className="answers-panels"> {answerComponents} </div>
-    </div>
   );
 }
 

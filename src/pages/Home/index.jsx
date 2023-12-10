@@ -24,10 +24,11 @@ function Home() {
   const navigate = useNavigate();
 
   function Login() {
-    return (
+    return (  
       <div className="login">
         <h3>{homeTraduction.studentHolder.title}</h3>
         <input
+          className="login-input"
           type="text"
           placeholder={homeTraduction.studentHolder.content}
           onChange={() => setUserName()}
@@ -66,45 +67,49 @@ function Home() {
   }
 
   return (
-  <IconContext.Provider value={{ style: { verticalAlign: 'top'}, size: '2em' }}>    
-  <div className="container">
-      <div className="mainPanel">
-        <h1 className="welcome">{homeTraduction.welcome}</h1>
-        <Login />
-        <LanguageSelector />
-        <InstructionsPanel />
-        {permission ? null : (
-          <button
-            className="permissionsButton"
-            onClick={() => {
-              getMicrophonePermission(setPermission, setStream);
-            }}
-          >
-            {homeTraduction.buttons.permissions
-            }
-          </button>
-        )}
-        <div>
-          {homeTraduction.questions.map((question, index) => {
-            return (
-              <div key={`question-${index}`} className="question-record">
-                <div className="question-text" key={index}>{question}</div>
-                <AudioRecorder
-                  key={`AudioRecorder-${index}`}
-                  audioName={`question${index}`}
-                  stream={stream}
-                  permission={permission}
-                />
-              </div>
-            );
-          })}
-        </div>
+    <IconContext.Provider
+      value={{ style: { verticalAlign: "top" }, size: "2em" }}
+    >
+      <div className="home-container">
+        <div className="main-panel">
+          <h1 className="welcome-title">{homeTraduction.welcome}</h1>
+          <Login />
+          <LanguageSelector />
+          <InstructionsPanel />
+          {permission ? null : (
+            <button
+              className="permission-button"
+              onClick={() => {
+                getMicrophonePermission(setPermission, setStream);
+              }}
+            >
+              {homeTraduction.buttons.permissions}
+            </button>
+          )}
+          <div className="questions-section">
+            {homeTraduction.questions.map((question, index) => {
+              return (
+                <div key={`question-${index}`} className="question-record">
+                  <div className="question-text" key={index}>
+                    {question}
+                  </div>
+                  <AudioRecorder
+                    key={`AudioRecorder-${index}`}
+                    audioName={`question${index}`}
+                    stream={stream}
+                    permission={permission}
+                  />
+                </div>
+              );
+            })}
+          </div>
 
-        <button className="continue-button" onClick={handleContinue}>Continuar</button>
-        
+          <button className="continue-button" onClick={handleContinue}>
+            Continuar
+          </button>
+        </div>
       </div>
-    </div>
-  </IconContext.Provider>
+    </IconContext.Provider>
   );
 }
 

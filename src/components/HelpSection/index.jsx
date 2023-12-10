@@ -66,7 +66,9 @@ function GlobalHelp({content}){
 
     return (
         <div className="global-help">
-            <img  key='last image' className="visual-help global" src={content[content.length -1]} alt="visualHelp global" border="0"/>
+            <figure className='figure'>
+                <img  key='last image' className="figure-img img-fluid rounded" src={content[content.length -1]} alt="visualHelp global" border="0"/>
+            </figure>
         </div>
     );
 

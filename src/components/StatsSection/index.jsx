@@ -9,6 +9,13 @@ import { MdError } from "react-icons/md";
 import { IconContext } from "react-icons";
 
 
+import { GoStopwatch } from "react-icons/go";
+import { GoStop } from "react-icons/go";
+import { GoMortarBoard } from "react-icons/go";
+
+
+
+
 export default function StatsSection(){
 
     const { languageData } = useLanguage();
@@ -54,9 +61,9 @@ export default function StatsSection(){
         return(
             
     
-            <div className="timePanel">
-                {visual ? (<div className="icon"><FaClock/></div>) : (<h5 className="time">{traductionText.time}</h5>)}
-                <h6 className="timeField">{stringTime}</h6>
+            <div className="time-panel">
+                {visual ? (<div className="icon"><GoStopwatch/></div>) : (<h5 className="time">{traductionText.time}</h5>)}
+                <h6 className="time-field">{stringTime}</h6>
             </div>
         );
     
@@ -64,9 +71,9 @@ export default function StatsSection(){
 
     const LevelPanel = () => {
         return(
-            <div className="levelPanel">
-                {visual ? (<div className="icon"><FaFlagCheckered/></div>) : (<h5 className="level">{traductionText.level}</h5>)}
-                <h6 className="levelField">{difficultyText[difficulty]}</h6>
+            <div className="level-panel">
+                {visual ? (<div className="icon"><GoMortarBoard/></div>) : (<h5 className="level">{traductionText.level}</h5>)}
+                <h6 className="level-field">{difficultyText[difficulty]}</h6>
 
             </div>
         );
@@ -75,10 +82,10 @@ export default function StatsSection(){
     const TrysPanel = () => {
 
         return(
-            <div className="errorsPanel">
+            <div className="errors-panel">
                 
-                {visual ? (<div className="icon"><MdError/></div>) : (<h5 className="errors">{traductionText.errors}</h5>)}
-                <h6 className="errorsField">{`${trys}`}</h6>
+                {visual ? (<div className="icon"><GoStop/></div>) : (<h5 className="errors">{traductionText.errors}</h5>)}
+                <h6 className="errors-field">{`${trys}`}</h6>
             </div>
         );
 
