@@ -5,7 +5,7 @@
     "home": {
       "welcome": "Bienvenido a FractionLearning",
       "studentHolder": {
-        "title": "Nombre del alumno:",
+        "title": "Alumno:",
         "content": "Escribe tu nombre aquí."
       },
       "instruction": "Intrucciones:",
@@ -43,21 +43,21 @@
       "headerPanel": {
         "title": "Tema de la clase:",
         "subject": "Suma de Fracciones",
-        "studentHolder": "Nombre del alumno:",
-        "date": "Fecha de hoy:",
+        "studentHolder": "Alumno:",
+        "date": "Fecha:",
         "months": [
-          "Enero",
-          "Febrero",
-          "Marzo",
-          "Abril",
-          "Mayo",
-          "Junio",
-          "Julio",
-          "Agosto",
-          "Setiembre",
-          "Octubre",
-          "Noviembre",
-          "Diciembre"
+          "Ene",
+          "Feb",
+          "Mar",
+          "Abr",
+          "May",
+          "Jun",
+          "Jul",
+          "Ago",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dic"
         ]
       },
       "problemPanel": "Resuelve el problema:",
@@ -120,21 +120,22 @@
       "headerPanel": {
         "title": "Class Subject:",
         "subject": "Fraction Addition",
-        "studentHolder": "Student Name:",
+        "studentHolder": "Student:",
         "date": "Today's Date:",
         "months": [
-          "January",
-          "February",
-          "March",
-          "April",
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
           "May",
-          "June",
-          "July",
-          "August",
-          "Setember",
-          "October",
-          "November",
-          "December"
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sept",
+          "Oct",
+          "Nov",
+          "Dec"
+          
         ]
       },
       "problemPanel": "Solve for:",

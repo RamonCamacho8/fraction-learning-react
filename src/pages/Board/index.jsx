@@ -10,25 +10,24 @@ import { useLanguage } from "../../Context/LanguageContext.js";
 import { ExercicesProvider } from "../../Context/ExercicesContext.js";
 
 export default function Board({}) {
-
   const { languageData } = useLanguage();
   const lang = languageData["board"];
 
   return (
-    <div className="board">
-      <HeaderSection />
-
-      <ExercicesProvider>
-        <ProblemSection />
-
-        <ButtonsSection  />
-
-        <StatsSection text={lang.statsPanel}/>
-        
-      </ExercicesProvider>
-      <HelpSection />
-
-      
-    </div>
+    <ExercicesProvider>
+      <div className="main-container">
+        <div className="board-container">
+          <HeaderSection />
+          <div className="content-section">
+            <StatsSection />
+            <ProblemSection />
+          </div>
+          <div className="bottom-section">
+            <ButtonsSection />
+            <HelpSection />
+          </div>
+        </div>
+      </div>
+    </ExercicesProvider>
   );
 }

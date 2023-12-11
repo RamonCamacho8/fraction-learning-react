@@ -2,10 +2,16 @@ import { useState, useEffect } from "react";
 import { useLanguage } from "../../Context/LanguageContext";
 import { useExercices } from "../../Context/ExercicesContext";
 import { useStats } from "../../Context/StatsContext";
+import "./style.css";
+import { FaClock } from "react-icons/fa";
+import { FaFlagCheckered } from "react-icons/fa";
+import { MdError } from "react-icons/md";
+import { IconContext } from "react-icons";
 
 
-
-
+import { GoStopwatch } from "react-icons/go";
+import { GoStop } from "react-icons/go";
+import { GoMortarBoard } from "react-icons/go";
 
 
 
@@ -18,6 +24,7 @@ export default function StatsSection(){
     const difficultyText = languageData["board"].difficulty;
     const {time, setTime} = useStats();
     const {trys} = useStats();
+    let visual = true;
 
     function TimePanel(){
 
@@ -30,14 +37,14 @@ export default function StatsSection(){
             return `${minutes < 10 ? '0'+minutes: minutes}:${seconds < 10 ? '0'+seconds: seconds}`;
         }
     
-        useEffect(() => {
+        /*useEffect(() => {
             let intervalId;
             if (isRunning) {
             // setting time from 0 to 1 every 10 milisecond using javascript setInterval method
             intervalId = setInterval(() => setTime(time + 1), 1000);
             }
             return () => clearInterval(intervalId);
-        }, [isRunning, time]);
+        }, [isRunning, time]);*/
     
         let stringTime = formatTime(time);
     
@@ -48,11 +55,15 @@ export default function StatsSection(){
         const reset = () => {
             setTime(0);
         };
+
+        
     
         return(
-            <div className="timePanel">
-                <div className="time">{traductionText.time}</div>
-                <div className="timeField">{stringTime}</div>
+            
+    
+            <div className="time-panel">
+                {visual ? (<div className="icon"><GoStopwatch/></div>) : (<h5 className="time">{traductionText.time}</h5>)}
+                <h6 className="time-field">{stringTime}</h6>
             </div>
         );
     
@@ -60,9 +71,10 @@ export default function StatsSection(){
 
     const LevelPanel = () => {
         return(
-            <div className="levelPanel">
-                <div className="level">{traductionText.level}</div>
-                <div className="levelField">{difficultyText[difficulty]}</div>
+            <div className="level-panel">
+                {visual ? (<div className="icon"><GoMortarBoard/></div>) : (<h5 className="level">{traductionText.level}</h5>)}
+                <h6 className="level-field">{difficultyText[difficulty]}</h6>
+
             </div>
         );
     }
@@ -70,9 +82,10 @@ export default function StatsSection(){
     const TrysPanel = () => {
 
         return(
-            <div className="errorsPanel">
-                <div className="errors">{traductionText.trys}</div>
-                <div className="errorsField">{`${trys}`}</div>
+            <div className="errors-panel">
+                
+                {visual ? (<div className="icon"><GoStop/></div>) : (<h5 className="errors">{traductionText.errors}</h5>)}
+                <h6 className="errors-field">{`${trys}`}</h6>
             </div>
         );
 
@@ -80,10 +93,12 @@ export default function StatsSection(){
     }
 
     return(
-        <div className="statsSection">
-            <TimePanel  />
-            <TrysPanel />
-            <LevelPanel />
+        <div className="stats-section">
+            <IconContext.Provider value={{ className: 'react-icons' }}>
+                <TrysPanel />
+                <TimePanel  />
+                <LevelPanel />
+            </IconContext.Provider>
         </div>
     );
 }

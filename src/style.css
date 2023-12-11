@@ -1,0 +1,7 @@
+:root {
+    --chalkboard-color:  #274c43;
+    --chalkboard-darker-color: #1e3a32;
+    --text-color: #fff;
+}
+
+@import "~@flaticon/flaticon-uicons/css/all/all";
