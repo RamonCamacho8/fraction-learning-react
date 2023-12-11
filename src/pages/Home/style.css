@@ -34,6 +34,10 @@
     align-items: center;
     text-align: left;
     width: 100%;
+    border: 2px solid var(--text-color);
+    border-radius: 10px;
+    margin: 5px;
+    padding: 5px;
 
 }
 
@@ -48,6 +52,7 @@
     flex-direction: column;
     justify-content: space-between;
     width: 100%;
+    padding: 20px;
 }
 
 .audio-button{
@@ -69,6 +74,14 @@
     padding: 5px;
 }
 
+.continue-button{
+    background-color: var(--chalkboard-color);
+    color: var(--text-color);
+    border-radius: 5px;
+    border: 2px solid var(--text-color);
+    padding: 5px;
+}
+
 @media only screen and (max-width: 767px) {
     /* Your CSS styles for desktops and laptops go here */
     .main-panel {
@@ -81,8 +94,9 @@
     /* Your CSS styles for tablets go here */
     .main-panel {
         font-size: 20px;
-
+        width: min(80%, 600px);
     }
+
 }   
 
 
@@ -91,7 +105,7 @@
     /* Your CSS styles for large desktops and laptops go here */
     .main-panel {
         font-size: 20px;
-
+        width: min(80%, 600px);
     }
 
 
