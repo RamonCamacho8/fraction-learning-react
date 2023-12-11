@@ -43,6 +43,22 @@ function ProcedurePanel() {
   );
 }
 
+function RadioInput({ value, id }) {
+  const { setSelectedAnswer } = useExercices();
+
+
+
+  return (
+    <div className="radio-button">
+      <input type="radio" name="answer" value={value} id={id} onClick={() => {
+        setSelectedAnswer(id);
+      }}/>
+      <label htmlFor={id}>{value[0] + "/" + value[1]}</label>
+    </div>
+  );
+}
+
+
 function AnswerButton({ value, id }) {
   const { setSelectedAnswer } = useExercices();
 
@@ -67,7 +83,7 @@ function AnswersPanel() {
   let answerPanels = [];
   for (let i = 0; i < options.length; i++) {
     answerPanels.push(
-      <AnswerButton key={i + "-" + options[i]} value={options[i]} id={i} />
+      <RadioInput key={i + "-" + options[i]} value={options[i]} id={i} />
     );
   }
   return answerPanels;
