@@ -11,8 +11,9 @@ import { getMicrophonePermission } from "../../utils/recordAudio.js";
 import LanguageSelector from "../../components/LanguageSelector";
 
 function Home() {
-  const { userName, setUserName } = useUser();
-
+  //const { userName, setUserName } = useUser();
+  const [userInfo, setUserInfo] = useState({});
+  const [firstName, setFirstName] = useState("");
   const { languageData } = useLanguage();
   const [permission, setPermission] = useState(false);
   const [stream, setStream] = useState(null);
@@ -23,18 +24,30 @@ function Home() {
 
   const navigate = useNavigate();
 
+
+  const handleSubmission = (event) => {
+    console.log("A name was submitted: " + firstName);
+  };
+
   function Login() {
     return (  
-      <div className="login">
-        <h3>{homeTraduction.studentHolder.title}</h3>
-        <input
-          className="login-input"
-          type="text"
-          placeholder={homeTraduction.studentHolder.content}
-          onChange={() => setUserName()}
-          value={userName}
-        />
-      </div>
+      <form onSubmit={handleSubmission} >
+
+        <label htmlFor="firstName" >Nombre</label>
+        <input id="firstName" name="firstName" type="text" value={firstName} onChange={e => setFirstName(e.target.value)}  required />
+        <br></br>
+
+        <label htmlFor="lastName" >Apellido(s)</label>
+        <input id="lastName" name="lastName" type="text" />
+        <br></br>
+
+        <label htmlFor="age" >Edad</label>
+        <input id="age" name="age" type="number" />
+        <br></br>
+
+        <button type="submit">Ingresar</button>
+
+      </form>
     );
   }
 
