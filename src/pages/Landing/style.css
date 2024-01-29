@@ -1,0 +1,106 @@
+main.landing {
+  background-color: white;
+  font-family: 'Comic Neue', cursive;
+  height: 100dvh;  
+  font-size: 24px;
+}
+
+
+
+main.landing header  {
+    width: 100%;
+    height: 150px;
+    background-color: #274c43;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    color: white;
+}
+
+
+
+main.landing section {
+    width: 60%;
+    margin: 0 auto;
+    padding: 20px;
+}
+main.landing section h2 {
+    text-align: left;
+    
+}
+
+main.landing form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+div.inputs {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 0.5fr;
+}
+
+input[type="text"] {
+    width: 100%;
+    border: 1px solid #274c43;
+    border-radius: 5px;
+    margin: 10px;
+    padding: 5px;
+}
+
+div.inputs div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+div.inputs div label {
+    width: 100px;
+    text-align: right;
+    padding: 0;
+    margin: 0;
+}
+
+main.landing div.section-content {
+    width: 100%;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    padding: 20px;
+}
+
+main.landing label {
+    font-weight: bold;
+    margin: 10px;
+}
+
+main.landing section article {
+    margin-bottom: 20px;
+}
+
+main.landing input {
+    border: 1px solid #274c43;
+    border-radius: 5px;
+    margin: 10px;
+    padding: 5px;
+}
+
+main.landing button {
+    background-color: #274c43;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+main.landing   {
+
+}
+

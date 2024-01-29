@@ -2,19 +2,37 @@ import {collection, addDoc, getDocs} from "firebase/firestore";
 import { firestore } from "./firebase";
 
 
-const testAddDoc = async () => {
+const testAddDoc = async (first = 'Ada', last='Lovelace', born= 1815) => {
 
     const data = {
-      first: "Ada",
-      last: "Lovelace",
-      born: 1815,
+      first: first,
+      last: last,
+      born: born,
       date: new Date()
     };
+
     console.log("testAddDoc try");
 
     return await addDoc(collection(firestore, "users"), data);
 
 }
+
+const addDocument = async (firstName, lastName, age) => {
+
+    if(typeof age !== 'number')
+      age = parseInt(age);
+
+    const data = {
+      firstName,
+      lastName,
+      age,
+      date : new Date()
+    };
+
+    return await addDoc(collection(firestore, "records"), data);
+
+  }
+
 
 const testGetDocs = async () => {
   const querySnapshot = await getDocs(collection(firestore, "users"));
@@ -23,4 +41,4 @@ const testGetDocs = async () => {
   });
 }
 
-export { testAddDoc, testGetDocs };
+export { testAddDoc, testGetDocs, addDocument };

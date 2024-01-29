@@ -4,6 +4,7 @@ import "./style.css";
 import Board from "./pages/Board";
 import Home from "./pages/Home";
 import Test from "./pages/Test";
+import Landing from "./pages/Landing";
 
 import { PersonalityProvider } from "./Context/PersonalityContext";
 import { LanguageProvider } from "./Context/LanguageContext";
@@ -24,6 +25,7 @@ function App() {
             <Route path="/" element={<Home  />} />
             <Route path="/board" element={ <Board /> } />
             <Route path="/test" element={<Test />} />
+            <Route path="/landing" element={<Landing />} />
           </Routes>
 
         </PersonalityProvider>
