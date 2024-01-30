@@ -1,10 +1,7 @@
 import { useState, useRef } from "react";
-import { FaPlayCircle } from "react-icons/fa";
-import { FaCircleStop } from "react-icons/fa6";
 import { startRecording } from "../../utils/recordAudio";
 import { upload_audio } from "../../services/Audio";
-import { useLanguage } from "../../Context/LanguageContext";
-import { IoReloadCircle } from "react-icons/io5";
+import { uploadAudio } from "../../services/CloudStorage";
 
 const AudioRecorder = ({ audioName, stream, permission }) => {
   const mediaRecorder = useRef(null);
@@ -12,9 +9,7 @@ const AudioRecorder = ({ audioName, stream, permission }) => {
   const [audioChunks, setAudioChunks] = useState([]);
   const [audio, setAudio] = useState(null);
   const mimeType = "audio/mp3";
-  const { languageData } = useLanguage();
 
-  const audioTraduction = languageData["audio"];
 
   const handleStart = () => {
     startRecording(
@@ -37,7 +32,9 @@ const AudioRecorder = ({ audioName, stream, permission }) => {
       console.log(1, audioUrl);
       setAudio(audioUrl);
       setAudioChunks([]);
-      await upload_audio(audioUrl, audioName);
+      const url = await uploadAudio(audioBlob);
+      console.log(url);
+      
     };
 
     mediaRecorder.current.stop();
@@ -48,32 +45,25 @@ const AudioRecorder = ({ audioName, stream, permission }) => {
   };
 
   return (
-    <div className="AudioRecorder">
-      {permission ? (
+    <>
+      {
         recordingStatus === "inactive" ? (
           audio ? (
-            <button className="audio-button" onClick={handleRestart}>
-              <span className="badge bg-light ">
-              <i className="fi fi-sr-refresh"></i>
-              </span>
-              
+            <button className="audio-button" onClick={handleRestart} disabled={!permission}>
+              Reintentar
             </button>
           ) : (
-            <button className="audio-button" onClick={handleStart}>
-              <span className="badge bg-light ">
-              <i className="fi fi-sr-microphone"></i>
-              </span>
+            <button className="audio-button" onClick={handleStart} disabled={!permission}>
+              Grabar
             </button>
           )
         ) : (
-          <button className="audio-button" onClick={handleStop}>
-            <span className="badge bg-light">
-                <i className="fi fi-sr-pause "></i>
-            </span>
+          <button className="audio-button" onClick={handleStop} disabled={!permission}>
+            Detener
           </button>
         )
-      ) : null}
-    </div>
+      }
+    </>
   );
 };
 

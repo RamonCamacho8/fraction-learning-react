@@ -1,5 +1,5 @@
 import {collection, addDoc, getDocs} from "firebase/firestore";
-import { firestore } from "./firebase";
+import { firestore } from "../firebase";
 
 
 const testAddDoc = async (first = 'Ada', last='Lovelace', born= 1815) => {
@@ -10,8 +10,6 @@ const testAddDoc = async (first = 'Ada', last='Lovelace', born= 1815) => {
       born: born,
       date: new Date()
     };
-
-    console.log("testAddDoc try");
 
     return await addDoc(collection(firestore, "users"), data);
 

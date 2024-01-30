@@ -1,6 +1,8 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
+import { getStorage, ref } from "firebase/storage";
+
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -22,5 +24,9 @@ const app = initializeApp(firebaseConfig);
 
 // Initialize Cloud Firestore and get a reference to the service
 const firestore = getFirestore(app);
+const storage = getStorage(app);
 
-export { firestore };
+const audioStorageRef = ref(storage, 'audios');
+const imageStorageRef = ref(storage, 'images');
+
+export { firestore,audioStorageRef, imageStorageRef};
