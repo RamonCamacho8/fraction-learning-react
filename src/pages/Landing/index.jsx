@@ -8,17 +8,24 @@ import { useState, useEffect } from "react";
 import { getMicrophonePermission } from "../../utils/recordAudio";
 import AudioRecorder from "../../components/AudioRecorder";
 const Landing = () => {
-  const { first, setFirst, last, setLast, age, setAge } = useUser();
+
+  const { first, setFirst, last, setLast, age, setAge, genre, setGenre } = useUser();
   const [stream, setStream] = useState(null);
   const [permission, setPermission] = useState(false);
+  const [areSended, setAreSended] = useState({});
 
   useEffect(() => {
     getMicrophonePermission(setPermission, setStream);
   }, []);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    addData({ first, last, age });
+  const handleSubmit = () => {
+    
+    console.log(first, last, age, genre);
+    //const promises = addData({ first, last, age, genre });
+    /* promises.then((data) => {
+      console.log(data);
+    }); */
+
   };
 
   return (
@@ -59,31 +66,40 @@ const Landing = () => {
                     <input
                       id="age"
                       type="number"
-                      min={10}
-                      max={18}
+                      min={9}
+                      max={100}
                       value={age}
                       onChange={(e) => setAge(e.target.value)}
                       required
                     />
                   </div>
+                  <div>
+                    <label htmlFor="genre" > Género: </label>
+                    <select id="genre" onChange={e => setGenre(e.target.value)} required>
+                      <option value="M">Masculino</option>
+                      <option value="F">Femenino</option>
+                    </select>
+
+                  </div>
                 </div>
+                <button type="button" onClick={handleSubmit} >Confirmar datos</button>
               </form>
             </div>
           </article>
-          <article>
+          <article className="instructions">
             <h2>Instrucciones</h2>
             <div className="section-content">
               <p>
-                Contesta a las preguntas de la sección "Preguntas" con la mayor
+                Contesta a las preguntas de la sección <span>"Preguntas"</span> con la mayor
                 sinceridad posible.
               </p>
               <p>Para ello:</p>
-              <ol className="instructions">
+              <ol>
                 <li>Lee la pregunta.</li>
-                <li>Cuando tengas lista tu respuesta, presiona "Grabar".</li>
+                <li>Cuando tengas lista tu respuesta, presiona <span>"Grabar"</span>.</li>
                 <li>Responde en voz alta la pregunta.</li>
               </ol>
-              <p>Cuando termines, presiona "Continuar".</p>
+              <p>Cuando termines, presiona <span>"Continuar"</span>. O si lo deseas, puedes regrabar tus respuestas.</p>
             </div>
           </article>
           <article>
@@ -95,7 +111,8 @@ const Landing = () => {
                   <AudioRecorder
                     stream={stream}
                     permission={permission}
-                    audioName={"question0"}
+                    audioName={"question-1"}
+                    areSended={areSended}
                   />
                 </li>
 
@@ -104,7 +121,8 @@ const Landing = () => {
                   <AudioRecorder
                     stream={stream}
                     permission={permission}
-                    audioName={"question1"}
+                    audioName={"question-2"}
+                    areSended={areSended}
                   />
                 </li>
                 <li>
@@ -112,7 +130,8 @@ const Landing = () => {
                   <AudioRecorder
                     stream={stream}
                     permission={permission}
-                    audioName={"question2"}
+                    audioName={"question-3"}
+                    areSended={areSended}
                   />
                 </li>
               </ul>
@@ -122,9 +141,16 @@ const Landing = () => {
             className="submit"
             type="submit"
             onClick={handleSubmit}
-            disabled={!(first && last && age)}
+            disabled={(!(first && last && age))}
           >
             Continuar
+          </button>
+          <button onClick={() => {
+            console.log(areSended)
+            console.log(Object.keys(areSended).every((key) => areSended[key] === true))
+            }}>
+            Print
+
           </button>
         </section>
       </main>

@@ -3,7 +3,7 @@ main.landing {
   font-family: 'Comic Neue', cursive;
   height: 100dvh;  
   font-size: 24px;
-
+  font-weight: 400;
 }
 
 
@@ -38,42 +38,75 @@ main.landing section article {
 
 main.landing section h2 {
     text-align: left;
-    
+    font-weight: 700;
 }
 
 main.landing form {
     width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: end;
     justify-content: center;
 }
+
+main.landing button {
+    background-color: #274c43;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+main.landing div.section-content button {
+
+    width: 200px;
+}
+
 div.inputs {
     width: 100%;
     display: grid;
-    grid-template-columns: 1fr 1fr 0.5fr;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
 }
 
-input[type="text"] {
-    width: 100%;
-    border: 1px solid #274c43;
-    border-radius: 5px;
-    margin: 10px;
-    padding: 5px;
-}
+
 
 div.inputs div {
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: space-between;
 }
 
 div.inputs div label {
-    width: 100px;
     text-align: right;
-    padding: 0;
-    margin: 0;
+    width: 40%;
 }
+main.landing input {
+    border: 1px solid #274c43;
+    border-radius: 5px;
+    margin: 10px;
+    padding: 5px;
+    width: 60%
+}
+
+main.landing select {
+    border: 1px solid #274c43;
+    border-radius: 5px;
+    margin: 10px;
+    padding: 5px;
+    width: 60%
+}
+
+
+
+
+
 
 main.landing div.section-content {
     width: 100%;
@@ -90,25 +123,9 @@ main.landing section article {
     margin-bottom: 20px;
 }
 
-main.landing input {
-    border: 1px solid #274c43;
-    border-radius: 5px;
-    margin: 10px;
-    padding: 5px;
-}
 
-main.landing button {
-    background-color: #274c43;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px;
-    margin: 10px;
-    font-size: 20px;
-    font-weight: bold;
-    cursor: pointer;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-}
+
+
 
 main.landing button:disabled   {
     background-color: #878787;
@@ -131,4 +148,8 @@ main.landing ul.questions li {
     background-color: rgba(0,0,0,0.03);
     margin: 5px;
     border-radius: 5px;
+}
+
+main.landing article.instructions span {
+    font-weight: bold;
 }

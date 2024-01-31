@@ -14,9 +14,9 @@ const uploadImage = async (file) => {
     
 }
 
-const uploadAudio = async (file) => {
+const uploadAudio = async (file, fileName) => {
     
-    const audioRef = ref(audioStorageRef, 'audio.mp3');
+    const audioRef = ref(audioStorageRef, `${fileName}.mp3`);
     console.log(audioRef);
     await uploadBytes(audioRef, file);
     return await getDownloadURL(audioRef);

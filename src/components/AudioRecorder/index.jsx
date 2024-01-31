@@ -3,7 +3,7 @@ import { startRecording } from "../../utils/recordAudio";
 import { upload_audio } from "../../services/Audio";
 import { uploadAudio } from "../../services/CloudStorage";
 
-const AudioRecorder = ({ audioName, stream, permission }) => {
+const AudioRecorder = ({ audioName, stream, permission, areSended }) => {
   const mediaRecorder = useRef(null);
   const [recordingStatus, setRecordingStatus] = useState("inactive");
   const [audioChunks, setAudioChunks] = useState([]);
@@ -29,15 +29,15 @@ const AudioRecorder = ({ audioName, stream, permission }) => {
       const audioBlob = new Blob(audioChunks, { type: mimeType });
       //creates a playable URL from the blob file.
       const audioUrl = URL.createObjectURL(audioBlob);
-      console.log(1, audioUrl);
       setAudio(audioUrl);
       setAudioChunks([]);
-      const url = await uploadAudio(audioBlob);
-      console.log(url);
-      
+      await uploadAudio(audioBlob, audioName).then((url) => {
+        areSended[audioName] = true;
+      });
+
     };
 
-    mediaRecorder.current.stop();
+    await mediaRecorder.current.stop();
   };
 
   const handleRestart = () => {
