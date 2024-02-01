@@ -3,7 +3,7 @@ import { startRecording } from "../../utils/recordAudio";
 import { upload_audio } from "../../services/Audio";
 import { uploadAudio } from "../../services/CloudStorage";
 
-const AudioRecorder = ({ audioName, stream, permission, areSended }) => {
+const AudioRecorder = ({ audioName, stream, permission, areSended, disabled }) => {
   const mediaRecorder = useRef(null);
   const [recordingStatus, setRecordingStatus] = useState("inactive");
   const [audioChunks, setAudioChunks] = useState([]);
@@ -49,16 +49,16 @@ const AudioRecorder = ({ audioName, stream, permission, areSended }) => {
       {
         recordingStatus === "inactive" ? (
           audio ? (
-            <button className="audio-button" onClick={handleRestart} disabled={!permission}>
+            <button className="audio-button" onClick={handleRestart} disabled={!(permission && !disabled)}>
               Reintentar
             </button>
           ) : (
-            <button className="audio-button" onClick={handleStart} disabled={!permission}>
+            <button className="audio-button" onClick={handleStart} disabled={!(permission && !disabled)}>
               Grabar
             </button>
           )
         ) : (
-          <button className="audio-button" onClick={handleStop} disabled={!permission}>
+          <button className="audio-button" onClick={handleStop} disabled={!(permission && !disabled)}>
             Detener
           </button>
         )

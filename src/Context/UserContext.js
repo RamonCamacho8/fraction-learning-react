@@ -9,12 +9,15 @@ export const UserProvider = (props) => {
     const [last, setLast] = useState("");
     const [age, setAge] = useState(0);
     const [genre, setGenre] = useState('');
+    const [id, setId] = useState('');
+
     return (
         <UserContext.Provider value={{userName, setUserName,
         first,setFirst,
         last,setLast,
         age,setAge,
-        genre, setGenre}}>
+        genre, setGenre,
+        id, setId}}>
             
             {props.children}
         </UserContext.Provider>
