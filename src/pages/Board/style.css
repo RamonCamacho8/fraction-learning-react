@@ -226,6 +226,30 @@
     font-size: 50px;
 }
 
+.numerator {
+    width: 50px;
+    text-align: center;
+    font-size: 50px;
+}
+
+.denominator {
+    width: 50px;
+    text-align: center;
+    font-size: 50px;
+}
+
+.fractionBar {
+    text-align: center;
+    font-size: 25px;
+}
+
+.sequential-help {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
 
 
 /* For cellphones (up to 767px wide) */

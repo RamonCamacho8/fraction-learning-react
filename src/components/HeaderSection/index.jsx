@@ -37,7 +37,7 @@ const HeaderSection = () => {
     return (
       <div className="student">
         <h5>{headerTraduction.studentHolder}</h5>
-        <h6>Ramon Camacho</h6>
+        <h6>User's Name</h6>
       </div>
     );
   };

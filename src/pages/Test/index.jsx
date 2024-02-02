@@ -1,7 +1,6 @@
 import "./style.css";
 import { testAddDoc, testGetDocs } from "../../services/Firestore";
 import { useState } from "react";
-import { uploadImage } from "../../services/CloudStorage";
 
 const Test = () => {
 
@@ -23,7 +22,6 @@ const Test = () => {
   const handleImageUpload = async (e) => {
 
     
-    const url = await uploadImage(image);
     
   };
     

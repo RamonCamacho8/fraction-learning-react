@@ -1,17 +1,15 @@
 import { useState, useRef } from "react";
 import { startRecording } from "../../utils/recordAudio";
-import { upload_audio } from "../../services/Audio";
-import { uploadAudio } from "../../services/CloudStorage";
 
-const AudioRecorder = ({ audioName, stream, permission, areSended, disabled }) => {
+const AudioRecorder = ({ audioName, stream, permission, disabled, userAudios, setUserAudios }) => {
   const mediaRecorder = useRef(null);
   const [recordingStatus, setRecordingStatus] = useState("inactive");
   const [audioChunks, setAudioChunks] = useState([]);
-  const [audio, setAudio] = useState(null);
   const mimeType = "audio/mp3";
 
 
   const handleStart = () => {
+    setRecordingStatus("recording");
     startRecording(
       setRecordingStatus,
       setAudioChunks,
@@ -29,10 +27,13 @@ const AudioRecorder = ({ audioName, stream, permission, areSended, disabled }) =
       const audioBlob = new Blob(audioChunks, { type: mimeType });
       //creates a playable URL from the blob file.
       const audioUrl = URL.createObjectURL(audioBlob);
-      setAudio(audioUrl);
+      const blobResponse = await fetch(audioUrl);
+      const blob = await blobResponse.blob();
+
       setAudioChunks([]);
-      await uploadAudio(audioBlob, audioName).then((url) => {
-        areSended[audioName] = true;
+      setUserAudios({
+        ...userAudios,
+        [audioName]: blob
       });
 
     };
@@ -41,20 +42,28 @@ const AudioRecorder = ({ audioName, stream, permission, areSended, disabled }) =
   };
 
   const handleRestart = () => {
-    setAudio(null);
+
+    setRecordingStatus("inactive");
+
+    setUserAudios({
+      ...userAudios,
+      [audioName]: null
+    });
+
   };
 
   return (
     <>
       {
         recordingStatus === "inactive" ? (
-          audio ? (
+          userAudios[audioName] ? (
             <button className="audio-button" onClick={handleRestart} disabled={!(permission && !disabled)}>
               Reintentar
             </button>
           ) : (
-            <button className="audio-button" onClick={handleStart} disabled={!(permission && !disabled)}>
+            <button className="audio-button" style={{position:'relative'}} onClick={handleStart} disabled={!(permission && !disabled)}>
               Grabar
+              {/* <i className="fa-solid fa-circle fa-beat" style={{color: 'red', position:'absolute', top:'-25%', right:'-10px'}}></i> */}
             </button>
           )
         ) : (
@@ -63,6 +72,7 @@ const AudioRecorder = ({ audioName, stream, permission, areSended, disabled }) =
           </button>
         )
       }
+          
     </>
   );
 };

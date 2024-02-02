@@ -6,6 +6,14 @@ import { addData, updateData } from "../../Controllers/dataFetch";
 import { useState, useEffect, useRef } from "react";
 import { getMicrophonePermission } from "../../utils/recordAudio";
 import AudioRecorder from "../../components/AudioRecorder";
+import {uploadAudio, uploadAudios  } from "../../services/CloudStorage";
+import { FaSpinner } from "react-icons/fa";
+import { IconContext } from "react-icons";
+
+
+
+ 
+
 const Landing = () => {
 
 
@@ -28,45 +36,78 @@ const Landing = () => {
   const { first, setFirst, last, setLast, age, setAge, genre, setGenre, id, setId } = useUser();
   const [stream, setStream] = useState(null);
   const [permission, setPermission] = useState(false);
-  const [areSended, setAreSended] = useState({});
+  const [userAudios, setUserAudios] = useState({});
+  const [infoButtonStatus, setInfoButtonStatus] = useState('standby');
 
   useEffect(() => {
     getMicrophonePermission(setPermission, setStream);
 
     const questionsData = questions.map((question) => question.name);
     const areSendedData = questionsData.reduce((acc, question) => {
-      acc[question] = false;
+      acc[question] = null;
       return acc;
     }, {});
-    setAreSended({
-      ...areSended,
+
+    setUserAudios({
+      ...userAudios,
       ...areSendedData
     });
 
+
   }, []);
 
-  const registerInformation = async () => {
+  const registerInformation = async (e) => {
+    
     
 
-    console.log(first, last, age, genre);
-    
+    e.preventDefault();
+    e.target.disabled = true;   
+    setInfoButtonStatus('loading'); 
     await addData({ first, last, age, genre }).then((data) => {
-      setId(data.id);      
+      setId(data.id);
+      setInfoButtonStatus('done');      
     });
 
   };
+
+
+  const handleContinue = async () => {
+
+    uploadAudios(userAudios, id);
+      
+  }
+
 
   return (
     <UserProvider>
       <main className="landing">
         <header>
-          <h1>Tecnologico Nacional de México Campus Culiacán</h1>
-          <h2>Bienvenido a Fraction Learning</h2>
+          <h1>FractionLearning!</h1>
         </header>
+        {/*  <nav></nav> */}
         <section>
-          <article className={ id ? `done` : null }>
+        <article className="instructions">
+            <h2>Instrucciones</h2>
+            <div className="section-content">
+              <p>
+                Introduce tus datos personales en la sección <span>"Información del estudiante"</span>.
+              </p>
+              <p>
+                Contesta a las preguntas de la sección <span>"Preguntas"</span> con la mayor
+                sinceridad posible.
+              </p>
+              <p>Para ello:</p>
+              <ol>
+                <li>Lee la pregunta.</li>
+                <li>Cuando tengas lista tu respuesta, presiona <span>"Grabar"</span>.</li>
+                <li>Responde en voz alta la pregunta.</li>
+              </ol>
+              <p>Cuando termines, presiona <span>"Continuar"</span>. O si lo deseas, puedes regrabar tus respuestas.</p>
+            </div>
+          </article>
+          <article >
             <h2>Información del estudiante</h2>
-            <div  className={`section-content ${id ? 'done' : 'current'}`  }>
+            <div  className='section-content'>
               <form>
                 <div className="inputs">
                   <div>
@@ -114,31 +155,21 @@ const Landing = () => {
                     </select>
                   </div>
                 </div>
-                <button type="button" onClick={registerInformation} disabled={
-                  (!(first && last && age && genre && !id))
-                } >{ id ? `Registro exitoso.` : `Confirmar datos`}</button>
+                <button type="button" onClick={registerInformation} disabled={(!(first && last && age && genre && !id))} >
+                  
+                  {
+                    infoButtonStatus === 'standby' ? 'Confirmar Datos.' : 
+                    infoButtonStatus === 'loading' ? <i className="fa fa-spinner fa-spin"></i> :
+                    infoButtonStatus === 'done' ? 'Registrado' : ''
+                  }
+                
+                </button>
               </form>
             </div>
           </article>
-          <article ref={ref} className="instructions">
-            <h2>Instrucciones</h2>
-            <div className="section-content">
-              <p>
-                Contesta a las preguntas de la sección <span>"Preguntas"</span> con la mayor
-                sinceridad posible.
-              </p>
-              <p>Para ello:</p>
-              <ol>
-                <li>Lee la pregunta.</li>
-                <li>Cuando tengas lista tu respuesta, presiona <span>"Grabar"</span>.</li>
-                <li>Responde en voz alta la pregunta.</li>
-              </ol>
-              <p>Cuando termines, presiona <span>"Continuar"</span>. O si lo deseas, puedes regrabar tus respuestas.</p>
-            </div>
-          </article>
-          <article>
+          <article ref={ref}>
             <h2>Preguntas</h2>
-            <div className={`section-content ${ ((id && Object.keys(areSended).every((key) => areSended[key] === true))) ? 'done' : 'current'}`} >
+            <div className='section-content' >
               <ul className="questions">
                 {questions.map((question) => {
                   return (
@@ -148,8 +179,10 @@ const Landing = () => {
                         stream={stream}
                         permission={permission}
                         audioName={question.name}
-                        areSended={areSended}
-                        disabled = {id ? false : true}
+                        /* disabled = {id ? false : true} */
+                        userId = {id}
+                        setUserAudios={setUserAudios}
+                        userAudios={userAudios}
                       />
                     </li>
                   )
@@ -160,17 +193,14 @@ const Landing = () => {
           <button
             className="submit"
             type="submit"
-            onClick={registerInformation}
-            disabled={(!(first && last && age))}
+            onClick={handleContinue}
+            disabled={!( first && last && age && genre && id && Object.keys(userAudios).every((audio) => userAudios[audio] !== null)) }
           >
             Continuar
           </button>
-          <button onClick={() => {
-            ref.current.scrollIntoView({ behavior: "smooth" });
-            }}>
-            Print
-
-          </button>
+         {/*  <button onClick={() => {}}>
+            <i className="fa fa-spinner fa-beat"></i>
+          </button> */}
         </section>
       </main>
     </UserProvider>

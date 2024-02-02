@@ -5,7 +5,7 @@ const LanguageContext = createContext();
 
 export const LanguageProvider = (props) => {
 
-    const [language, setLanguage] = useState('Español');
+    const [language, setLanguage] = useState('English');
     const [languageData, setLanguageData] = useState(getLanguageData(language));
 
     return (

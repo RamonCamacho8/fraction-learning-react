@@ -1,27 +1,32 @@
-import { imageStorageRef, audioStorageRef } from "../firebase";
+import { audioStorageRef } from "../firebase";
 import { getDownloadURL, uploadBytes, ref } from "firebase/storage";
 
 
-const uploadImage = async (file) => {
-    
-    console.log(file.name);
-    const imageRef = ref(imageStorageRef, 'image.png');
-    console.log(imageRef);
-    await uploadBytes(imageRef, file);
-    /* const storageRef = imageStorageRef;
-    await uploadBytes(storageRef, file);
-    return 'a'; */
+
+const uploadAudios = async (audios, userId) => {
+    //Files is an object with the file name as the key and the file as the value
+    Object.keys(audios).forEach((fileName) => {
+        if (audios[fileName] === null) {
+            return;
+        }
+        uploadAudio(audios[fileName], fileName, userId);
+    }
+    );
+
     
 }
 
-const uploadAudio = async (file, fileName) => {
+
+const uploadAudio = async (file, fileName, userId) => {
     
-    const audioRef = ref(audioStorageRef, `${fileName}.mp3`);
-    console.log(audioRef);
+    let audioRef = ref(audioStorageRef, userId);
+    audioRef = ref(audioRef, fileName + '.mp3');
+
     await uploadBytes(audioRef, file);
-    return await getDownloadURL(audioRef);
+    
+    /*return await getDownloadURL(audioRef); */
     
 }
 
 
-export { uploadImage, uploadAudio };
+export { uploadAudio, uploadAudios };
