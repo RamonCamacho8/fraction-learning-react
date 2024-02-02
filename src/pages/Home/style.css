@@ -55,16 +55,6 @@
     padding: 20px;
 }
 
-.audio-button{
-    border: none;
-    background-color: transparent;
-    padding: 5px;
-}
-
-.audio-button i {
-    font-size: 20px;
-    color: var(--chalkboard-color);
-}
 
 .permission-button{
     background-color: var(--chalkboard-color);

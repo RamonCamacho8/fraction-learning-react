@@ -10,8 +10,6 @@ import { useLanguage } from "../../Context/LanguageContext.js";
 import { ExercicesProvider } from "../../Context/ExercicesContext.js";
 
 export default function Board({}) {
-  const { languageData } = useLanguage();
-  const lang = languageData["board"];
 
   return (
     <ExercicesProvider>

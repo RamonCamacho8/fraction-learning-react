@@ -1,0 +1,41 @@
+@font-face {
+    font-family: 'Chalkboard';
+    src: url('../../assets/fonts/Chalktastic-x1nR.ttf')
+}
+
+.board-container {
+
+    background-color: white;
+    width: 100svw;
+    height: 100svh;
+}
+
+main.board-v2 {
+    color: white;
+    background-color: var(--chalkboard-color);
+    font-family: 'Chalkboard';
+
+    header {
+        
+
+    }
+
+}
+
+
+/* For cellphones (up to 767px wide) */
+@media only screen and (max-width: 767px) {
+
+}
+
+/* For tablets (768px to 1023px wide) */
+@media only screen and (min-width: 768px) and (max-width: 1200px) {
+/* Your CSS styles for tablets go here */
+
+}
+
+/* For PCs (1024px and wider) */
+@media only screen and (min-width: 1201px) {
+/* Your CSS styles for PCs go here */
+
+}

@@ -21,7 +21,6 @@ main.landing header  {
 
 
     h1 {
-        font-size: 60px;
         font-weight: 700;
     }
 }
@@ -32,6 +31,36 @@ main.landing nav {
     height: 50px;
     background-color: #1c3831;
 }
+
+main.landing section .accordion {
+    border: none;
+    width: 100%;
+
+    .accordion-item {
+        border: none !important;
+        width: 100%;
+    }
+
+    .accordion-button {
+        background-color: white;
+        box-shadow: none;
+        font-size: inherit;
+        margin: 0;
+        padding-left: 0;
+        padding-right: 0;
+        width: 100%;
+        color: black;
+    }
+
+    div div span {
+        font-weight: bold;
+    
+    }
+
+}
+
+
+
 
 
 
@@ -84,7 +113,7 @@ main.landing button {
 }
 
 main.landing div.section-content button {
-
+    min-width: 170px;
     width: 30%;
 }
 
@@ -166,10 +195,68 @@ main.landing ul.questions li {
     border-radius: 5px;
 }
 
+
+
+main.landing ul.questions li button.audio-button {
+    width: 20%;
+    min-width: 80px;
+}
+
 main.landing article.instructions span {
     font-weight: bold;
 }
 
 main.landing div.section-content button.audio-button {
     width: 20%;
+}
+
+/* For cellphones (up to 767px wide) */
+@media only screen and (max-width: 767px) {
+/* Your CSS styles for cellphones go here */
+    main.landing section {
+        width: 100%;
+    }
+
+    div.inputs {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr 1fr 1fr;
+    }
+
+    div.inputs div {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        justify-content: space-between;
+
+        
+
+        select {
+            width: stretch;
+        }
+
+        input {
+            width: stretch;
+        }
+
+        label {
+            text-align: left;
+            width: 100%;
+        }
+    }
+}
+
+/* For tablets (768px to 1023px wide) */
+@media only screen and (min-width: 768px) and (max-width: 1200px) {
+/* Your CSS styles for tablets go here */
+    main.landing section {
+        width: 80%;
+    }
+}
+
+/* For PCs (1024px and wider) */
+@media only screen and (min-width: 1201px) {
+/* Your CSS styles for PCs go here */
+
 }

@@ -5,6 +5,7 @@ import Board from "./pages/Board";
 import Home from "./pages/Home";
 import Test from "./pages/Test";
 import Landing from "./pages/Landing";
+import BoardV2 from "./pages/BoardV2";
 
 import { PersonalityProvider } from "./Context/PersonalityContext";
 import { LanguageProvider } from "./Context/LanguageContext";
@@ -26,6 +27,7 @@ function App() {
             <Route path="/board" element={ <Board /> } />
             <Route path="/test" element={<Test />} />
             <Route path="/landing" element={<Landing />} />
+            <Route path="/boardv2" element={<BoardV2 />} />
           </Routes>
 
         </PersonalityProvider>
