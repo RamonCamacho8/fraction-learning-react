@@ -150,6 +150,7 @@
     padding: 5px;
     margin: 5px;
     width: 60px;
+    height: 60px;
 }
 
 
@@ -174,7 +175,7 @@
     border: 2px dashed var(--text-color);
     border-radius: 50%;
     padding: 5px;
-    width: 60px;
+    width: 100px;
 }
 
 .radio-button label {
@@ -218,8 +219,6 @@
     justify-content: center;
 }
 
-
-
 .symbol-component {
     width: 50px;
     text-align: center;
@@ -229,13 +228,13 @@
 .numerator {
     width: 50px;
     text-align: center;
-    font-size: 50px;
+    font-size: 40px;
 }
 
 .denominator {
     width: 50px;
     text-align: center;
-    font-size: 50px;
+    font-size: 40px;
 }
 
 .fractionBar {
@@ -320,7 +319,6 @@
     .stats-section {
         width: 20%;
         justify-content: space-around;
-
     }
 
     .stats-section > div {

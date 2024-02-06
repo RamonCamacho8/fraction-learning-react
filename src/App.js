@@ -23,10 +23,10 @@ function App() {
         <PersonalityProvider>
 
           <Routes>
-            <Route path="/" element={<Home  />} />
+            {/* <Route path="/" element={<Home  />} /> */}
             <Route path="/board" element={ <Board /> } />
             <Route path="/test" element={<Test />} />
-            <Route path="/landing" element={<Landing />} />
+            <Route path="/" element={<Landing />} />
             <Route path="/boardv2" element={<BoardV2 />} />
           </Routes>
 
