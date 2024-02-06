@@ -1,6 +1,7 @@
 import React from "react";
 import "./style.css";
 
+
 import { useUser, UserProvider } from "../../Context/UserContext";
 import { addData, updateData } from "../../Controllers/dataFetch";
 import { useState, useEffect, useRef } from "react";
@@ -9,7 +10,6 @@ import AudioRecorder from "../../components/AudioRecorder";
 import { uploadAudios  } from "../../services/CloudStorage";
 import { Accordion } from "react-bootstrap";
 
- 
 
 const Landing = () => {
 
@@ -29,12 +29,12 @@ const Landing = () => {
   ]
 
   const ref = useRef(null);
-
-  const { first, setFirst, last, setLast, age, setAge, genre, setGenre, id, setId } = useUser();
+  const { first, setFirst, last, setLast, age, setAge, genre, setGenre, id, setId, birth: birthDate, setBirth } = useUser();
   const [stream, setStream] = useState(null);
   const [permission, setPermission] = useState(false);
   const [userAudios, setUserAudios] = useState({});
   const [infoButtonStatus, setInfoButtonStatus] = useState('standby');
+  const [continueButtonStatus, setContinueButtonStatus] = useState('standby');
 
   useEffect(() => {
     getMicrophonePermission(setPermission, setStream);
@@ -55,22 +55,26 @@ const Landing = () => {
 
   const registerInformation = async (e) => {
     
-    
 
     e.preventDefault();
-    e.target.disabled = true;   
+    console.log(birthDate);
+     e.target.disabled = true;   
     setInfoButtonStatus('loading'); 
-    await addData({ first, last, age, genre }).then((data) => {
+    await addData({ first, last, birth: birthDate, genre }).then((data) => {
       setId(data.id);
       setInfoButtonStatus('done');      
-    });
+    }); 
 
   };
 
 
-  const handleContinue = async () => {
-
-    uploadAudios(userAudios, id);
+  const handleContinue = async (e) => {
+    e.preventDefault();
+    e.target.disabled = true;
+    setContinueButtonStatus('loading');
+    await uploadAudios(userAudios, id).then(() => {
+      setContinueButtonStatus('done');
+    });
       
   }
 
@@ -151,14 +155,23 @@ const Landing = () => {
                     />
                   </div>
                   <div>
-                    <label htmlFor="age"> Edad: </label>
-                    <input
+                    {/* <label htmlFor="age"> Edad: </label>
+                     <input
                       id="age"
                       type="number"
                       min={9}
                       max={100}
                       value={age}
                       onChange={(e) => setAge(e.target.value)}
+                      required
+                      disabled={id}
+                    />  */}
+                    <label htmlFor="birth"> Fecha de nacimiento: </label>
+                    <input
+                      id="birth"
+                      type="date"
+                      selected={birthDate}
+                      onChange={e => setBirth(e.target.value)}
                       required
                       disabled={id}
                     />
@@ -173,12 +186,12 @@ const Landing = () => {
                     </select>
                   </div>
                 </div>
-                <button type="button" onClick={registerInformation} disabled={(!(first && last && age && genre && !id))} >
+                <button type="button" onClick={registerInformation} disabled={(!(first && last && birthDate && genre && !id))} >
                   
                   {
                     infoButtonStatus === 'standby' ? 'Confirmar Datos.' : 
                     infoButtonStatus === 'loading' ? <i className="fa fa-spinner fa-spin"></i> :
-                    infoButtonStatus === 'done' ? 'Registrado' : ''
+                    infoButtonStatus === 'done' ? <i className="fa-solid fa-check"></i> : ''
                   }
                 
                 </button>
@@ -197,7 +210,7 @@ const Landing = () => {
                         stream={stream}
                         permission={permission}
                         audioName={question.name}
-                        disabled = {id ? false : true}
+                        disabled = { (id && continueButtonStatus === 'standby') ? false : true}
                         userId = {id}
                         setUserAudios={setUserAudios}
                         userAudios={userAudios}
@@ -212,9 +225,13 @@ const Landing = () => {
             className="submit"
             type="submit"
             onClick={handleContinue}
-            disabled={!( first && last && age && genre && id && Object.keys(userAudios).every((audio) => userAudios[audio] !== null)) }
+            disabled={!( first && last && birthDate && genre && id && Object.keys(userAudios).every((audio) => userAudios[audio] !== null)) }
           >
-            Continuar
+            {
+              continueButtonStatus === 'standby' ? 'Continuar' : 
+              continueButtonStatus === 'loading' ? <i className="fa fa-spinner fa-spin"></i> :
+              continueButtonStatus === 'done' ? <i className="fa-solid fa-check"></i> : ''
+            }
           </button>
          {/*  <button onClick={() => {}}>
             <i className="fa fa-spinner fa-beat"></i>

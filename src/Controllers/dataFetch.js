@@ -10,9 +10,9 @@ const addData = (data) => {
     data.last.toLowerCase();
     data.first = data.first.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
     data.last = data.last.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-    
+    data.birthDate = new Date(data.birth);
     //Add date to the data object
-    data.date = new Date();
+    data.registeredDate = new Date();
 
     return addDocument(data);
 }

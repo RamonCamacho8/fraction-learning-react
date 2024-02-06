@@ -3,9 +3,6 @@ import { useLanguage } from "../../Context/LanguageContext";
 import { useExercices } from "../../Context/ExercicesContext";
 import { useStats } from "../../Context/StatsContext";
 import "./style.css";
-import { FaClock } from "react-icons/fa";
-import { FaFlagCheckered } from "react-icons/fa";
-import { MdError } from "react-icons/md";
 import { IconContext } from "react-icons";
 
 
@@ -59,8 +56,6 @@ export default function StatsSection(){
         
     
         return(
-            
-    
             <div className="time-panel">
                 {visual ? (<div className="icon"><GoStopwatch/></div>) : (<h5 className="time">{traductionText.time}</h5>)}
                 <h6 className="time-field">{stringTime}</h6>
@@ -74,7 +69,6 @@ export default function StatsSection(){
             <div className="level-panel">
                 {visual ? (<div className="icon"><GoMortarBoard/></div>) : (<h5 className="level">{traductionText.level}</h5>)}
                 <h6 className="level-field">{difficultyText[difficulty]}</h6>
-
             </div>
         );
     }
@@ -82,8 +76,7 @@ export default function StatsSection(){
     const TrysPanel = () => {
 
         return(
-            <div className="errors-panel">
-                
+            <div className="errors-panel"> 
                 {visual ? (<div className="icon"><GoStop/></div>) : (<h5 className="errors">{traductionText.errors}</h5>)}
                 <h6 className="errors-field">{`${trys}`}</h6>
             </div>
