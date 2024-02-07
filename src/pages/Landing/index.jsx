@@ -9,11 +9,12 @@ import { getMicrophonePermission } from "../../utils/recordAudio";
 import AudioRecorder from "../../components/AudioRecorder";
 import { uploadAudios  } from "../../services/CloudStorage";
 import { Accordion } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 
 const Landing = () => {
 
-
+  const navigate = useNavigate();
   const questions = [{
     name : "question-1",
     question: "¿Qué es lo que te motiva?"
@@ -29,7 +30,8 @@ const Landing = () => {
   ]
 
   const ref = useRef(null);
-  const { first, setFirst, last, setLast, age, setAge, genre, setGenre, id, setId, birth: birthDate, setBirth } = useUser();
+  const {userData, setUserData}
+   = useUser();
   const [stream, setStream] = useState(null);
   const [permission, setPermission] = useState(false);
   const [userAudios, setUserAudios] = useState({});
@@ -57,14 +59,15 @@ const Landing = () => {
     
 
     e.preventDefault();
-    console.log(birthDate);
-     e.target.disabled = true;   
+    e.target.disabled = true;   
     setInfoButtonStatus('loading'); 
-    await addData({ first, last, birth: birthDate, genre }).then((data) => {
-      setId(data.id);
-      setInfoButtonStatus('done');      
+    await addData(userData).then((data) => {
+      setUserData({...userData, userId: data.id});
+      setInfoButtonStatus('done');
+      console.log(data.id);
+      
     }); 
-
+    console.log(userData);
   };
 
 
@@ -72,10 +75,10 @@ const Landing = () => {
     e.preventDefault();
     e.target.disabled = true;
     setContinueButtonStatus('loading');
-    await uploadAudios(userAudios, id).then(() => {
+    await uploadAudios(userAudios, userData.userId).then(() => {
       setContinueButtonStatus('done');
     });
-      
+    navigate("/boardv2");
   }
 
 
@@ -87,25 +90,6 @@ const Landing = () => {
         </header>
         {/*  <nav></nav> */}
         <section>
-        {/* <article className="instructions">
-            <h2>Instrucciones</h2>
-            <div className="section-content">
-              <p>
-                Introduce tus datos personales en la sección <span>"Información del estudiante"</span>.
-              </p>
-              <p>
-                Contesta a las preguntas de la sección <span>"Preguntas"</span> con la mayor
-                sinceridad posible.
-              </p>
-              <p>Para ello:</p>
-              <ol>
-                <li>Lee la pregunta.</li>
-                <li>Cuando tengas lista tu respuesta, presiona <span>"Grabar"</span>.</li>
-                <li>Responde en voz alta la pregunta.</li>
-              </ol>
-              <p>Cuando termines, presiona <span>"Continuar"</span>. O si lo deseas, puedes regrabar tus respuestas.</p>
-            </div>
-          </article> */}
           <Accordion  defaultActiveKey="0">
             <Accordion.Item as={'article'} eventKey="0">
               <Accordion.Header>Instrucciones</Accordion.Header>
@@ -137,10 +121,10 @@ const Landing = () => {
                     <input
                       id="first"
                       type="text"
-                      value={first}
-                      onChange={(e) => setFirst(e.target.value)}
+                      value={userData.firstName}
+                      onChange={(e) => setUserData({...userData, firstName: e.target.value})}
                       required
-                      disabled={id}
+                      disabled={userData.userId}
                     />
                   </div>
                   <div>
@@ -148,37 +132,26 @@ const Landing = () => {
                     <input
                       id="last"
                       type="text"
-                      value={last}
-                      onChange={(e) => setLast(e.target.value)}
+                      value={userData.lastName}
+                      onChange={(e) => setUserData({...userData, lastName: e.target.value})}
                       required
-                      disabled={id}
+                      disabled={userData.userId}
                     />
                   </div>
                   <div>
-                    {/* <label htmlFor="age"> Edad: </label>
-                     <input
-                      id="age"
-                      type="number"
-                      min={9}
-                      max={100}
-                      value={age}
-                      onChange={(e) => setAge(e.target.value)}
-                      required
-                      disabled={id}
-                    />  */}
                     <label htmlFor="birth"> Fecha de nacimiento: </label>
                     <input
                       id="birth"
                       type="date"
-                      selected={birthDate}
-                      onChange={e => setBirth(e.target.value)}
+                      selected={userData.birthDate}
+                      onChange={e => setUserData({...userData, birthDate: e.target.value})}
                       required
-                      disabled={id}
+                      disabled={userData.userId}
                     />
                   </div>
                   <div>
                     <label htmlFor="genre" > Género: </label>
-                    <select id="genre" onChange={e => setGenre(e.target.value)} required disabled={id}>
+                    <select id="genre" onChange={e => setUserData({...userData, genre: e.target.value}) } required disabled={userData.userId}>
                       <option value="">Selecciona una opción</option>
                       <option value="M">Masculino</option>
                       <option value="F">Femenino</option>
@@ -186,7 +159,8 @@ const Landing = () => {
                     </select>
                   </div>
                 </div>
-                <button type="button" onClick={registerInformation} disabled={(!(first && last && birthDate && genre && !id))} >
+                <button type="button" onClick={registerInformation} 
+                  disabled={(!(userData.firstName && userData.lastName && userData.birthDate && userData.genre && !userData.userId))} >
                   
                   {
                     infoButtonStatus === 'standby' ? 'Confirmar Datos.' : 
@@ -210,8 +184,8 @@ const Landing = () => {
                         stream={stream}
                         permission={permission}
                         audioName={question.name}
-                        disabled = { (id && continueButtonStatus === 'standby') ? false : true}
-                        userId = {id}
+                        disabled = { (userData.userId && continueButtonStatus === 'standby') ? false : true}
+                        userId = {userData.userId}
                         setUserAudios={setUserAudios}
                         userAudios={userAudios}
                       />
@@ -225,7 +199,7 @@ const Landing = () => {
             className="submit"
             type="submit"
             onClick={handleContinue}
-            disabled={!( first && last && birthDate && genre && id && Object.keys(userAudios).every((audio) => userAudios[audio] !== null)) }
+            disabled={!( userData.firstName && userData.lastName && userData.birthDate && userData.genre && userData.userId && Object.keys(userAudios).every((audio) => userAudios[audio] !== null)) }
           >
             {
               continueButtonStatus === 'standby' ? 'Continuar' : 

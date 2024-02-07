@@ -5,7 +5,7 @@
 
 .board-container-v2 {
 
-    background-color: white;
+    background-color: wheat;
     width: 100svw;
     height: 100svh;
     display: flex;
@@ -58,25 +58,59 @@ main.board-v2 {
     
     }
 
-    & section.stats-panel ul{
+    & main.board-body {
+
         display: flex;
-        text-decoration: none;
-        flex-direction: column;
-        justify-content: space-around;
-        align-items: start;
-        padding: 0;
+        flex-direction: row;
 
-        & li {
+        & section.stats-panel ul{
             display: flex;
+            text-decoration: none;
             flex-direction: column;
-            justify-content: center;
+            justify-content: space-around;
             align-items: start;
-
-            & i {
-                padding: 10px;
+            padding: 0;
+    
+            & li {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: start;
+    
+                & i {
+                    padding: 10px;
+                }
             }
         }
-    }
+
+        & section.exercise-panel {
+            display: flex;
+            flex-direction: row;
+            justify-content:center;
+            align-items: center;
+            width: 100%;
+
+            & .pie-fraction {
+               
+                place-self: center;
+                justify-self: center;
+                align-self: center;
+                max-width: 100%;
+                & canvas {
+                    width: 150px !important;
+                    height: 150px !important;
+                }
+
+            }
+
+            & .sum {
+                font-size: 80px;
+                text-align: center;
+                align-self: center;
+            }
+            
+        }
+    } 
 
     
 
@@ -90,18 +124,25 @@ main.board-v2 {
         height: 100%;
         border: 0;
 
-        & section.stats-panel ul{
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            justify-content: space-around;
-            align-items: center;
+        & main.board-body{
+            
+            flex-direction: column;
 
-            & li {
-                flex-direction: column;
-                justify-content: center;
+            & section.stats-panel ul{
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                justify-content: space-around;
                 align-items: center;
+    
+                & li {
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                }
             }
         }
+
+        
     }
 }
 

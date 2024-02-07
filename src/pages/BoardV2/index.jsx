@@ -7,7 +7,9 @@ import { GoStopwatch } from "react-icons/go";
 import { GoStop } from "react-icons/go";
 import { GoMortarBoard } from "react-icons/go";
 import { IconContext } from "react-icons";
-
+import { useUser } from "../../Context/UserContext";
+import PieFraction from "../../lib/ui/Fractions/PieFraction";
+import { Pie } from "react-chartjs-2";
 
 export default function BoardV2({}) {
 
@@ -17,6 +19,7 @@ export default function BoardV2({}) {
     const [date, setDate] = useState();
     const [isRunning, setIsRunning] = useState(true);
     const [time, setTime] = useState(0);
+    const {userData, setUserData}= useUser();
 
     useEffect(() => {
         const date = new Date();
@@ -58,7 +61,7 @@ export default function BoardV2({}) {
                 <main className="board-v2">
                     <header>
                         <div className="student">
-                            <h6>User's Name</h6>
+                            <h6>{userData.firstName || `User's Name`}</h6>
                         </div>
                         <div className="date">
                             <h6>{date}</h6>
@@ -67,27 +70,34 @@ export default function BoardV2({}) {
                             <h2>{headerTraduction.subject}</h2>
                         </div>
                     </header>
-                    <section className="stats-panel">
-                    <IconContext.Provider value={{ className: 'react-icons' }}>
-                        <ul>
-                            <li className="time">
-                                <i className="icon"><GoStopwatch/></i>
-                                <h6>{stringTime}</h6>
-                            </li>
-                            <li className="trys">
-                                <i className="icon"><GoStop/></i>
-                                <h6>0</h6>
-                            </li>
-                            <li className="level">
-                                <i className="icon"><GoMortarBoard/></i>
-                                <h6>1</h6>
-                            </li>
-                        </ul>
-                    </IconContext.Provider>
-                    </section>
-                    <section>
+                    <main className="board-body">
+                        <section className="stats-panel">
+                        <IconContext.Provider value={{ className: 'react-icons' }}>
+                            <ul>
+                                <li className="time">
+                                    <i className="icon"><GoStopwatch/></i>
+                                    <h6>{stringTime}</h6>
+                                </li>
+                                <li className="trys">
+                                    <i className="icon"><GoStop/></i>
+                                    <h6>0</h6>
+                                </li>
+                                <li className="level">
+                                    <i className="icon"><GoMortarBoard/></i>
+                                    <h6>1</h6>
+                                </li>
+                            </ul>
+                        </IconContext.Provider>
+                        </section>
+                        <section className="exercise-panel" >
+                            
+                            <PieFraction numerador={3} denominador={4} color={"#ff00ff"} />
+                            <div className="sum">+</div>
+                            <PieFraction numerador={3} denominador={4} color={"#ff00ff"} />
 
-                    </section>
+                        </section>
+                    </main>
+                    
                     <footer>
 
                     </footer>

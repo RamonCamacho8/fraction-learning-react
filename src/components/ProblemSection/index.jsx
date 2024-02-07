@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useLanguage } from "../../Context/LanguageContext";
 import { usePersonality } from "../../Context/PersonalityContext";
 import { useExercices } from "../../Context/ExercicesContext";
+import PieFraction from "../../lib/ui/Fractions/PieFraction.jsx";
 
 function ProblemSection() {
   return (
@@ -59,23 +60,6 @@ function RadioInput({ value, id }) {
 }
 
 
-function AnswerButton({ value, id }) {
-  const { setSelectedAnswer } = useExercices();
-
-  return (
-    <button
-      id={id}
-      className="answerButton"
-      value={value}
-      onClick={() => {
-        setSelectedAnswer(id);
-      }}
-    >
-      {value[0] + "/" + value[1]}
-    </button>
-  );
-}
-
 function AnswersPanel() {
   const { currentExercice } = useExercices();
   const options = currentExercice.options;
@@ -89,50 +73,6 @@ function AnswersPanel() {
   return answerPanels;
 }
 
-//Fraction Components
-function FractionPieChartComponent({ numerador, denominador, color }) {
-  const partAngle = 360 / denominador;
-  color = color;
-
-  const data = {
-    labels: [],
-    datasets: [
-      {
-        label: `${numerador}/${denominador}`,
-        data: Array(denominador).fill(1),
-        backgroundColor: [
-          ...Array(numerador).fill(color),
-          ...Array(denominador - numerador).fill("rgb(39, 76, 67)"),
-        ],
-        borderColor: [
-          ...Array(numerador).fill("white"),
-          ...Array(denominador - numerador).fill("white"),
-        ],
-        offset: 15,
-      },
-    ],
-  };
-
-  const options = {
-    cutout: 0,
-    radius: "100%", // Change this value to set the desired radius
-    circumference: 360,
-    rotation: Math.floor(Math.random() * 4) * partAngle,
-    animation: {
-      animateRotate: false,
-      animateScale: false,
-    },
-  };
-
-  const [optionsState, setOptions] = useState(options);
-  const [dataState, setDataState] = useState(data);
-
-  return (
-    <div className="pie-fraction">
-      <Pie data={dataState} options={optionsState} />
-    </div>
-  );
-}
 
 function FractionNumberComponent({ numerador, denominador }) {
   return (
@@ -171,7 +111,7 @@ function colorSelector({ colorOption }) {
 function fractionComponentSelector({ hasOpenness }) {
   switch (hasOpenness) {
     case true:
-      return FractionPieChartComponent;
+      return PieFraction;
     case false:
       return FractionNumberComponent;
     default:
