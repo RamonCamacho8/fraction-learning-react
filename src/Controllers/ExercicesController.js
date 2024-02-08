@@ -1,9 +1,9 @@
 
 
 // Check if the selected option is the correct one
-const isCorrectAnswer = (selecteID, currentExercice) => {
+const isCorrectAnswer = (selectedID, currentExercice) => {
     
-    return selecteID === currentExercice.correctOption;
+    return selectedID === currentExercice.correctOption;
 }
 
 export { isCorrectAnswer}

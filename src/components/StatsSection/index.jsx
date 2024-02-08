@@ -34,14 +34,14 @@ export default function StatsSection(){
             return `${minutes < 10 ? '0'+minutes: minutes}:${seconds < 10 ? '0'+seconds: seconds}`;
         }
     
-        useEffect(() => {
+        /* useEffect(() => {
             let intervalId;
             if (isRunning) {
             // setting time from 0 to 1 every 10 milisecond using javascript setInterval method
             intervalId = setInterval(() => setTime(time + 1), 1000);
             }
             return () => clearInterval(intervalId);
-        }, [isRunning, time]);
+        }, [isRunning, time]); */
     
         let stringTime = formatTime(time);
     
@@ -56,42 +56,44 @@ export default function StatsSection(){
         
     
         return(
-            <div className="time-panel">
-                {visual ? (<div className="icon"><GoStopwatch/></div>) : (<h5 className="time">{traductionText.time}</h5>)}
-                <h6 className="time-field">{stringTime}</h6>
-            </div>
+            <li className="time-panel">
+                <GoStopwatch/>
+                <h6 className="time">{stringTime}</h6>
+            </li>
         );
     
     }
 
     const LevelPanel = () => {
         return(
-            <div className="level-panel">
-                {visual ? (<div className="icon"><GoMortarBoard/></div>) : (<h5 className="level">{traductionText.level}</h5>)}
-                <h6 className="level-field">{difficultyText[difficulty]}</h6>
-            </div>
+            <li className="level-panel">
+                <GoMortarBoard/>
+                <h6 className="level">{difficultyText[difficulty]}</h6>
+            </li>
         );
     }
 
     const TrysPanel = () => {
 
         return(
-            <div className="errors-panel"> 
-                {visual ? (<div className="icon"><GoStop/></div>) : (<h5 className="errors">{traductionText.errors}</h5>)}
-                <h6 className="errors-field">{`${trys}`}</h6>
-            </div>
+            <li className="errors-panel"> 
+                <GoStop/>
+                <h6 className="errors">{`${trys}`}</h6>
+            </li>
         );
 
     
     }
 
     return(
-        <div className="stats-section">
+        <section className="stats">
             <IconContext.Provider value={{ className: 'react-icons' }}>
-                <TrysPanel />
-                <TimePanel  />
-                <LevelPanel />
+                <ul>
+                    <TrysPanel />
+                    <TimePanel  />
+                    <LevelPanel />
+                </ul>
             </IconContext.Provider>
-        </div>
+        </section>
     );
 }

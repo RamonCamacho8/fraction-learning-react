@@ -63,7 +63,6 @@ const AudioRecorder = ({ audioName, stream, permission, disabled, userAudios, se
           ) : (
             <button className="audio-button" style={{position:'relative'}} onClick={handleStart} disabled={!(permission && !disabled)}>
               Grabar
-              {/* <i className="fa-solid fa-circle fa-beat" style={{color: 'red', position:'absolute', top:'-25%', right:'-10px'}}></i> */}
             </button>
           )
         ) : (

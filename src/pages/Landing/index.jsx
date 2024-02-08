@@ -2,7 +2,7 @@ import React from "react";
 import "./style.css";
 
 
-import { useUser, UserProvider } from "../../Context/UserContext";
+import { useUser } from "../../Context/UserContext";
 import { addData, updateData } from "../../Controllers/dataFetch";
 import { useState, useEffect, useRef } from "react";
 import { getMicrophonePermission } from "../../utils/recordAudio";
@@ -40,7 +40,7 @@ const Landing = () => {
 
   useEffect(() => {
     getMicrophonePermission(setPermission, setStream);
-
+    
     const questionsData = questions.map((question) => question.name);
     const areSendedData = questionsData.reduce((acc, question) => {
       acc[question] = null;
@@ -64,10 +64,7 @@ const Landing = () => {
     await addData(userData).then((data) => {
       setUserData({...userData, userId: data.id});
       setInfoButtonStatus('done');
-      console.log(data.id);
-      
-    }); 
-    console.log(userData);
+    });
   };
 
 
@@ -78,12 +75,11 @@ const Landing = () => {
     await uploadAudios(userAudios, userData.userId).then(() => {
       setContinueButtonStatus('done');
     });
-    navigate("/boardv2");
+    navigate("/board");
   }
 
-
   return (
-    <UserProvider>
+    
       <main className="landing">
         <header>
           <h1>FractionLearning!</h1>
@@ -212,7 +208,6 @@ const Landing = () => {
           </button> */}
         </section>
       </main>
-    </UserProvider>
   );
 };
 

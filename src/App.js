@@ -2,10 +2,8 @@ import { Routes, Route } from "react-router-dom";
 import { useState } from "react";
 import "./style.css";
 import Board from "./pages/Board";
-import Home from "./pages/Home";
 import Test from "./pages/Test";
 import Landing from "./pages/Landing";
-import BoardV2 from "./pages/BoardV2";
 
 import { PersonalityProvider } from "./Context/PersonalityContext";
 import { LanguageProvider } from "./Context/LanguageContext";
@@ -19,19 +17,18 @@ function App() {
   return (
     <UserProvider>
       <StatsProvider>
-      <LanguageProvider>
-        <PersonalityProvider>
+        <LanguageProvider>
+          <PersonalityProvider>
 
-          <Routes>
-            {/* <Route path="/" element={<Home  />} /> */}
-            <Route path="/board" element={ <Board /> } />
-            <Route path="/test" element={<Test />} />
-            <Route path="/" element={<Landing />} />
-            <Route path="/boardv2" element={<BoardV2 />} />
-          </Routes>
+            <Routes>
+              {/* <Route path="/" element={<Home  />} /> */}
+              <Route path="/board" element={ <Board /> } />
+              <Route path="/test" element={<Test />} />
+              <Route path="/" element={<Landing />} />
+            </Routes>
 
-        </PersonalityProvider>
-      </LanguageProvider>
+          </PersonalityProvider>
+        </LanguageProvider>
       </StatsProvider>
     </UserProvider>
   );

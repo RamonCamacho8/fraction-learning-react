@@ -5,26 +5,33 @@ import HeaderSection from "../../components/HeaderSection";
 import HelpSection from "../../components/HelpSection";
 import ProblemSection from "../../components/ProblemSection";
 import ButtonsSection from "../../components/ButtonsSection";
-import { useLanguage } from "../../Context/LanguageContext.js";
 import { ExercicesProvider } from "../../Context/ExercicesContext.js";
-
+/* import { useUser } from "../../Context/UserContext";
+import { useNavigate } from "react-router-dom";import { useEffect } from "react"; */
 export default function Board({}) {
 
+  /* const { userData } = useUser();
+  const navigate = useNavigate();
+
+   useEffect(() => {
+    if (!userData.userId) {
+      navigate("/");
+    }
+  }, [userData]); 
+   */
+
   return (
-    <ExercicesProvider>
-      <div className="main-container">
-        <div className="board-container">
-          <HeaderSection />
-          <div className="content-section">
+      <ExercicesProvider>
+        <main className="main-container">
+          <div className="board-container">
+            <HeaderSection />
             <StatsSection />
+            <h4>Resuelve la siguiente suma:</h4>
             <ProblemSection />
-          </div>
-          <div className="bottom-section">
             <ButtonsSection />
             <HelpSection />
           </div>
-        </div>
-      </div>
-    </ExercicesProvider>
+        </main>
+      </ExercicesProvider>
   );
 }

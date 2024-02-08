@@ -30,10 +30,10 @@ export default function HelpSection(){
 
     return(
 
-        <div className="help-section">
-            <div className="help-text"> {traductionText} </div>
+        <section className="help-section">
+            <h4 style={{textAlign:'center'}}> {traductionText} </h4>
             <HelpComponent />
-        </div>
+        </section>
 
     );
 }

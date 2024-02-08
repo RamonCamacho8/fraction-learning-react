@@ -6,11 +6,15 @@ import { useLanguage } from "../../Context/LanguageContext";
 import { usePersonality } from "../../Context/PersonalityContext";
 import { useExercices } from "../../Context/ExercicesContext";
 import PieFraction from "../../lib/ui/Fractions/PieFraction.jsx";
+import NumericFraction from "../../lib/ui/Fractions/NumericFraction.jsx";
+import RadioInput from "../../lib/ui/Buttons/RadioInput.jsx";
 
 function ProblemSection() {
   return (
     <>
+    
       <ProcedurePanel />
+      <h4>Elige la respueta correcta:</h4>
       <ResultPanel />
     </>
   );
@@ -18,10 +22,9 @@ function ProblemSection() {
 
 function ResultPanel() {
   const answerComponents = AnswersPanel();
-  let traductionText = useLanguage().languageData["board"].answerPanel;
 
   return (
-      <div className="answers-panels"> {answerComponents} </div>
+      <section className="answers"> {answerComponents} </section>
   );
 }
 
@@ -35,42 +38,24 @@ function ProcedurePanel() {
     colorType: "multi",
   });
 
-  const traductionText = useLanguage().languageData["board"].problemPanel;
 
   return (
-    <div className="problem-section">
-      <div className="fractions"> {fractionsComponents} </div>
-    </div>
+    <section className="exercices">
+      {fractionsComponents}
+    </section>
   );
 }
-
-function RadioInput({ value, id }) {
-  const { setSelectedAnswer } = useExercices();
-
-
-
-  return (
-    <div className="radio-button">
-      <input type="radio" name="answer" value={value} id={id} onClick={() => {
-        setSelectedAnswer(id);
-      }}/>
-      <label htmlFor={id}>{value[0] + "/" + value[1]}</label>
-    </div>
-  );
-}
-
 
 function AnswersPanel() {
-  const { currentExercice } = useExercices();
-  const options = currentExercice.options;
+  const { currentExercice, setSelectedAnswer } = useExercices();
+  const answerOptions = currentExercice.options;
 
-  let answerPanels = [];
-  for (let i = 0; i < options.length; i++) {
-    answerPanels.push(
-      <RadioInput key={i + "-" + options[i]} value={options[i]} id={i} />
+  return answerOptions.map((option, index) => {
+    return (
+      <RadioInput key={index + "-" + option} value={option} id={index} setSelectedAnswer={setSelectedAnswer} />
     );
-  }
-  return answerPanels;
+  });
+
 }
 
 
@@ -78,15 +63,12 @@ function FractionNumberComponent({ numerador, denominador }) {
   return (
     <div className="fraction">
       <div className="numerator">{numerador} </div>
-      <div className="fractionBar">----</div>
+      <div className="divider">----</div>
       <div className="denominator">{denominador} </div>
     </div>
   );
 }
 
-function Symbol({ symbol }) {
-  return <div className="symbol-component">{symbol}</div>;
-}
 
 //Functions for fraction components
 function colorSelector({ colorOption }) {
@@ -113,9 +95,9 @@ function fractionComponentSelector({ hasOpenness }) {
     case true:
       return PieFraction;
     case false:
-      return FractionNumberComponent;
+      return NumericFraction;
     default:
-      return FractionNumberComponent;
+      return NumericFraction;
   }
 }
 
@@ -127,24 +109,29 @@ function fractionComponentsGenerator({
   let Component = fractionComponentSelector({ hasOpenness: hasOpenness });
   let fractionsComponents = [];
 
-  for (let i = 0; i < fractionsNumbers.length; i++) {
-    const [numerador, denominador] = fractionsNumbers[i];
-    const symbol = i === fractionsNumbers.length - 1 ? "=" : "+";
-    const componetKey = `${i} + ${numerador}/${denominador}`;
-    const symbolKey = `${i} + ${symbol}`;
+  fractionsComponents = fractionsNumbers.map((fraction, index) => 
+      { 
+        if (index !== fractionsNumbers.length - 1) 
+          return ( <>
+            <Component
+              key={`${index} + ${fraction[0]}/${fraction[1]}`}
+              numerador={fraction[0]}
+              denominador={fraction[1]}
+              color={colorSelector({ colorOption: colorType })}
+            />
+            <div className="sum">+</div>
+          </>)
 
-    fractionsComponents.push(
-      <Component
-        key={componetKey}
-        numerador={numerador}
-        denominador={denominador}
-        color={colorSelector({ colorOption: colorType })}
-      />,
-      <Symbol key={symbolKey} symbol={symbol} />
-    );
-  }
-
-  fractionsComponents.pop();
+        return(
+          <Component
+            key={`${index} + ${fraction[0]}/${fraction[1]}`}
+            numerador={fraction[0]}
+            denominador={fraction[1]}
+            color={colorSelector({ colorOption: colorType })}
+          />
+        )
+      }
+  )
 
   return fractionsComponents;
 }

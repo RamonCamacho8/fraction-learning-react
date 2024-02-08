@@ -1,25 +1,25 @@
-import "./style.css";
 import { useLanguage } from "../../Context/LanguageContext";
 
-import { ExercicesProvider } from "../../Context/ExercicesContext";
+import { ExercicesProvider, useExercices } from "../../Context/ExercicesContext";
 import { useEffect, useState } from "react";
 import { GoStopwatch } from "react-icons/go";
 import { GoStop } from "react-icons/go";
 import { GoMortarBoard } from "react-icons/go";
 import { IconContext } from "react-icons";
 import { useUser } from "../../Context/UserContext";
+import { isCorrectAnswer } from "../../Controllers/ExercicesController";
 import PieFraction from "../../lib/ui/Fractions/PieFraction";
-import { Pie } from "react-chartjs-2";
+import RadioInput from "../../lib/ui/Buttons/RadioInput";
 
 export default function BoardV2({}) {
 
     const { languageData } = useLanguage();
     const headerTraduction = languageData["board"].headerPanel;
-    
     const [date, setDate] = useState();
     const [isRunning, setIsRunning] = useState(true);
     const [time, setTime] = useState(0);
     const {userData, setUserData}= useUser();
+    
 
     useEffect(() => {
         const date = new Date();
@@ -61,7 +61,7 @@ export default function BoardV2({}) {
                 <main className="board-v2">
                     <header>
                         <div className="student">
-                            <h6>{userData.firstName || `User's Name`}</h6>
+                            <h6>{userData.firstName || `Nombre de usuario`}</h6>
                         </div>
                         <div className="date">
                             <h6>{date}</h6>
@@ -76,15 +76,15 @@ export default function BoardV2({}) {
                             <ul>
                                 <li className="time">
                                     <i className="icon"><GoStopwatch/></i>
-                                    <h6>{stringTime}</h6>
+                                    <h5>{stringTime}</h5>
                                 </li>
                                 <li className="trys">
                                     <i className="icon"><GoStop/></i>
-                                    <h6>0</h6>
+                                    <h5>0</h5>
                                 </li>
                                 <li className="level">
                                     <i className="icon"><GoMortarBoard/></i>
-                                    <h6>1</h6>
+                                    <h5>1</h5>
                                 </li>
                             </ul>
                         </IconContext.Provider>
@@ -96,6 +96,12 @@ export default function BoardV2({}) {
                             <PieFraction numerador={3} denominador={4} color={"#ff00ff"} />
 
                         </section>
+                        <section className="answer-panel">
+                            <Answers />
+                        </section>
+                        <section className="buttons-panel">
+                            <CheckButton />
+                        </section>
                     </main>
                     
                     <footer>
@@ -106,4 +112,54 @@ export default function BoardV2({}) {
             
         </ExercicesProvider>
     );
+}
+
+
+function Answers ({}) {
+
+    const { setSelectedAnswer, currentExercice} = useExercices();
+    const answerOptions =currentExercice.options;
+
+    useEffect(() => {
+        console.log(currentExercice);
+    }, [currentExercice]);
+
+    return(
+        
+        <>
+            {answerOptions.map((option, index) => {
+                return(
+                    <RadioInput key={index} value={option} id={index} setSelectedAnswer={setSelectedAnswer} />
+                );
+            })}
+        </>
+    );
+}
+
+const CheckButton = ({}) => {
+
+    const {selectedAnswer, currentExercice,hasNextExercice, nextExercice, hastNextDifficulty, nextDifficulty} = useExercices();
+
+    const handleCheck = () => {
+        if(isCorrectAnswer(selectedAnswer, currentExercice )){
+            if(hasNextExercice()){
+                nextExercice();
+            }else if(hastNextDifficulty()){
+                nextDifficulty();
+            }else{
+                navigate('/');
+            }
+            setTrys(0);
+            setTime(0);
+        }
+        else {
+            setTrys(trys+1);
+        }
+    }
+
+    return(
+        <button className="check-button" onClick={handleCheck}>Check</button>
+
+    );
+
 }
