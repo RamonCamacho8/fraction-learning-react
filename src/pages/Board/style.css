@@ -102,7 +102,7 @@
 
                     .react-icons{
                         
-                        font-size: 25px;
+                        font-size: 40px;
                         font-weight: bold;
                     
                     }
@@ -290,7 +290,8 @@
     
                         .react-icons{
                             
-                      
+                        font-size: 25px;
+
                         
                         }
     
@@ -338,6 +339,7 @@
 /* For tablets (768px to 1023px wide) */
 @media only screen and (min-width: 768px) and (max-width: 1023px) {
 
+    
 
 }
 

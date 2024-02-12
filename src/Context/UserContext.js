@@ -19,12 +19,15 @@ export const UserProvider = (props) => {
         lastName : '',
         birthDate : '',
         genre : '',
-        personality: {presentsOpenness : '',
-                        presentsNeuroticism : ''},
+        personality: {presentsOpenness : true,
+                        presentsNeuroticism : false},
         exercisesData: {
             easy : {},
             medium : {},
             hard : {}
+        },
+        audiosData: {
+            
         }
     });
 

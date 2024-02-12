@@ -16,12 +16,10 @@ import { GoMortarBoard } from "react-icons/go";
 export default function StatsSection(){
 
     const { languageData } = useLanguage();
-    const traductionText = languageData["board"].statsPanel;
     const { difficulty } = useExercices();
     const difficultyText = languageData["board"].difficulty;
     const {time, setTime} = useStats();
     const {trys} = useStats();
-    let visual = true;
 
     function TimePanel(){
 
@@ -34,14 +32,14 @@ export default function StatsSection(){
             return `${minutes < 10 ? '0'+minutes: minutes}:${seconds < 10 ? '0'+seconds: seconds}`;
         }
     
-        /* useEffect(() => {
+        useEffect(() => {
             let intervalId;
             if (isRunning) {
             // setting time from 0 to 1 every 10 milisecond using javascript setInterval method
             intervalId = setInterval(() => setTime(time + 1), 1000);
             }
             return () => clearInterval(intervalId);
-        }, [isRunning, time]); */
+        }, [isRunning, time]);
     
         let stringTime = formatTime(time);
     

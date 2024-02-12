@@ -1,13 +1,15 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { startRecording } from "../../utils/recordAudio";
-
+import { useUser } from "../../Context/UserContext";
 const AudioRecorder = ({ audioName, stream, permission, disabled, userAudios, setUserAudios }) => {
   const mediaRecorder = useRef(null);
   const [recordingStatus, setRecordingStatus] = useState("inactive");
   const [audioChunks, setAudioChunks] = useState([]);
   const mimeType = "audio/mp3";
-
-
+  const [initialTime, setInitialTime] = useState(0);
+  const [finalTime, setFinalTime] = useState(0);
+  const [time, setTime] = useState(0);
+  const { userData, setUserData } = useUser();
   const handleStart = () => {
     setRecordingStatus("recording");
     startRecording(
@@ -17,6 +19,7 @@ const AudioRecorder = ({ audioName, stream, permission, disabled, userAudios, se
       mimeType,
       mediaRecorder
     );
+    setInitialTime(new Date().getTime());
   };
   const handleStop = async () => {
     //stopRecording(setRecordingStatus,setAudioChunks,setAudio, mediaRecorder, audioChunks, mimeType);
@@ -29,7 +32,6 @@ const AudioRecorder = ({ audioName, stream, permission, disabled, userAudios, se
       const audioUrl = URL.createObjectURL(audioBlob);
       const blobResponse = await fetch(audioUrl);
       const blob = await blobResponse.blob();
-
       setAudioChunks([]);
       setUserAudios({
         ...userAudios,
@@ -39,7 +41,34 @@ const AudioRecorder = ({ audioName, stream, permission, disabled, userAudios, se
     };
 
     await mediaRecorder.current.stop();
+    setFinalTime(new Date().getTime());
   };
+
+  useEffect(() => {
+    setTime(finalTime - initialTime);
+
+  }, [finalTime])
+
+
+  useEffect(() => {
+    
+    //Get seconds and first two digits of milliseconds
+    let newTime = time/1000;
+    newTime = newTime.toFixed(2);
+    setUserData(
+      {
+        ...userData,
+        audiosData: {
+          ...userData.audiosData,
+          [audioName]: newTime
+        }
+      }
+  )
+  }, [time]);
+
+  useEffect(() => {
+  }, [userData.audiosData]);
+     
 
   const handleRestart = () => {
 
@@ -49,7 +78,9 @@ const AudioRecorder = ({ audioName, stream, permission, disabled, userAudios, se
       ...userAudios,
       [audioName]: null
     });
-
+    
+    setInitialTime(0);
+    setFinalTime(0);
   };
 
   return (

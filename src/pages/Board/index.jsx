@@ -6,12 +6,13 @@ import HelpSection from "../../components/HelpSection";
 import ProblemSection from "../../components/ProblemSection";
 import ButtonsSection from "../../components/ButtonsSection";
 import { ExercicesProvider } from "../../Context/ExercicesContext.js";
-/* import { useUser } from "../../Context/UserContext";
-import { useNavigate } from "react-router-dom";import { useEffect } from "react"; */
+import { useEffect } from "react";
+import { useUser } from "../../Context/UserContext";
+import { useNavigate } from "react-router-dom";
 export default function Board({}) {
 
-  /* const { userData } = useUser();
-  const navigate = useNavigate();
+  const { userData } = useUser();
+  /* const navigate = useNavigate();
 
    useEffect(() => {
     if (!userData.userId) {
@@ -19,6 +20,10 @@ export default function Board({}) {
     }
   }, [userData]); 
    */
+
+  useEffect(() => {
+    console.log('board',userData)
+  }, []);
 
   return (
       <ExercicesProvider>

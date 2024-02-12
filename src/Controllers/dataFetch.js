@@ -22,7 +22,6 @@ const updateData = (data, id) => {
 }
 
 const normalizeData = (data) => {
-    
     data.firstName = data.firstName.toLowerCase();
     data.lastName = data.lastName.toLowerCase();
     data.firstName = data.firstName.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');

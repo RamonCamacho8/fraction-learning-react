@@ -1,10 +1,10 @@
 import "chart.js/auto";
 import "./style.css";
-import { Pie } from "react-chartjs-2";
 import { useState } from "react";
 import { useLanguage } from "../../Context/LanguageContext";
 import { usePersonality } from "../../Context/PersonalityContext";
 import { useExercices } from "../../Context/ExercicesContext";
+import { useUser } from '../../Context/UserContext';
 import PieFraction from "../../lib/ui/Fractions/PieFraction.jsx";
 import NumericFraction from "../../lib/ui/Fractions/NumericFraction.jsx";
 import RadioInput from "../../lib/ui/Buttons/RadioInput.jsx";
@@ -29,7 +29,8 @@ function ResultPanel() {
 }
 
 function ProcedurePanel() {
-  let hasOpenness = usePersonality().openness;
+  const { userData } = useUser();
+  let hasOpenness = userData.personality.presentsOpenness;
   const { currentExercice } = useExercices();
   let fractions = currentExercice.fractions;
   let fractionsComponents = fractionComponentsGenerator({
@@ -57,18 +58,6 @@ function AnswersPanel() {
   });
 
 }
-
-
-function FractionNumberComponent({ numerador, denominador }) {
-  return (
-    <div className="fraction">
-      <div className="numerator">{numerador} </div>
-      <div className="divider">----</div>
-      <div className="denominator">{denominador} </div>
-    </div>
-  );
-}
-
 
 //Functions for fraction components
 function colorSelector({ colorOption }) {
@@ -119,7 +108,7 @@ function fractionComponentsGenerator({
               denominador={fraction[1]}
               color={colorSelector({ colorOption: colorType })}
             />
-            <div className="sum">+</div>
+            <div key={`${index} + symbol`} className="sum">+</div>
           </>)
 
         return(

@@ -35,4 +35,29 @@ const getPersonality_v2 = async () => {
 
 }
 
-export { getPersonality, getPersonality_v2 };
+
+const getPersonality_v3 = async (data) => {
+  //To be implemented
+  console.log(data);
+  const response = await fetch( `${endpointROOT}/personality_v3` ,{
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data)
+  });
+  
+  return response.json();
+
+  /* return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        presentsOpenness : true,
+        presentsNeuroticism : true
+      });
+    }, 1000);
+  }); */
+
+}
+
+export { getPersonality, getPersonality_v2, getPersonality_v3};

@@ -10,6 +10,7 @@ import AudioRecorder from "../../components/AudioRecorder";
 import { uploadAudios  } from "../../services/CloudStorage";
 import { Accordion } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import {  getPersonality_v3 } from "../../services/Personality";
 
 
 const Landing = () => {
@@ -21,11 +22,11 @@ const Landing = () => {
   },
   {
     name : "question-2",
-    question: "¿Cuál es tu materia favorita? ¿Por qué?"
+    question: "¿Cuál es tu materia favorita?"
   },
   {
     name : "question-3",
-    question: "¿Cuál es tu deporte favorito? ¿Por qué?"
+    question: "¿Cuál es tu deporte favorito?"
   }
   ]
 
@@ -55,27 +56,62 @@ const Landing = () => {
 
   }, []);
 
+  //
+  
+
+  
+
   const registerInformation = async (e) => {
     
 
     e.preventDefault();
     e.target.disabled = true;   
     setInfoButtonStatus('loading'); 
+
+
     await addData(userData).then((data) => {
       setUserData({...userData, userId: data.id});
       setInfoButtonStatus('done');
     });
+
+
   };
 
 
   const handleContinue = async (e) => {
     e.preventDefault();
     e.target.disabled = true;
-    setContinueButtonStatus('loading');
-    await uploadAudios(userAudios, userData.userId).then(() => {
+    setContinueButtonStatus('loading'); 
+
+    let audiosObject = {};
+    
+
+   /*  await uploadAudios(userAudios, userData.userId).then((URLS) => {
       setContinueButtonStatus('done');
-    });
-    navigate("/board");
+      audiosObject = {
+        audios : URLS
+      }
+      
+    }); */
+
+    const urls = await uploadAudios(userAudios, userData.userId);
+    console.log(urls);
+    setContinueButtonStatus('done');
+    audiosObject.audios = urls;
+    const personality =  await getPersonality_v3(audiosObject);
+    console.log(personality);
+    setUserData({...userData, personality: personality});
+    updateData({...userData, personality: personality}, userData.userId);
+    
+    
+    /* await getPersonality_v3().then((personality) => 
+      { setUserData({...userData, personality: personality});
+        updateData({...userData, personality: personality}, userData.userId);}
+    );
+ */
+    
+    
+    ///navigate("/board");
   }
 
   return (
