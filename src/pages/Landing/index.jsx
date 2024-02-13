@@ -69,8 +69,8 @@ const Landing = () => {
     setInfoButtonStatus('loading'); 
 
 
-    await addData(userData).then((data) => {
-      setUserData({...userData, userId: data.id});
+    addData(userData).then((data) => {
+      setUserData(prev => ({...prev, userId: data.id}));
       setInfoButtonStatus('done');
     });
 
@@ -86,32 +86,17 @@ const Landing = () => {
     let audiosObject = {};
     
 
-   /*  await uploadAudios(userAudios, userData.userId).then((URLS) => {
-      setContinueButtonStatus('done');
-      audiosObject = {
-        audios : URLS
-      }
-      
-    }); */
-
     const urls = await uploadAudios(userAudios, userData.userId);
-    console.log(urls);
-    setContinueButtonStatus('done');
+    //console.log(urls);
     audiosObject.audios = urls;
     const personality =  await getPersonality_v3(audiosObject);
     console.log(personality);
-    setUserData({...userData, personality: personality});
-    updateData({...userData, personality: personality}, userData.userId);
+    setUserData(prev => ({...prev, personality: personality}));
+    updateData(userData, userData.userId);
+    setContinueButtonStatus('done');
     
-    
-    /* await getPersonality_v3().then((personality) => 
-      { setUserData({...userData, personality: personality});
-        updateData({...userData, personality: personality}, userData.userId);}
-    );
- */
-    
-    
-    ///navigate("/board");
+
+    navigate("/board");
   }
 
   return (
