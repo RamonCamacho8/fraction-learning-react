@@ -11,7 +11,7 @@ import { uploadAudios  } from "../../services/CloudStorage";
 import { Accordion } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import {  getPersonality_v3 } from "../../services/Personality";
-
+import CustomAccordion from "../../lib/ui/CustomAccordion";
 
 const Form = () => {
 
@@ -107,7 +107,23 @@ const Form = () => {
         </header>
         {/*  <nav></nav> */}
         <section>
-          <Accordion  defaultActiveKey="0">
+          <CustomAccordion title="Instrucciones" >
+          <p>
+                Introduce tus datos personales en la sección <span>"Información del estudiante"</span>.
+              </p>
+              <p>
+                Contesta a las preguntas de la sección <span>"Preguntas"</span> con la mayor
+                sinceridad posible.
+              </p>
+              <p>Para ello:</p>
+              <ol>
+                <li>Lee la pregunta.</li>
+                <li>Cuando tengas lista tu respuesta, presiona <span>"Grabar"</span>.</li>
+                <li>Responde en voz alta la pregunta.</li>
+              </ol>
+            <p>Cuando termines, presiona <span>"Continuar"</span>. O si lo deseas, puedes regrabar tus respuestas.</p>
+          </CustomAccordion>
+          {/* <Accordion  defaultActiveKey="0">
             <Accordion.Item as={'article'} eventKey="0">
               <Accordion.Header>Instrucciones</Accordion.Header>
               <Accordion.Body className="section-content">
@@ -127,7 +143,7 @@ const Form = () => {
               <p>Cuando termines, presiona <span>"Continuar"</span>. O si lo deseas, puedes regrabar tus respuestas.</p>
               </Accordion.Body>
             </Accordion.Item>
-          </Accordion>
+          </Accordion> */}
           <article >
             <h2>Información del estudiante</h2>
             <div  className='section-content'>
