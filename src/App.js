@@ -1,9 +1,9 @@
 import { Routes, Route } from "react-router-dom";
-import { useState } from "react";
 import "./style.css";
 import Board from "./pages/Board";
 import Test from "./pages/Test";
 import Form from "./pages/Form";
+import Survey from "./pages/Survey";
 
 import { PersonalityProvider } from "./Context/PersonalityContext";
 import { LanguageProvider } from "./Context/LanguageContext";
@@ -25,6 +25,7 @@ function App() {
               <Route path="/board" element={ <Board /> } />
               <Route path="/test" element={<Test />} />
               <Route path="/form" element={<Form />} />
+              <Route path="/survey" element={<Survey />} />
             </Routes>
 
           </PersonalityProvider>
