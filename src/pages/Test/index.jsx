@@ -1,29 +1,58 @@
 import "./style.css";
-import { testAddDoc, testGetDocs } from "../../FirestoreTest";
-import { useEffect } from "react";
+import { testAddDoc, testGetDocs } from "../../services/Firestore";
+import { useState } from "react";
 
 const Test = () => {
 
-  /*useEffect(() => {
-    testGetDocs().then((response) => {
-      console.log(response);
-    });
-  }, []);*/
+  const [first, setFirst] = useState("");
+  const [last, setLast] = useState("");
+  const [born, setBorn] = useState(0);
+
+  //Load and image as a File from the assets folder
+  const image = new File(["./assets/images/fractions/1.png"], "1.png");
+  console.log(image);
 
   const handleTestAdd = () => {
-    const response = testAddDoc();
+    console.log(first, last, born);
+    console.log(typeof born);
+    const response = testAddDoc(first, last, parseInt(born));
     console.log(response);
   };
 
-  const handleTestGet = () => {
-    const response = testGetDocs();
-    console.log(response);
+  const handleImageUpload = async (e) => {
+
+    
+    
   };
+    
 
   return (
     <div className="container">
-      <button onClick={handleTestAdd}>Add Docs</button>
-      <button onClick={handleTestGet}>Get Docs</button>
+      <form>
+        <label>Nombre</label>
+        <input
+          type="text"
+          value={first}
+          onChange={(e) => setFirst(e.target.value)}
+        />
+        <label>Apellido</label>
+        <input
+          type="text"
+          value={last}
+          onChange={(e) => setLast(e.target.value)}
+        />
+        <label>Edad</label>
+        <input
+          type="number"
+          value={born}
+          onChange={(e) => {
+            setBorn(e.target.value)
+          }}
+        />
+      </form>
+      <br></br>
+      <button onClick={handleTestAdd}>Agregar</button>
+      <button onClick={handleImageUpload}>Subir imagen</button>
     </div>
   );
 };

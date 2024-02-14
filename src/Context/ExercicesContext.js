@@ -23,7 +23,6 @@ export const ExercicesProvider = (props) => {
             setCurrentExercice(exercices[currentExerciceIndex + 1]);
             setSelectedAnswer(null);
          
-
         }
 
     

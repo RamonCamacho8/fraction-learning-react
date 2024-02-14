@@ -9,7 +9,6 @@ const HeaderSection = () => {
   const Title = () => {
     return (
       <div className="title">
-        <h1>{headerTraduction.title}</h1>
         <h2>{headerTraduction.subject}</h2>
       </div>
     );
@@ -27,7 +26,6 @@ const HeaderSection = () => {
 
     return (
       <div className="date">
-        <h5>{headerTraduction.date}</h5>
         <h6>{fullDate}</h6>
       </div>
     );
@@ -36,21 +34,17 @@ const HeaderSection = () => {
   const Student = () => {
     return (
       <div className="student">
-        <h5>{headerTraduction.studentHolder}</h5>
-        <h6>Ramon Camacho</h6>
+        <h6>User's Name</h6>
       </div>
     );
   };
 
   return (
-    <div className="header-section">
-      
-      <div className="info">
+    <header>
         <Student />
         <ActualDate />
-      </div>
-      <Title />
-    </div>
+        <Title />
+    </header>
   );
 };
 

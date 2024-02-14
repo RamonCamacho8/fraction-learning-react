@@ -1,22 +1,17 @@
-import { useState, useRef } from "react";
-import { FaPlayCircle } from "react-icons/fa";
-import { FaCircleStop } from "react-icons/fa6";
+import { useState, useRef, useEffect } from "react";
 import { startRecording } from "../../utils/recordAudio";
-import { upload_audio } from "../../services/Audio";
-import { useLanguage } from "../../Context/LanguageContext";
-import { IoReloadCircle } from "react-icons/io5";
-
-const AudioRecorder = ({ audioName, stream, permission }) => {
+import { useUser } from "../../Context/UserContext";
+const AudioRecorder = ({ audioName, stream, permission, disabled, userAudios, setUserAudios }) => {
   const mediaRecorder = useRef(null);
   const [recordingStatus, setRecordingStatus] = useState("inactive");
   const [audioChunks, setAudioChunks] = useState([]);
-  const [audio, setAudio] = useState(null);
   const mimeType = "audio/mp3";
-  const { languageData } = useLanguage();
-
-  const audioTraduction = languageData["audio"];
-
+  const [initialTime, setInitialTime] = useState(0);
+  const [finalTime, setFinalTime] = useState(0);
+  const [time, setTime] = useState(0);
+  const { userData, setUserData } = useUser();
   const handleStart = () => {
+    setRecordingStatus("recording");
     startRecording(
       setRecordingStatus,
       setAudioChunks,
@@ -24,6 +19,7 @@ const AudioRecorder = ({ audioName, stream, permission }) => {
       mimeType,
       mediaRecorder
     );
+    setInitialTime(new Date().getTime());
   };
   const handleStop = async () => {
     //stopRecording(setRecordingStatus,setAudioChunks,setAudio, mediaRecorder, audioChunks, mimeType);
@@ -34,46 +30,80 @@ const AudioRecorder = ({ audioName, stream, permission }) => {
       const audioBlob = new Blob(audioChunks, { type: mimeType });
       //creates a playable URL from the blob file.
       const audioUrl = URL.createObjectURL(audioBlob);
-      console.log(1, audioUrl);
-      setAudio(audioUrl);
+      const blobResponse = await fetch(audioUrl);
+      const blob = await blobResponse.blob();
       setAudioChunks([]);
-      await upload_audio(audioUrl, audioName);
+      setUserAudios({
+        ...userAudios,
+        [audioName]: blob
+      });
+
     };
 
-    mediaRecorder.current.stop();
+    await mediaRecorder.current.stop();
+    setFinalTime(new Date().getTime());
   };
 
+  useEffect(() => {
+    setTime(finalTime - initialTime);
+
+  }, [finalTime])
+
+
+  useEffect(() => {
+    
+    //Get seconds and first two digits of milliseconds
+    let newTime = time/1000;
+    newTime = newTime.toFixed(2);
+    setUserData(
+      {
+        ...userData,
+        audiosData: {
+          ...userData.audiosData,
+          [audioName]: newTime
+        }
+      }
+  )
+  }, [time]);
+
+  useEffect(() => {
+  }, [userData.audiosData]);
+     
+
   const handleRestart = () => {
-    setAudio(null);
+
+    setRecordingStatus("inactive");
+
+    setUserAudios({
+      ...userAudios,
+      [audioName]: null
+    });
+    
+    setInitialTime(0);
+    setFinalTime(0);
   };
 
   return (
-    <div className="AudioRecorder">
-      {permission ? (
+    <>
+      {
         recordingStatus === "inactive" ? (
-          audio ? (
-            <button className="audio-button" onClick={handleRestart}>
-              <span className="badge bg-light ">
-              <i className="fi fi-sr-refresh"></i>
-              </span>
-              
+          userAudios[audioName] ? (
+            <button className="audio-button" onClick={handleRestart} disabled={!(permission && !disabled)}>
+              Reintentar
             </button>
           ) : (
-            <button className="audio-button" onClick={handleStart}>
-              <span className="badge bg-light ">
-              <i className="fi fi-sr-microphone"></i>
-              </span>
+            <button className="audio-button" style={{position:'relative'}} onClick={handleStart} disabled={!(permission && !disabled)}>
+              Grabar
             </button>
           )
         ) : (
-          <button className="audio-button" onClick={handleStop}>
-            <span className="badge bg-light">
-                <i className="fi fi-sr-pause "></i>
-            </span>
+          <button className="audio-button" onClick={handleStop} disabled={!(permission && !disabled)}>
+            Detener
           </button>
         )
-      ) : null}
-    </div>
+      }
+          
+    </>
   );
 };
 

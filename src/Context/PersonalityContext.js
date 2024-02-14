@@ -6,7 +6,7 @@ const PersonalityContext = createContext();
 
 export const PersonalityProvider = (props) => {
     
-    const [openness, setOpenness] = useState(true);
+    const [openness, setOpenness] = useState(false);
     const [neuroticism, setNeuroticism] = useState(true);
 
     return (

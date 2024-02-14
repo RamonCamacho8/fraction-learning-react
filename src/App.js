@@ -2,8 +2,8 @@ import { Routes, Route } from "react-router-dom";
 import { useState } from "react";
 import "./style.css";
 import Board from "./pages/Board";
-import Home from "./pages/Home";
 import Test from "./pages/Test";
+import Form from "./pages/Form";
 
 import { PersonalityProvider } from "./Context/PersonalityContext";
 import { LanguageProvider } from "./Context/LanguageContext";
@@ -17,17 +17,18 @@ function App() {
   return (
     <UserProvider>
       <StatsProvider>
-      <LanguageProvider>
-        <PersonalityProvider>
+        <LanguageProvider>
+          <PersonalityProvider>
 
-          <Routes>
-            <Route path="/" element={<Home  />} />
-            <Route path="/board" element={ <Board /> } />
-            <Route path="/test" element={<Test />} />
-          </Routes>
+            <Routes>
+              {/* <Route path="/" element={<Home  />} /> */}
+              <Route path="/board" element={ <Board /> } />
+              <Route path="/test" element={<Test />} />
+              <Route path="/form" element={<Form />} />
+            </Routes>
 
-        </PersonalityProvider>
-      </LanguageProvider>
+          </PersonalityProvider>
+        </LanguageProvider>
       </StatsProvider>
     </UserProvider>
   );

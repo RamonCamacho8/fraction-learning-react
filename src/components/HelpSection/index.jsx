@@ -30,10 +30,10 @@ export default function HelpSection(){
 
     return(
 
-        <div className="help-section">
-            <div className="help-text"> {traductionText} </div>
+        <section className="help-section">
+            <h4 style={{textAlign:'center'}}> {traductionText} </h4>
             <HelpComponent />
-        </div>
+        </section>
 
     );
 }
@@ -46,7 +46,6 @@ function HelpComponent(){
     const hasNeuroticism = usePersonality().neuroticism;
     const content = hasOpenness ? visualHelp : verbalHelp;
 
-    console.log('From HelpComponent',hasOpenness,hasNeuroticism);
 
 
     switch (hasNeuroticism){
@@ -108,7 +107,7 @@ function SequentialHelp({content}){
                 <button onClick={() => handleClick(-1)  } > {'<'} </button>
             </div>
             <div className="sequential-help-content">
-                <img className="sequential-help-image" src={actualContent} border="0"/>
+                <img className="figure-img img-fluid rounded" src={actualContent} border="0"/>
             </div>
             <div className="sequential-help-buttons">
                 <button  onClick={() => handleClick(1)}> {'>'} </button>
