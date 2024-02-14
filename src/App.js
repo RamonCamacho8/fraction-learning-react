@@ -3,7 +3,7 @@ import { useState } from "react";
 import "./style.css";
 import Board from "./pages/Board";
 import Test from "./pages/Test";
-import Landing from "./pages/Landing";
+import Form from "./pages/Form";
 
 import { PersonalityProvider } from "./Context/PersonalityContext";
 import { LanguageProvider } from "./Context/LanguageContext";
@@ -24,7 +24,7 @@ function App() {
               {/* <Route path="/" element={<Home  />} /> */}
               <Route path="/board" element={ <Board /> } />
               <Route path="/test" element={<Test />} />
-              <Route path="/" element={<Landing />} />
+              <Route path="/form" element={<Form />} />
             </Routes>
 
           </PersonalityProvider>

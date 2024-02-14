@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import {  getPersonality_v3 } from "../../services/Personality";
 
 
-const Landing = () => {
+const Form = () => {
 
   const navigate = useNavigate();
   const questions = [{
@@ -232,4 +232,4 @@ const Landing = () => {
   );
 };
 
-export default Landing;
+export default Form;
