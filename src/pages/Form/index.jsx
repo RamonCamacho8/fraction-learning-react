@@ -8,7 +8,6 @@ import { useState, useEffect, useRef } from "react";
 import { getMicrophonePermission } from "../../utils/recordAudio";
 import AudioRecorder from "../../components/AudioRecorder";
 import { uploadAudios  } from "../../services/CloudStorage";
-import { Accordion } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import {  getPersonality_v3 } from "../../services/Personality";
 import CustomAccordion from "../../lib/ui/CustomAccordion";
@@ -31,8 +30,7 @@ const Form = () => {
   ]
 
   const ref = useRef(null);
-  const {userData, setUserData}
-   = useUser();
+  const {userData, setUserData} = useUser();
   const [stream, setStream] = useState(null);
   const [permission, setPermission] = useState(false);
   const [userAudios, setUserAudios] = useState({});
@@ -55,19 +53,13 @@ const Form = () => {
 
 
   }, []);
-
-  //
-  
-
   
 
   const registerInformation = async (e) => {
     
-
     e.preventDefault();
     e.target.disabled = true;   
     setInfoButtonStatus('loading'); 
-
 
     addData(userData).then((data) => {
       setUserData(prev => ({...prev, userId: data.id}));
@@ -123,27 +115,6 @@ const Form = () => {
               </ol>
             <p>Cuando termines, presiona <span>"Continuar"</span>. O si lo deseas, puedes regrabar tus respuestas.</p>
           </CustomAccordion>
-          {/* <Accordion  defaultActiveKey="0">
-            <Accordion.Item as={'article'} eventKey="0">
-              <Accordion.Header>Instrucciones</Accordion.Header>
-              <Accordion.Body className="section-content">
-              <p>
-                Introduce tus datos personales en la sección <span>"Información del estudiante"</span>.
-              </p>
-              <p>
-                Contesta a las preguntas de la sección <span>"Preguntas"</span> con la mayor
-                sinceridad posible.
-              </p>
-              <p>Para ello:</p>
-              <ol>
-                <li>Lee la pregunta.</li>
-                <li>Cuando tengas lista tu respuesta, presiona <span>"Grabar"</span>.</li>
-                <li>Responde en voz alta la pregunta.</li>
-              </ol>
-              <p>Cuando termines, presiona <span>"Continuar"</span>. O si lo deseas, puedes regrabar tus respuestas.</p>
-              </Accordion.Body>
-            </Accordion.Item>
-          </Accordion> */}
           <article >
             <h2>Información del estudiante</h2>
             <div  className='section-content'>
@@ -240,9 +211,6 @@ const Form = () => {
               continueButtonStatus === 'done' ? <i className="fa-solid fa-check"></i> : ''
             }
           </button>
-         {/*  <button onClick={() => {}}>
-            <i className="fa fa-spinner fa-beat"></i>
-          </button> */}
         </section>
       </main>
   );

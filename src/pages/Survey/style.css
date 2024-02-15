@@ -1,7 +1,9 @@
 main.survey {
+
     background-color: white;
     font-family: 'Comic Neue', cursive;
-    height: 100dvh;  
+    width: 100lvw;
+    height: 100svh;  
     font-size: 24px;
     font-weight: 400;
 
