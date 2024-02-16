@@ -86,19 +86,15 @@ function Survey() {
   const handleSubmit = () => {
     setUserData(prev => ({...prev, survey: questionsObj}));
     
-    updateData(userData, userData.userId ||'xJpwfzb1sSRQizfZem3t')
   }
 
   useEffect(() => {
-    if(!didMount.current)
-      {
-        console.log(didMount.current)
-        console.log('Not updating on mount a')
-        didMount.current = true;
-        return
-      }
-    console.log('updating on mount b')
     
+    if(userData.survey){
+      updateData(userData, userData.userId).then(() => {
+        navigate("/form");
+      });
+    }
 
   }, [userData]);
 
