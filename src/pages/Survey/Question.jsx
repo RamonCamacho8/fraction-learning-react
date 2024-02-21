@@ -27,7 +27,7 @@ function Question ({text, questionIndex, handleAnswer, emojis}) {
 
 
     return (
-        <li>
+        <li className={`question ${selected ? 'answered' : ''}`} >
             <h3>{questionIndex+1+'.-'+text}</h3>
             <div className="options">
                 {

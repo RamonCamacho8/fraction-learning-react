@@ -18,6 +18,7 @@ const getMicrophonePermission = async (setPermission,setStream) => {
   };
 
   const startRecording = async (setRecordingStatus, setAudioChunks, stream, mimeType,mediaRecorder) => {
+    
     setRecordingStatus("recording");
     //create new Media recorder instance using the stream
     const media = new MediaRecorder(stream, { type: mimeType });
@@ -32,6 +33,7 @@ const getMicrophonePermission = async (setPermission,setStream) => {
       localAudioChunks.push(event.data);
     };
     setAudioChunks(localAudioChunks);
+
   };
 
   const stopRecording = (setRecordingStatus,setAudioChunks,setAudio, mediaRecorder, audioChunks, mimeType ) => {

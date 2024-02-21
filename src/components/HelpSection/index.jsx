@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useLanguage } from '../../Context/LanguageContext';
 import { usePersonality } from '../../Context/PersonalityContext';
+import { useUser } from '../../Context/UserContext';
 
 import './style.css'
 
@@ -41,9 +42,9 @@ export default function HelpSection(){
 
 
 function HelpComponent(){
-
-    const hasOpenness = usePersonality().openness;
-    const hasNeuroticism = usePersonality().neuroticism;
+    const { userData } = useUser();
+    const hasOpenness = userData.personality.openness.toLowerCase() === 'si' ? true : false;
+    const hasNeuroticism = userData.personality.neuroticism.toLowerCase() === 'si' ? true : false;
     const content = hasOpenness ? visualHelp : verbalHelp;
 
 

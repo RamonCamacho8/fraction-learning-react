@@ -1,7 +1,17 @@
 import { useState, useRef, useEffect } from "react";
 import { startRecording } from "../../utils/recordAudio";
 import { useUser } from "../../Context/UserContext";
-const AudioRecorder = ({ audioName, stream, permission, disabled, userAudios, setUserAudios }) => {
+
+const siblingsIds = [
+  "question-1-button",
+  "question-2-button",
+  "question-3-button"
+]
+
+
+const AudioRecorder = (props) => {
+  
+  const {audioName, stream, permission, disabled, userAudios, setUserAudios} = props;
   const mediaRecorder = useRef(null);
   const [recordingStatus, setRecordingStatus] = useState("inactive");
   const [audioChunks, setAudioChunks] = useState([]);
@@ -10,7 +20,34 @@ const AudioRecorder = ({ audioName, stream, permission, disabled, userAudios, se
   const [finalTime, setFinalTime] = useState(0);
   const [time, setTime] = useState(0);
   const { userData, setUserData } = useUser();
+  const [siblings, setSiblings] = useState([]);
+
+  useEffect (() => {
+
+    let elementsSiblings = []
+    siblingsIds.forEach(sibling => {
+      if(sibling !== audioName + '-button'){
+
+        elementsSiblings.push(document.getElementById(sibling));
+      }
+    });
+    setSiblings(elementsSiblings);
+    console.log(elementsSiblings);
+
+  }, []);
+    
+  const toggleButtons = (status) => {
+    siblings.forEach(element => {
+      element.disabled = status;
+    });
+  }
+  
   const handleStart = () => {
+
+    
+    toggleButtons(true);
+
+
     setRecordingStatus("recording");
     startRecording(
       setRecordingStatus,
@@ -20,10 +57,13 @@ const AudioRecorder = ({ audioName, stream, permission, disabled, userAudios, se
       mediaRecorder
     );
     setInitialTime(new Date().getTime());
+
   };
   const handleStop = async () => {
     //stopRecording(setRecordingStatus,setAudioChunks,setAudio, mediaRecorder, audioChunks, mimeType);
     setRecordingStatus("inactive");
+
+    toggleButtons(false);
 
     mediaRecorder.current.onstop = async () => {
       //creates a blob file from the audiochunks data
@@ -74,6 +114,8 @@ const AudioRecorder = ({ audioName, stream, permission, disabled, userAudios, se
 
     setRecordingStatus("inactive");
 
+    
+
     setUserAudios({
       ...userAudios,
       [audioName]: null
@@ -88,16 +130,16 @@ const AudioRecorder = ({ audioName, stream, permission, disabled, userAudios, se
       {
         recordingStatus === "inactive" ? (
           userAudios[audioName] ? (
-            <button className="audio-button" onClick={handleRestart} disabled={!(permission && !disabled)}>
+            <button id={audioName+'-button'} className="audio-button" onClick={handleRestart} disabled={!(permission && !disabled)}>
               Reintentar
             </button>
           ) : (
-            <button className="audio-button" style={{position:'relative'}} onClick={handleStart} disabled={!(permission && !disabled)}>
+            <button id={audioName+'-button'} className="audio-button" style={{position:'relative'}} onClick={handleStart} disabled={!(permission && !disabled)}>
               Grabar
             </button>
           )
         ) : (
-          <button className="audio-button" onClick={handleStop} disabled={!(permission && !disabled)}>
+          <button id={audioName+'-button'} className="audio-button" onClick={handleStop} disabled={!(permission && !disabled)}>
             Detener
           </button>
         )

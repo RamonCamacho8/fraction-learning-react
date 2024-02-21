@@ -4,6 +4,9 @@ import Board from "./pages/Board";
 import Test from "./pages/Test";
 import Form from "./pages/Form";
 import Survey from "./pages/Survey";
+import Home from "./pages/Home";
+
+import { useEffect } from "react";
 
 import { PersonalityProvider } from "./Context/PersonalityContext";
 import { LanguageProvider } from "./Context/LanguageContext";
@@ -14,6 +17,12 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
 
+  useEffect(() => {
+    document.addEventListener('contextmenu', event => {
+      event.preventDefault();
+  });
+  }, []);
+
   return (
     <UserProvider>
       <StatsProvider>
@@ -21,9 +30,9 @@ function App() {
           <PersonalityProvider>
 
             <Routes>
-              {/* <Route path="/" element={<Home  />} /> */}
+              <Route path="/" element={<Home  />} />
               <Route path="/board" element={ <Board /> } />
-              <Route path="/test" element={<Test />} />
+              {/* <Route path="/test" element={<Test />} /> */}
               <Route path="/form" element={<Form />} />
               <Route path="/survey" element={<Survey />} />
             </Routes>

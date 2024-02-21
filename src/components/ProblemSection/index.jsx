@@ -30,7 +30,9 @@ function ResultPanel() {
 
 function ProcedurePanel() {
   const { userData } = useUser();
-  let hasOpenness = userData.personality.presentsOpenness;
+  console.log(userData);
+  let hasOpenness = userData.personality.openness.toLowerCase() === 'si' ? true : false;
+  console.log(hasOpenness);
   const { currentExercice } = useExercices();
   let fractions = currentExercice.fractions;
   let fractionsComponents = fractionComponentsGenerator({
@@ -80,6 +82,7 @@ function colorSelector({ colorOption }) {
 }
 
 function fractionComponentSelector({ hasOpenness }) {
+
   switch (hasOpenness) {
     case true:
       return PieFraction;

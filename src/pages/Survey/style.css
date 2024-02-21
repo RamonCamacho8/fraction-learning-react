@@ -49,6 +49,19 @@ main.survey {
     }
 }
 
+
+li.question  {
+    margin: 10px 0;
+    border: 5px solid rgb(255, 255, 255);
+    border-radius: 10px;
+
+}
+
+li.question.answered{
+    border: 5px solid lightgreen;
+    border-radius: 10px;
+}
+
 div.options {
     box-shadow: none;
     display: flex;
@@ -57,7 +70,7 @@ div.options {
     padding: 5px;
 
     i {
-        opacity: 0.5;
+        opacity: 0.3;
         font-size: 50px;
         cursor: pointer;
         transition: 0.3s;

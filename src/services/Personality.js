@@ -1,5 +1,5 @@
-const endpointROOT = 'http://localhost:5000/api';
-
+//let endpointROOT = 'http://localhost:5000/api';
+let endpointROOT = 'https://apinet.hopto.org/fractionlearning'
 
 const getPersonality = async () => {
     let response_ = null;
@@ -48,15 +48,6 @@ const getPersonality_v3 = async (data) => {
   });
   
   return response.json();
-
-  /* return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve({
-        presentsOpenness : true,
-        presentsNeuroticism : true
-      });
-    }, 1000);
-  }); */
 
 }
 

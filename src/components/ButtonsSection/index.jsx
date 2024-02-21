@@ -53,6 +53,7 @@ export default function ButtonsSection(){
                         }else if(hastNextDifficulty()){
                             nextDifficulty();
                         }else{
+                            
                             navigate('/survey');
                         }
 

@@ -29,5 +29,11 @@ const normalizeData = (data) => {
     return data;
 }
 
+const normalizeString= (string) => {
+    string = string.toLowerCase();
+    string = string.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+    return string;
+}
 
-export { addData, updateData };
+
+export { addData, updateData, normalizeString};

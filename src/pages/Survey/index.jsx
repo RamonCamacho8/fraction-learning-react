@@ -5,17 +5,18 @@ import CustomAccordion from "../../lib/ui/CustomAccordion";
 import { useUser } from "../../Context/UserContext";
 import { updateData } from "../../Controllers/dataFetch";
 import { useNavigate } from "react-router-dom";
+
 const tamQuestions = [
-  "Pregunta 1",
-  "Pregunta 2",
-  "Pregunta 3",
-  "Pregunta 4",
-  "Pregunta 5",
-  "Pregunta 6",
-  "Pregunta 7",
-  "Pregunta 8",
-  "Pregunta 9",
-  "Pregunta 10",
+  "Usar las pantallas o menús de FractionLearning es fácil.",
+  "No necesito esforzarme para entender y usar FractionLearning.",
+  "Creo que lo que aprendo con FractionLearning es útil para mí.",
+  "FractionLearning me ayuda a entender mejor las fracciones.",
+  "Estoy dispuesto a utilizar FractionLearning de manera regular para mejorar mis habilidades en las fracciones.",
+  "Recomendaría FractionLearning a mis amigos que quieran mejorar sus conocimientos de las fracciones.",
+  "Disfruté usar FractionLearning para practicar fracciones.",
+  "Me gustó como se ve y funciona FractionLearning.",
+  "Aprender fracciones con FractionLearning es más interesante que en las clases normales.",
+  "Pienso que sería buena idea utilizar FractionLearning en el salón de clases."
 ]
 
 const emojis = [
@@ -49,11 +50,15 @@ const emojis = [
 function Survey() {
 
   const [questionsObj, setQuestionsObj] = useState(null);
+  const [comments, setComments] = useState('');
   const {userData, setUserData} = useUser();
-  const didMount = useRef(false);
   const navigate = useNavigate();
 
-  
+  useEffect(() => {
+    if (!userData.userId) {
+      navigate("/");
+    }
+  }, [userData]);
 
   useEffect(() => {
 
@@ -66,7 +71,7 @@ function Survey() {
     }, {});
 
     setQuestionsObj(questionsData);
-    console.log('userData at beginning',userData)
+    //console.log('userData at beginning',userData)
 
   }, []);
 
@@ -84,7 +89,7 @@ function Survey() {
   }
 
   const handleSubmit = () => {
-    setUserData(prev => ({...prev, survey: questionsObj}));
+    setUserData(prev => ({...prev, survey: questionsObj, comments: comments}));
     
   }
 
@@ -130,6 +135,10 @@ function Survey() {
                 }
               </ol>
             </div>
+            <form style={{display:'flex', flexDirection:'column', }}>
+              <label>Opiniones y sugerencias:</label>
+              <textarea value={comments} onChange={(e) => setComments(e.target.value)} placeholder="Escribe aquí tus comentarios"></textarea>
+            </form>
         </CustomAccordion>
         <article>
           <button disabled={

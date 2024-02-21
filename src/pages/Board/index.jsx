@@ -12,14 +12,14 @@ import { useNavigate } from "react-router-dom";
 export default function Board({}) {
 
   const { userData } = useUser();
-  /* const navigate = useNavigate();
+   const navigate = useNavigate();
 
-   useEffect(() => {
+  useEffect(() => {
     if (!userData.userId) {
       navigate("/");
     }
-  }, [userData]); 
-   */
+  }, [userData]);
+   
 
   useEffect(() => {
     console.log('board',userData)

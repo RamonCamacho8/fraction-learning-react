@@ -3,7 +3,7 @@ import "./style.css";
 
 
 import { useUser } from "../../Context/UserContext";
-import { addData, updateData } from "../../Controllers/dataFetch";
+import { addData, updateData, normalizeString } from "../../Controllers/dataFetch";
 import { useState, useEffect, useRef } from "react";
 import { getMicrophonePermission } from "../../utils/recordAudio";
 import AudioRecorder from "../../components/AudioRecorder";
@@ -15,17 +15,18 @@ import CustomAccordion from "../../lib/ui/CustomAccordion";
 const Form = () => {
 
   const navigate = useNavigate();
+  
   const questions = [{
     name : "question-1",
-    question: "¿Qué es lo que te motiva?"
+    question: "¿Qué es lo que te motiva y porqué?"
   },
   {
     name : "question-2",
-    question: "¿Cuál es tu materia favorita?"
+    question: "¿Cuál es tu materia favorita y porqué?"
   },
   {
     name : "question-3",
-    question: "¿Cuál es tu deporte favorito?"
+    question: "¿Qué actividad te gusta realizar más? ¿Por qué?"
   }
   ]
 
@@ -53,13 +54,26 @@ const Form = () => {
 
 
   }, []);
-  
+
+
 
   const registerInformation = async (e) => {
     
     e.preventDefault();
-    e.target.disabled = true;   
-    setInfoButtonStatus('loading'); 
+    e.target.disabled = true;
+    setInfoButtonStatus('loading');
+
+    if(!isDateValid(userData.birthDate)){
+      setUserData(prev => ({...prev, birthDate: ''}));
+      setInfoButtonStatus('standby');
+      e.target.disabled = false;
+      return;
+    }
+    
+    
+
+
+    
 
     addData(userData).then((data) => {
       setUserData(prev => ({...prev, userId: data.id}));
@@ -68,6 +82,45 @@ const Form = () => {
 
 
   };
+
+  const isDateValid = (date) => {
+
+    const birthDate = new Date(date);
+    const mixDate = new Date('1931-12-31');
+    const maxDate = new Date('2011-12-31');
+
+    if(birthDate < mixDate || birthDate > maxDate){
+      alert('La fecha de nacimiento no es válida');
+      return false;
+    }
+    return true;
+    
+  }
+
+
+  const handleInputNameChange = (e, key) => {
+
+    let string = e.target.value;
+    //Verify if the string contains numbers
+    if(string.match(/\d+/g)){
+      string = string.replace(/\d+/g, '');
+    }
+    //The string not contains any special character
+    if(string.match(/[^a-zA-Z\s]/g)){
+      string = string.replace(/[^a-zA-Z\s]/g, '');
+    }
+
+    //The String only contains a space just between words
+    if(string.match(/\s{2,}/g)){
+      string = string.replace(/\s{2,}/g, ' ');
+    }
+    //If the first character is a space, remove it
+    if(string.charAt(0) === ' '){
+      string = string.slice(1);
+    }
+    
+    setUserData({...userData, [key]: normalizeString(string)});
+  }
 
 
   const handleContinue = async (e) => {
@@ -100,20 +153,20 @@ const Form = () => {
         {/*  <nav></nav> */}
         <section>
           <CustomAccordion title="Instrucciones" >
-          <p>
-                Introduce tus datos personales en la sección <span>"Información del estudiante"</span>.
+              <p>
+                Introduce tus datos en la sección <span>"Información del estudiante"</span>.
               </p>
               <p>
-                Contesta a las preguntas de la sección <span>"Preguntas"</span> con la mayor
-                sinceridad posible.
+                Después, Responde a las preguntas de la sección <span>"Preguntas"</span>. 
               </p>
               <p>Para ello:</p>
               <ol>
                 <li>Lee la pregunta.</li>
                 <li>Cuando tengas lista tu respuesta, presiona <span>"Grabar"</span>.</li>
-                <li>Responde en voz alta la pregunta.</li>
+                <li>Responde en voz baja a la pregunta. </li>
+                <li>Presiona <span>"Detener"</span> cuando termines.</li>
               </ol>
-            <p>Cuando termines, presiona <span>"Continuar"</span>. O si lo deseas, puedes regrabar tus respuestas.</p>
+              <p>Cuando termines, presiona <span>"Continuar"</span>. O si lo deseas, puedes regrabar tus respuestas.</p>
           </CustomAccordion>
           <article >
             <h2>Información del estudiante</h2>
@@ -126,9 +179,11 @@ const Form = () => {
                       id="first"
                       type="text"
                       value={userData.firstName}
-                      onChange={(e) => setUserData({...userData, firstName: e.target.value})}
+                      onChange={(e) => handleInputNameChange(e, 'firstName')}
                       required
                       disabled={userData.userId}
+                      minLength={2}
+                      maxLength={25}
                     />
                   </div>
                   <div>
@@ -137,7 +192,9 @@ const Form = () => {
                       id="last"
                       type="text"
                       value={userData.lastName}
-                      onChange={(e) => setUserData({...userData, lastName: e.target.value})}
+                      onChange={(e) => handleInputNameChange(e, 'lastName')}
+                      minLength={2}
+                      maxLength={25}
                       required
                       disabled={userData.userId}
                     />
@@ -148,6 +205,10 @@ const Form = () => {
                       id="birth"
                       type="date"
                       selected={userData.birthDate}
+                      min='1931-12-31'
+                      max='2011-12-31'
+                      value={userData.birthDate}
+                      pattern="\d{2}-\d{2}-\d{4}"
                       onChange={e => setUserData({...userData, birthDate: e.target.value})}
                       required
                       disabled={userData.userId}
@@ -182,7 +243,7 @@ const Form = () => {
               <ul className="questions">
                 {questions.map((question) => {
                   return (
-                    <li key={question.name}>
+                    <li id={question.name}>
                       <span>{question.question}</span>
                       <AudioRecorder
                         stream={stream}

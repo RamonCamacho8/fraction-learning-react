@@ -1,11 +1,11 @@
 import { useLanguage } from "../../Context/LanguageContext.js";
 import "./style.css";
-
+import { useUser } from "../../Context/UserContext.js";
 const HeaderSection = () => {
     
   const { languageData } = useLanguage();
   const headerTraduction = languageData["board"].headerPanel;
-
+  const { userData } = useUser();
   const Title = () => {
     return (
       <div className="title">
@@ -34,7 +34,7 @@ const HeaderSection = () => {
   const Student = () => {
     return (
       <div className="student">
-        <h6>User's Name</h6>
+        <h6>{userData.firstName}</h6>
       </div>
     );
   };
