@@ -1,15 +1,13 @@
 import "chart.js/auto";
 import "./style.css";
 import { useState } from "react";
-import { useLanguage } from "../../Context/LanguageContext";
-import { usePersonality } from "../../Context/PersonalityContext";
 import { useExercices } from "../../Context/ExercicesContext";
 import { useUser } from '../../Context/UserContext';
 import PieFraction from "../../lib/ui/Fractions/PieFraction.jsx";
 import NumericFraction from "../../lib/ui/Fractions/NumericFraction.jsx";
 import RadioInput from "../../lib/ui/Buttons/RadioInput.jsx";
 
-function ProblemSection() {
+function ProblemSection(props) {
   return (
     <>
     
@@ -30,9 +28,9 @@ function ResultPanel() {
 
 function ProcedurePanel() {
   const { userData } = useUser();
-  console.log(userData);
-  let hasOpenness = userData.personality.openness.toLowerCase() === 'si' ? true : false;
-  console.log(hasOpenness);
+  
+  let hasOpenness = (userData.personality.openness?.toLowerCase() === 'si' ? true : false) || true;
+  
   const { currentExercice } = useExercices();
   let fractions = currentExercice.fractions;
   let fractionsComponents = fractionComponentsGenerator({

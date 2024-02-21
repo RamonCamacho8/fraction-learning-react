@@ -21,11 +21,7 @@ export const UserProvider = (props) => {
         genre : '',
         personality: {presentsOpenness : true,
                         presentsNeuroticism : false},
-        exercisesData: {
-            easy : {},
-            medium : {},
-            hard : {}
-        },
+        exercisesData: {},
         audiosData: {
             
         }

@@ -25,14 +25,14 @@ const visualHelp =[visual_step_1,visual_step_2,visual_step_3,visual_step_4,globa
 
 
 
-export default function HelpSection(){
+export default function HelpSection(props){
 
     const traductionText = useLanguage().languageData['board'].helpPanel;
 
     return(
 
         <section className="help-section">
-            <h4 style={{textAlign:'center'}}> {traductionText} </h4>
+            <h4 style={{textAlign:'center'}}> Panel de ayuda </h4>
             <HelpComponent />
         </section>
 
@@ -42,9 +42,10 @@ export default function HelpSection(){
 
 
 function HelpComponent(){
+    
     const { userData } = useUser();
-    const hasOpenness = userData.personality.openness.toLowerCase() === 'si' ? true : false;
-    const hasNeuroticism = userData.personality.neuroticism.toLowerCase() === 'si' ? true : false;
+    const hasOpenness = userData.personality.openness?.toLowerCase() === 'si' ? true : false || true;
+    const hasNeuroticism = userData.personality.neuroticism?.toLowerCase() === 'si' ? true : false || false;
     const content = hasOpenness ? visualHelp : verbalHelp;
 
 

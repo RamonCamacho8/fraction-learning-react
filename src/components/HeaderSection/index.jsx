@@ -3,13 +3,12 @@ import "./style.css";
 import { useUser } from "../../Context/UserContext.js";
 const HeaderSection = () => {
     
-  const { languageData } = useLanguage();
-  const headerTraduction = languageData["board"].headerPanel;
   const { userData } = useUser();
+  
   const Title = () => {
     return (
       <div className="title">
-        <h2>{headerTraduction.subject}</h2>
+        <h2>Suma de Fracciones</h2>
       </div>
     );
   };
@@ -20,7 +19,7 @@ const HeaderSection = () => {
     const month = date.getMonth();
     const year = date.getFullYear();
 
-    const months = headerTraduction.months;
+    const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
 
     let fullDate = `${day} / ${months[month]} / ${year}`;
 

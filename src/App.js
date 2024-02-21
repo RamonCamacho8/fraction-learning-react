@@ -12,23 +12,25 @@ import { PersonalityProvider } from "./Context/PersonalityContext";
 import { LanguageProvider } from "./Context/LanguageContext";
 import { UserProvider } from "./Context/UserContext";
 import { StatsProvider } from "./Context/StatsContext";
+import { ExercicesProvider } from "./Context/ExercicesContext.js";
+
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
 
-  useEffect(() => {
+  /* useEffect(() => {
     document.addEventListener('contextmenu', event => {
       event.preventDefault();
   });
-  }, []);
+  }, []); */
 
   return (
     <UserProvider>
       <StatsProvider>
         <LanguageProvider>
           <PersonalityProvider>
-
+            <ExercicesProvider>
             <Routes>
               <Route path="/" element={<Home  />} />
               <Route path="/board" element={ <Board /> } />
@@ -36,9 +38,10 @@ function App() {
               <Route path="/form" element={<Form />} />
               <Route path="/survey" element={<Survey />} />
             </Routes>
-
+            </ExercicesProvider>
           </PersonalityProvider>
         </LanguageProvider>
+        
       </StatsProvider>
     </UserProvider>
   );

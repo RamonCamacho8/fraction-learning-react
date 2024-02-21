@@ -105,9 +105,9 @@ const Form = () => {
     if(string.match(/\d+/g)){
       string = string.replace(/\d+/g, '');
     }
-    //The string not contains any special character
-    if(string.match(/[^a-zA-Z\s]/g)){
-      string = string.replace(/[^a-zA-Z\s]/g, '');
+    //The string not contains any special character but it does contains letters with accents
+    if(string.match(/[^a-zA-Z\sáéíóúÁÉÍÓÚ]+/g)){
+      string = string.replace(/[^a-zA-Z\sáéíóúÁÉÍÓÚ]+/g, '');
     }
 
     //The String only contains a space just between words
@@ -140,7 +140,6 @@ const Form = () => {
     updateData(userData, userData.userId);
     setContinueButtonStatus('done');
     
-
     navigate("/board");
   }
 

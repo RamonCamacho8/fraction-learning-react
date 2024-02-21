@@ -6,7 +6,6 @@ const ExercicesContext = createContext();
 export const ExercicesProvider = (props) => {
 
         const availableDifficulties = getDifficulties();
-
         const [difficulty, setDifficulty] = useState('easy'); // ['easy', 'medium', 'hard']
         const [exercices, setExercices] = useState(getExercices()[difficulty]);
         const [currentExerciceIndex, setCurrentExerciceIndex] = useState(0);
