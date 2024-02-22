@@ -27,8 +27,6 @@ const visualHelp =[visual_step_1,visual_step_2,visual_step_3,visual_step_4,globa
 
 export default function HelpSection(props){
 
-    const traductionText = useLanguage().languageData['board'].helpPanel;
-
     return(
 
         <section className="help-section">
@@ -106,13 +104,17 @@ function SequentialHelp({content}){
     return (
         <div className="sequential-help">
             <div className="sequential-help-buttons">
-                <button onClick={() => handleClick(-1)  } > {'<'} </button>
+                <button onClick={() => handleClick(-1) } disabled={
+                    actualStep === 0 ? true : false
+                } > {'<'} </button>
             </div>
             <div className="sequential-help-content">
                 <img className="figure-img img-fluid rounded" src={actualContent} border="0"/>
             </div>
             <div className="sequential-help-buttons">
-                <button  onClick={() => handleClick(1)}> {'>'} </button>
+                <button  onClick={() => handleClick(1)} disabled={
+                    actualStep === content.length - 1 ? true : false
+                } > {'>'} </button>
             </div>
         </div>
     );

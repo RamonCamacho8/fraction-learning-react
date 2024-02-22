@@ -2,7 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getStorage, ref } from "firebase/storage";
-
+import { enviroment } from "./Persistence/config";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -26,7 +26,9 @@ const app = initializeApp(firebaseConfig);
 const firestore = getFirestore(app);
 const storage = getStorage(app);
 
-const audioStorageRef = ref(storage, 'audios');
+
+
+const audioStorageRef = ref(storage, enviroment);
 const imageStorageRef = ref(storage, 'images');
 
 export { firestore,audioStorageRef, imageStorageRef};

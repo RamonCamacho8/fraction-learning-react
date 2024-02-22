@@ -1,7 +1,9 @@
 import {collection, addDoc, getDocs, setDoc, doc} from "firebase/firestore";
 import { firestore } from "../firebase";
+import { enviroment } from "../Persistence/config"; 
+//It can vary depending on the name of the folder in the firebase
 
-let firebaseFolder = 'first_test_records';
+let firebaseFolder = enviroment;
 
 const testAddDoc = async (first = 'Ada', last='Lovelace', born= 1815) => {
   

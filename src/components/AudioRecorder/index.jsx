@@ -32,7 +32,6 @@ const AudioRecorder = (props) => {
       }
     });
     setSiblings(elementsSiblings);
-    console.log(elementsSiblings);
 
   }, []);
     
@@ -44,9 +43,7 @@ const AudioRecorder = (props) => {
   
   const handleStart = () => {
 
-    
     toggleButtons(true);
-
 
     setRecordingStatus("recording");
     startRecording(
@@ -91,7 +88,6 @@ const AudioRecorder = (props) => {
 
 
   useEffect(() => {
-    
     //Get seconds and first two digits of milliseconds
     let newTime = time/1000;
     newTime = newTime.toFixed(2);
@@ -113,8 +109,6 @@ const AudioRecorder = (props) => {
   const handleRestart = () => {
 
     setRecordingStatus("inactive");
-
-    
 
     setUserAudios({
       ...userAudios,

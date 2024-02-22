@@ -245,6 +245,7 @@ const Form = () => {
                     <li id={question.name}>
                       <span>{question.question}</span>
                       <AudioRecorder
+                        key={question.name}
                         stream={stream}
                         permission={permission}
                         audioName={question.name}

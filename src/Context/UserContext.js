@@ -22,21 +22,11 @@ export const UserProvider = (props) => {
         personality: {presentsOpenness : true,
                         presentsNeuroticism : false},
         exercisesData: {},
-        audiosData: {
-            
-        }
+        audiosData: {}
     });
 
     return (
-        <UserContext.Provider value={{userName, setUserName,
-        first,setFirst,
-        last,setLast,
-        age,setAge,
-        genre, setGenre,
-        id, setId,
-        birth, setBirth,
-        userData, setUserData }}>
-            
+        <UserContext.Provider value={{userData, setUserData }}>
             {props.children}
         </UserContext.Provider>
     );

@@ -8,9 +8,11 @@ import NumericFraction from "../../lib/ui/Fractions/NumericFraction.jsx";
 import RadioInput from "../../lib/ui/Buttons/RadioInput.jsx";
 
 function ProblemSection(props) {
+
+  
+
   return (
     <>
-    
       <ProcedurePanel />
       <h4>Elige la respueta correcta:</h4>
       <ResultPanel />
@@ -19,10 +21,16 @@ function ProblemSection(props) {
 }
 
 function ResultPanel() {
-  const answerComponents = AnswersPanel();
+
+  const { currentExercice, setSelectedAnswer } = useExercices();
+  const answerOptions = currentExercice.options;
 
   return (
-      <section className="answers"> {answerComponents} </section>
+      <section className="answers"> {answerOptions.map((option, index) => {
+        return (
+          <RadioInput key={index + "-" + option} value={option} id={index} setSelectedAnswer={setSelectedAnswer} />
+        );
+      })} </section>
   );
 }
 
@@ -45,18 +53,6 @@ function ProcedurePanel() {
       {fractionsComponents}
     </section>
   );
-}
-
-function AnswersPanel() {
-  const { currentExercice, setSelectedAnswer } = useExercices();
-  const answerOptions = currentExercice.options;
-
-  return answerOptions.map((option, index) => {
-    return (
-      <RadioInput key={index + "-" + option} value={option} id={index} setSelectedAnswer={setSelectedAnswer} />
-    );
-  });
-
 }
 
 //Functions for fraction components

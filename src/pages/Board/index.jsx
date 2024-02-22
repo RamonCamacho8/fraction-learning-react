@@ -1,4 +1,8 @@
 import "./style.css";
+import correctAudio from "../../assets/sfx/correct.mp3";
+import wrongAudio from "../../assets/sfx/wrong.mp3";
+import tickAudio from "../../assets/sfx/tick.mp3";
+import tackAudio from "../../assets/sfx/tack.mp3";
 
 import StatsSection from "../../components/StatsSection";
 import HeaderSection from "../../components/HeaderSection";
@@ -6,11 +10,17 @@ import HelpSection from "../../components/HelpSection";
 import ProblemSection from "../../components/ProblemSection";
 import ButtonsSection from "../../components/ButtonsSection";
 import { useExercices } from "../../Context/ExercicesContext.js";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useUser } from "../../Context/UserContext";
 import { useNavigate } from "react-router-dom";
 import { isCorrectAnswer } from "../../Controllers/ExercicesController.js";
 import { updateData } from "../../Controllers/dataFetch.js";
+
+
+const correctSound = new Audio(correctAudio);
+const wrongSound = new Audio(wrongAudio);
+const tick = new Audio(tickAudio);
+const tack = new Audio(tackAudio);
 
 export default function Board({}) {
 
@@ -23,25 +33,34 @@ export default function Board({}) {
   const [exercisesData, setExercisesData] = useState({});
   const [isTimeRunning, setIsTimeRunning] = useState(true);
   const [isFinished, setIsFinished] = useState(false);
+  const [isTick, setIsTick] = useState(false);
+  const checkRef = useRef(null);
+  const nextRef = useRef(null);
+  
 
   const { selectedAnswer, currentExerciceIndex,
           difficulty, currentExercice,
           hasNextExercice, nextExercice,
           hastNextDifficulty, nextDifficulty} = useExercices();
 
-  /* useEffect(() => {
+  useEffect(() => {
     if (!userData.userId) {
       navigate("/");
     }
-  }, [userData]); */
+  }, [userData]); 
 
-  //Counter for time.
   
-   
-  const handleCheck = () => {
+  const handleCheck = (e) => {
+      
+      checkRef.current.style.transition =  'color 0.5s';
+      
+      setTrys(trys+1);
 
       if(isCorrectAnswer(selectedAnswer, currentExercice)){
+        correctSound.load();
+        correctSound.play();
         setIsCorrect(true);
+        checkRef.current.style.color = 'green';
         setExercisesData((prevData) => {
           return {
             ...prevData,
@@ -55,12 +74,19 @@ export default function Board({}) {
           };
         });
         setIsTimeRunning(false);     
-
       }
-      setTrys(trys+1);
-          
+      else {
+        
+        wrongSound.load();
+        wrongSound.play();
+        checkRef.current.style.color = 'red';
 
+        setIsCorrect(false);
+      }
+
+      //checkRef.current.style.color =  'white';
   }
+
   const resetForNextExercice = () => {
     setIsTimeRunning(true);
     setIsCorrect(false);
@@ -70,6 +96,7 @@ export default function Board({}) {
 
   const handleNext = () => {
     
+    checkRef.current.style.color = 'white';
     //Check is there are more exercises
     if(hasNextExercice()){
       nextExercice();
@@ -88,17 +115,31 @@ export default function Board({}) {
     }
     
   }
-  /* --------------------------------------------- UseEffects ---------------------------------------------*/
+  /*--------------------------------------------- UseEffects ---------------------------------------------*/
   useEffect(() => {
     let intervalId;
     
     // setting time from 0 to 1 every 10 milisecond using javascript setInterval method
-    if (isTimeRunning)
+    if (isTimeRunning){
+
+      if(isTick){
+        tick.play();
+        setIsTick(false);
+      } else {
+        tack.play();
+        setIsTick(true);
+      }
+
       intervalId = setInterval(() => setTime(time + 1), 1000);
+    }
+      
     
     return () => clearInterval(intervalId);
   }, [isTimeRunning, time]);
 
+  useEffect(()=>{
+    checkRef.current.style.color =  'white';
+  },[selectedAnswer])
 
   useEffect(() => {
     if(isFinished){
@@ -114,14 +155,12 @@ export default function Board({}) {
   useEffect(()=>{
     
    if(!(JSON.stringify(userData.exercisesData) === '{}' || !userData.exercisesData)){
-    console.log('Data updated')
-    //updateData(userData.userId, userData.exercisesData);
+    console.log('Data updated', userData.exercisesData)
+    updateData( userData, userData.userId);
    }
     
-
   },[userData.exercisesData]);
 
-  
   /* -------------------------------------------------------------------------------------------------------*/
 
   return (
@@ -131,7 +170,7 @@ export default function Board({}) {
             <StatsSection time={time} trys={trys} difficulty={difficulty} />
             <h4>Resuelve la siguiente suma:</h4>
             <ProblemSection />
-            <ButtonsSection onCheck={handleCheck} onNext={handleNext} isCorrect={isCorrect} />
+            <ButtonsSection onCheck={handleCheck} onNext={handleNext} isCorrect={isCorrect} nextRef={nextRef} checkRef={checkRef} />
             <HelpSection  />
           </div>
         </main>
