@@ -96,10 +96,14 @@ const AudioRecorder = (props) => {
         ...userData,
         audiosData: {
           ...userData.audiosData,
-          [audioName]: newTime
+          [audioName]: {
+            ...userData.audiosData[audioName],
+            time: newTime
+          }
         }
       }
   )
+
   }, [time]);
 
   useEffect(() => {

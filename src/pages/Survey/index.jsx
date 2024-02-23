@@ -97,7 +97,7 @@ function Survey() {
     
     if(userData.survey){
       updateData(userData, userData.userId).then(() => {
-        navigate("/form");
+        navigate("/finish");
       });
     }
 

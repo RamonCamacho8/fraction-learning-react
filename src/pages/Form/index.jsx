@@ -32,6 +32,10 @@ const Form = () => {
 
   const ref = useRef(null);
   const {userData, setUserData} = useUser();
+
+  
+
+
   const [stream, setStream] = useState(null);
   const [permission, setPermission] = useState(false);
   const [userAudios, setUserAudios] = useState({});
@@ -70,11 +74,7 @@ const Form = () => {
       return;
     }
     
-    
-
-
-    
-
+  
     addData(userData).then((data) => {
       setUserData(prev => ({...prev, userId: data.id}));
       setInfoButtonStatus('done');
@@ -87,7 +87,7 @@ const Form = () => {
 
     const birthDate = new Date(date);
     const mixDate = new Date('1931-12-31');
-    const maxDate = new Date('2011-12-31');
+    const maxDate = new Date('2015-12-31');
 
     if(birthDate < mixDate || birthDate > maxDate){
       alert('La fecha de nacimiento no es válida');
@@ -132,11 +132,11 @@ const Form = () => {
     
 
     const urls = await uploadAudios(userAudios, userData.userId);
-    //console.log(urls);
     audiosObject.audios = urls;
-    const personality =  await getPersonality_v3(audiosObject);
-    console.log(personality);
-    setUserData(prev => ({...prev, personality: personality}));
+    const data =  await getPersonality_v3(audiosObject);
+
+  
+    setUserData(prev => ({...prev, personality: data.personality}));
     updateData(userData, userData.userId);
     setContinueButtonStatus('done');
     
@@ -205,7 +205,7 @@ const Form = () => {
                       type="date"
                       selected={userData.birthDate}
                       min='1931-12-31'
-                      max='2011-12-31'
+                      max='2015-12-31'
                       value={userData.birthDate}
                       pattern="\d{2}-\d{2}-\d{4}"
                       onChange={e => setUserData({...userData, birthDate: e.target.value})}

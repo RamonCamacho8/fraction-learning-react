@@ -83,8 +83,6 @@ export default function Board({}) {
 
         setIsCorrect(false);
       }
-
-      //checkRef.current.style.color =  'white';
   }
 
   const resetForNextExercice = () => {
@@ -156,7 +154,9 @@ export default function Board({}) {
     
    if(!(JSON.stringify(userData.exercisesData) === '{}' || !userData.exercisesData)){
     console.log('Data updated', userData.exercisesData)
-    updateData( userData, userData.userId);
+    updateData( userData, userData.userId).then(() => {
+      navigate("/survey");
+    });
    }
     
   },[userData.exercisesData]);

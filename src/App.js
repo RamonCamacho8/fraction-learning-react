@@ -5,7 +5,7 @@ import Test from "./pages/Test";
 import Form from "./pages/Form";
 import Survey from "./pages/Survey";
 import Home from "./pages/Home";
-
+import Finish from "./pages/Finish";
 import { useEffect } from "react";
 
 import { PersonalityProvider } from "./Context/PersonalityContext";
@@ -35,6 +35,7 @@ function App() {
               <Route path="/" element={<Home  />} />
               <Route path="/board" element={ <Board /> } />
               {/* <Route path="/test" element={<Test />} /> */}
+              <Route path="/finish" element={<Finish />} />
               <Route path="/form" element={<Form />} />
               <Route path="/survey" element={<Survey />} />
             </Routes>

@@ -10,9 +10,6 @@ import { GoStopwatch } from "react-icons/go";
 import { GoStop } from "react-icons/go";
 import { GoMortarBoard } from "react-icons/go";
 
-
-
-
 export default function StatsSection(props){
     
     const { languageData } = useLanguage();
