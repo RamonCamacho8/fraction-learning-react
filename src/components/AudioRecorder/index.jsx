@@ -8,7 +8,6 @@ const siblingsIds = [
   "question-3-button"
 ]
 
-
 const AudioRecorder = (props) => {
   
   const {audioName, stream, permission, disabled, userAudios, setUserAudios} = props;
@@ -18,7 +17,7 @@ const AudioRecorder = (props) => {
   const mimeType = "audio/mp3";
   const [initialTime, setInitialTime] = useState(0);
   const [finalTime, setFinalTime] = useState(0);
-  const [time, setTime] = useState(0);
+  const [time, setTime] = useState(null);
   const { userData, setUserData } = useUser();
   const [siblings, setSiblings] = useState([]);
 
@@ -83,26 +82,27 @@ const AudioRecorder = (props) => {
 
   useEffect(() => {
     setTime(finalTime - initialTime);
-
   }, [finalTime])
 
 
   useEffect(() => {
     //Get seconds and first two digits of milliseconds
-    let newTime = time/1000;
-    newTime = newTime.toFixed(2);
-    setUserData(
-      {
-        ...userData,
-        audiosData: {
-          ...userData.audiosData,
-          [audioName]: {
-            ...userData.audiosData[audioName],
-            time: newTime
+    if(time) {
+      let newTime = time/1000;
+      newTime = newTime.toFixed(2);
+      setUserData(
+        {
+          ...userData,
+          audiosData: {
+            ...userData.audiosData,
+            [audioName]: {
+              ...userData.audiosData[audioName],
+              time: newTime
+            }
           }
         }
-      }
-  )
+      );
+    }
 
   }, [time]);
 

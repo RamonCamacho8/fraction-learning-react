@@ -12,11 +12,11 @@ function Finish() {
     const navigate = useNavigate();
 
 
-    /* useEffect(() => {
+     useEffect(() => {
         if (!userData.userId) {
           navigate("/");
         }
-      }, [userData]); */
+      }, [userData]); 
 
     const handleClick = () => {
 

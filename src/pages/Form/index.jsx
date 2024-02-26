@@ -3,43 +3,55 @@ import "./style.css";
 
 
 import { useUser } from "../../Context/UserContext";
-import { addData, updateData, normalizeString } from "../../Controllers/dataFetch";
-import { useState, useEffect, useRef } from "react";
+import { addData, updateData } from "../../Controllers/dataFetch";
+import { useState, useEffect } from "react";
 import { getMicrophonePermission } from "../../utils/recordAudio";
 import AudioRecorder from "../../components/AudioRecorder";
 import { uploadAudios  } from "../../services/CloudStorage";
 import { useNavigate } from "react-router-dom";
 import {  getPersonality_v3 } from "../../services/Personality";
+import { stringNormalizer, isDateValid, nameNormalizer } from "../../utils/formValidations";
 import CustomAccordion from "../../lib/ui/CustomAccordion";
+
+const questions = [{
+  name : "question-1",
+  question: "¿Qué es lo que te motiva y porqué?"
+},
+{
+  name : "question-2",
+  question: "¿Cuál es tu materia favorita y porqué?"
+},
+{
+  name : "question-3",
+  question: "¿Qué actividad te gusta realizar más? ¿Por qué?"
+}
+]
+
+const minDate = '1931-12-31';
+const maxDate = '2015-12-31';
 
 const Form = () => {
 
   const navigate = useNavigate();
-  
-  const questions = [{
-    name : "question-1",
-    question: "¿Qué es lo que te motiva y porqué?"
-  },
-  {
-    name : "question-2",
-    question: "¿Cuál es tu materia favorita y porqué?"
-  },
-  {
-    name : "question-3",
-    question: "¿Qué actividad te gusta realizar más? ¿Por qué?"
-  }
-  ]
-
-  const ref = useRef(null);
   const {userData, setUserData} = useUser();
 
-  
+  const [userInfo, setUserInfo] = useState({
+    firstName: '',
+    lastName: '',
+    birthDate: '',
+    genre: '',
+  });
+
 
 
   const [stream, setStream] = useState(null);
   const [permission, setPermission] = useState(false);
   const [userAudios, setUserAudios] = useState({});
+
+  const [infoButtonClicked, setInfoButtonClicked] = useState(false);
   const [infoButtonStatus, setInfoButtonStatus] = useState('standby');
+
+  const [continueButtonClicked, setContinueButtonClicked] = useState(false);
   const [continueButtonStatus, setContinueButtonStatus] = useState('standby');
 
   useEffect(() => {
@@ -50,82 +62,63 @@ const Form = () => {
       acc[question] = null;
       return acc;
     }, {});
-
     setUserAudios({
-      ...userAudios,
       ...areSendedData
     });
 
-
   }, []);
 
-
-
-  const registerInformation = async (e) => {
+  const handleRecord = () => {
     
-    e.preventDefault();
-    e.target.disabled = true;
-    setInfoButtonStatus('loading');
-
-    if(!isDateValid(userData.birthDate)){
-      setUserData(prev => ({...prev, birthDate: ''}));
-      setInfoButtonStatus('standby');
-      e.target.disabled = false;
-      return;
-    }
-    
-  
-    addData(userData).then((data) => {
-      setUserData(prev => ({...prev, userId: data.id}));
-      setInfoButtonStatus('done');
-    });
-
-
   };
 
-  const isDateValid = (date) => {
+  const registerInformation = async (e) => {
 
-    const birthDate = new Date(date);
-    const mixDate = new Date('1931-12-31');
-    const maxDate = new Date('2015-12-31');
-
-    if(birthDate < mixDate || birthDate > maxDate){
+    e.preventDefault();
+    
+    if(!isDateValid(userInfo.birthDate, minDate, maxDate)){
       alert('La fecha de nacimiento no es válida');
-      return false;
+      setUserInfo(prev => ({...prev, birthDate: ''}));
+      return;
     }
-    return true;
+
+    setInfoButtonStatus('loading');
+    e.target.disabled = true;
+    setInfoButtonClicked(true);
+
+    setUserData(prev => ({...prev, userInfo: {...userInfo}}));
+  };
+
+  useEffect(() => {
     
-  }
+    if(infoButtonClicked)
+      {
+        addData(userData).then((data) => {
+          setUserData(prev => ({...prev, userId: data.id}));
+          setInfoButtonStatus('done');
+          console.log(data.id)
+        });
+        setInfoButtonClicked(false);
+      }
+
+  }, [infoButtonClicked]);
 
 
-  const handleInputNameChange = (e, key) => {
-
-    let string = e.target.value;
-    //Verify if the string contains numbers
-    if(string.match(/\d+/g)){
-      string = string.replace(/\d+/g, '');
+  const handleUserInfoChange = (e) => {
+    let value = e.target.value;
+    if(e.target.id === 'firstName' || e.target.id === 'lastName'){
+      value = stringNormalizer(value);
+      value = nameNormalizer(value);
     }
-    //The string not contains any special character but it does contains letters with accents
-    if(string.match(/[^a-zA-Z\sáéíóúÁÉÍÓÚ]+/g)){
-      string = string.replace(/[^a-zA-Z\sáéíóúÁÉÍÓÚ]+/g, '');
-    }
-
-    //The String only contains a space just between words
-    if(string.match(/\s{2,}/g)){
-      string = string.replace(/\s{2,}/g, ' ');
-    }
-    //If the first character is a space, remove it
-    if(string.charAt(0) === ' '){
-      string = string.slice(1);
-    }
-    
-    setUserData({...userData, [key]: normalizeString(string)});
+    setUserInfo(prev => ({...prev, [e.target.id]: value}));
   }
 
 
   const handleContinue = async (e) => {
     e.preventDefault();
-    e.target.disabled = true;
+
+
+    /* e.target.disabled = true;
     setContinueButtonStatus('loading'); 
 
     let audiosObject = {};
@@ -140,7 +133,7 @@ const Form = () => {
     updateData(userData, userData.userId);
     setContinueButtonStatus('done');
     
-    navigate("/board");
+    navigate("/board"); */
   }
 
   return (
@@ -173,12 +166,12 @@ const Form = () => {
               <form>
                 <div className="inputs">
                   <div>
-                    <label htmlFor="first"> Nombre: </label>
+                    <label htmlFor="firstName"> Nombre: </label>
                     <input
-                      id="first"
+                      id="firstName"
                       type="text"
-                      value={userData.firstName}
-                      onChange={(e) => handleInputNameChange(e, 'firstName')}
+                      value={userInfo.firstName}
+                      onChange={handleUserInfoChange}
                       required
                       disabled={userData.userId}
                       minLength={2}
@@ -186,12 +179,12 @@ const Form = () => {
                     />
                   </div>
                   <div>
-                    <label htmlFor="last"> Apellido: </label>
+                    <label htmlFor="lastName"> Apellido: </label>
                     <input
-                      id="last"
+                      id="lastName"
                       type="text"
-                      value={userData.lastName}
-                      onChange={(e) => handleInputNameChange(e, 'lastName')}
+                      value={userInfo.lastName}
+                      onChange={handleUserInfoChange}
                       minLength={2}
                       maxLength={25}
                       required
@@ -199,23 +192,22 @@ const Form = () => {
                     />
                   </div>
                   <div>
-                    <label htmlFor="birth"> Fecha de nacimiento: </label>
+                    <label htmlFor="birthDate"> Fecha de nacimiento: </label>
                     <input
-                      id="birth"
+                      id="birthDate"
                       type="date"
-                      selected={userData.birthDate}
-                      min='1931-12-31'
-                      max='2015-12-31'
-                      value={userData.birthDate}
-                      pattern="\d{2}-\d{2}-\d{4}"
-                      onChange={e => setUserData({...userData, birthDate: e.target.value})}
+                      selected={userInfo.birthDate}
+                      min={minDate}
+                      max={maxDate}
+                      value={userInfo.birthDate}
+                      onChange={handleUserInfoChange}
                       required
                       disabled={userData.userId}
                     />
                   </div>
                   <div>
                     <label htmlFor="genre" > Género: </label>
-                    <select id="genre" onChange={e => setUserData({...userData, genre: e.target.value}) } required disabled={userData.userId}>
+                    <select id="genre" onChange={handleUserInfoChange} required disabled={userData.userId}>
                       <option value="">Selecciona una opción</option>
                       <option value="M">Masculino</option>
                       <option value="F">Femenino</option>
@@ -224,7 +216,8 @@ const Form = () => {
                   </div>
                 </div>
                 <button type="button" onClick={registerInformation} 
-                  disabled={(!(userData.firstName && userData.lastName && userData.birthDate && userData.genre && !userData.userId))} >
+                  disabled={(!( userInfo.firstName && userInfo.lastName && 
+                                userInfo.birthDate && userInfo.genre && !userData.userId))} >
                   
                   {
                     infoButtonStatus === 'standby' ? 'Confirmar Datos.' : 
@@ -236,13 +229,13 @@ const Form = () => {
               </form>
             </div>
           </article>
-          <article ref={ref}>
+          <article>
             <h2>Preguntas</h2>
             <div className='section-content' >
               <ul className="questions">
                 {questions.map((question) => {
                   return (
-                    <li id={question.name}>
+                    <li key={question.name} id={question.name}>
                       <span>{question.question}</span>
                       <AudioRecorder
                         key={question.name}
