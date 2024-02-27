@@ -43,11 +43,11 @@ export default function Board({}) {
           hasNextExercice, nextExercice,
           hastNextDifficulty, nextDifficulty} = useExercices();
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (!userData.userId) {
       navigate("/");
     }
-  }, [userData]); 
+  }, [userData]);  */
 
   
   const handleCheck = (e) => {

@@ -54,11 +54,11 @@ function Survey() {
   const {userData, setUserData} = useUser();
   const navigate = useNavigate();
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (!userData.userId) {
       navigate("/");
     }
-  }, [userData]);
+  }, [userData]); */
 
   useEffect(() => {
 
