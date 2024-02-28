@@ -1,4 +1,4 @@
-import { addDocument, uptadeDocument } from "../services/Firestore"
+import { addDocument, uptadeDocument, getDocsQuantity } from "../services/Firestore"
 import { dateNormalizer } from "../utils/formValidations";  
 const addData = (data) => {
 
@@ -11,24 +11,16 @@ const addData = (data) => {
 }
 
 const updateData = (data, id) => {
-
     return uptadeDocument(id, data);
-    
 }
 
-const normalizeData = (data) => {
-    data.firstName = data.firstName.toLowerCase();
-    data.lastName = data.lastName.toLowerCase();
-    data.firstName = data.firstName.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-    data.lastName = data.lastName.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-    return data;
-}
 
-const normalizeString= (string) => {
+
+const normalizeString = (string) => {
     string = string.toLowerCase();
     string = string.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
     return string;
 }
 
 
-export { addData, updateData, normalizeString};
+export { addData, updateData, normalizeString };

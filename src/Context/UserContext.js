@@ -4,29 +4,27 @@ const UserContext = createContext();
 
 export const UserProvider = (props) => {
     
-    const [userName, setUserName] = useState('');
-    const [first, setFirst] = useState("");
-    const [last, setLast] = useState("");
-    const [birth, setBirth] = useState('');
-    const [age, setAge] = useState(0);
-    const [genre, setGenre] = useState('');
-    const [id, setId] = useState('');
-
-
     const [userData, setUserData] = useState({
         userId : '',
-        firstName : '',
-        lastName : '',
-        birthDate : '',
-        genre : '',
-        personality: {presentsOpenness : true,
-                        presentsNeuroticism : false},
+        personality: {presentsOpenness : true, presentsNeuroticism : false},
+        userInfo: {},
         exercisesData: {},
-        audiosData: {}
+        audiosData: {},
+        registeredDate: ''
+    });
+
+
+    const reset = () => setUserData({
+        userId : '',
+        personality: {presentsOpenness : true, presentsNeuroticism : false},
+        userInfo: {},
+        exercisesData: {},
+        audiosData: {},
+        registeredDate: ''
     });
 
     return (
-        <UserContext.Provider value={{userData, setUserData }}>
+        <UserContext.Provider value={{userData, setUserData, reset }}>
             {props.children}
         </UserContext.Provider>
     );

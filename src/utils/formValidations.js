@@ -1,24 +1,29 @@
 export const stringNormalizer = (string) => {
     let tempString = string;
+
+    //The string does not contain any number
     if(tempString.match(/\d+/g)){
         tempString = tempString.replace(/\d+/g, '');
     }
-    //The string not contains any special character but it does contains letters with accents
-    if(tempString.match(/[^a-zA-Z\sáéíóúÁÉÍÓÚ]+/g)){
+
+    //The string not contains any special character but it does contains letters with accents and ñ
+    if(tempString.match(/[^a-zA-Z\sáéíóúÁÉÍÓÚñÑ]+/g)){
         tempString = tempString.replace(/[^a-zA-Z\sáéíóúÁÉÍÓÚ]+/g, '');
     }
-
     //The String only contains a space just between words
     if(tempString.match(/\s{2,}/g)){
         tempString = tempString.replace(/\s{2,}/g, ' ');
     }
+
     //If the first character is a space, remove it
     if(tempString.charAt(0) === ' '){
         tempString = tempString.slice(1);
-    }
+    } 
 
     return tempString;
 }
+
+
 
 export const nameNormalizer = (string) => {
     let tempString = string;

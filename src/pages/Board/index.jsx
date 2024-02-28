@@ -36,21 +36,27 @@ export default function Board({}) {
   const [isTick, setIsTick] = useState(false);
   const checkRef = useRef(null);
   const nextRef = useRef(null);
-  
+
 
   const { selectedAnswer, currentExerciceIndex,
           difficulty, currentExercice,
           hasNextExercice, nextExercice,
-          hastNextDifficulty, nextDifficulty} = useExercices();
+          hastNextDifficulty, nextDifficulty, reset} = useExercices();
 
-  /* useEffect(() => {
+
+  useEffect(() => {
+    reset();
+  }, []);
+
+
+   useEffect(() => {
     if (!userData.userId) {
       navigate("/");
     }
-  }, [userData]);  */
+  }, [userData]);  
 
   
-  const handleCheck = (e) => {
+  const handleCheck = () => {
       
       checkRef.current.style.transition =  'color 0.5s';
       
@@ -153,7 +159,7 @@ export default function Board({}) {
   useEffect(()=>{
     
    if(!(JSON.stringify(userData.exercisesData) === '{}' || !userData.exercisesData)){
-    console.log('Data updated', userData.exercisesData)
+    //console.log('Data updated', userData.exercisesData)
     updateData( userData, userData.userId).then(() => {
       navigate("/survey");
     });
@@ -169,7 +175,7 @@ export default function Board({}) {
             <HeaderSection />
             <StatsSection time={time} trys={trys} difficulty={difficulty} />
             <h4>Resuelve la siguiente suma:</h4>
-            <ProblemSection />
+            <ProblemSection  />
             <ButtonsSection onCheck={handleCheck} onNext={handleNext} isCorrect={isCorrect} nextRef={nextRef} checkRef={checkRef} />
             <HelpSection  />
           </div>

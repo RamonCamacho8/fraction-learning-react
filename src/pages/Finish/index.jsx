@@ -1,36 +1,32 @@
 import React from "react";
 import "./style.css";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import	{ useUser } from "../../Context/UserContext";
+import { useExercices } from "../../Context/ExercicesContext";
 
 function Finish() {
 
-    const {userData, setUserData} = useUser();
+    const {userData, reset} = useUser();
     const navigate = useNavigate();
-
+    const { reset: resetExercices } = useExercices();
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
 
      useEffect(() => {
         if (!userData.userId) {
           navigate("/");
         }
+
+
       }, [userData]); 
 
     const handleClick = () => {
 
-        setUserData({
-            userId : '',
-            firstName : '',
-            lastName : '',
-            birthDate : '',
-            genre : '',
-            personality: {presentsOpenness : true,
-                            presentsNeuroticism : false},
-            exercisesData: {},
-            audiosData: {}
-        });
+        reset();
+        resetExercices();
 
         navigate("/");
 
@@ -48,7 +44,7 @@ function Finish() {
                     <div className="section-content" style={{textAlign:'center'}}>
                         <h2 style={{fontWeight:'bold'}} >¡Felicidades!</h2>
                         <p>
-                            Has completado la actividad con éxito, <span> {userData.firstName || 'Nombre'} {userData.lastName || 'Apellido'} </span>. 
+                            Has completado la actividad con éxito, <span> {userData.userInfo.firstName || 'Nombre'} {userData.userInfo.lastName || 'Apellido'} </span>. 
                         </p>
                         <p>
                             Gracias por tu participación.

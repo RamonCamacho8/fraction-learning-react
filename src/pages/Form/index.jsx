@@ -12,6 +12,8 @@ import { useNavigate } from "react-router-dom";
 import {  getPersonality_v3 } from "../../services/Personality";
 import { stringNormalizer, isDateValid, nameNormalizer } from "../../utils/formValidations";
 import CustomAccordion from "../../lib/ui/CustomAccordion";
+import { getDocsQuantity } from "../../services/Firestore";
+
 
 const questions = [{
   name : "question-1",
@@ -30,10 +32,12 @@ const questions = [{
 const minDate = '1931-12-31';
 const maxDate = '2015-12-31';
 
-const Form = () => {
-
+const Form = (props) => {
   const navigate = useNavigate();
   const {userData, setUserData} = useUser();
+  const [dynamicMode, setDynamicMode] = useState(false);
+  const [docsQuantity, setDocsQuantity] = useState(null);
+
 
   const [userInfo, setUserInfo] = useState({
     firstName: '',
@@ -42,11 +46,13 @@ const Form = () => {
     genre: '',
   });
 
-
+  const [audiosInfo, setAudiosInfo] = useState({});
+  const [personality, setPersonality] = useState({});
+  const [realPersonality, setRealPersonality] = useState({});
+  const [blobs, setBlobs] = useState({});
 
   const [stream, setStream] = useState(null);
   const [permission, setPermission] = useState(false);
-  const [userAudios, setUserAudios] = useState({});
 
   const [infoButtonClicked, setInfoButtonClicked] = useState(false);
   const [infoButtonStatus, setInfoButtonStatus] = useState('standby');
@@ -55,22 +61,48 @@ const Form = () => {
   const [continueButtonStatus, setContinueButtonStatus] = useState('standby');
 
   useEffect(() => {
-    getMicrophonePermission(setPermission, setStream);
     
+    getDocsQuantity().then((quantity) => {
+      setDocsQuantity(quantity);
+    });
+
+    getMicrophonePermission(setPermission, setStream);
     const questionsData = questions.map((question) => question.name);
     const areSendedData = questionsData.reduce((acc, question) => {
       acc[question] = null;
       return acc;
     }, {});
-    setUserAudios({
+
+    setBlobs({
       ...areSendedData
     });
 
+
+    let tempAudioInfo = {};
+
+    questions.forEach((question) => {
+      tempAudioInfo[question.name] = {
+        question: question.question,
+      }
+    });
+
+    setAudiosInfo(tempAudioInfo);
+
   }, []);
 
-  const handleRecord = () => {
-    
-  };
+  useEffect(() => {
+    if(docsQuantity){
+      console.log('docsQuantity', docsQuantity);
+      if(docsQuantity % 2 === 0){
+        console.log('Modo dinámico');
+        setDynamicMode(true);
+      } else {
+        console.log('Modo estático');
+        setDynamicMode(false);
+      }
+    }
+  },[docsQuantity]);
+
 
   const registerInformation = async (e) => {
 
@@ -86,7 +118,9 @@ const Form = () => {
     e.target.disabled = true;
     setInfoButtonClicked(true);
 
-    setUserData(prev => ({...prev, userInfo: {...userInfo}}));
+    setUserData(prev => ({...prev, userInfo: {...userInfo}, mode: dynamicMode}));
+
+    
   };
 
   useEffect(() => {
@@ -96,7 +130,6 @@ const Form = () => {
         addData(userData).then((data) => {
           setUserData(prev => ({...prev, userId: data.id}));
           setInfoButtonStatus('done');
-          console.log(data.id)
         });
         setInfoButtonClicked(false);
       }
@@ -116,25 +149,61 @@ const Form = () => {
 
   const handleContinue = async (e) => {
     e.preventDefault();
+    e.target.disabled = true;
+    setContinueButtonStatus('loading');
 
-
-    /* e.target.disabled = true;
-    setContinueButtonStatus('loading'); 
-
+    const urls = await uploadAudios(blobs, userData.userId);
+ 
     let audiosObject = {};
-    
-
-    const urls = await uploadAudios(userAudios, userData.userId);
     audiosObject.audios = urls;
     const data =  await getPersonality_v3(audiosObject);
-
-  
-    setUserData(prev => ({...prev, personality: data.personality}));
-    updateData(userData, userData.userId);
-    setContinueButtonStatus('done');
     
-    navigate("/board"); */
+    let audioData = data.audioData;
+    let tempAudiosInfo = {...audiosInfo};
+    let tempPersonality ={};
+    let personalityData = data.personality;
+
+    Object.keys(audioData).forEach((audio) => {
+      tempAudiosInfo[audio].answer = audioData[audio];
+    });
+
+    Object.keys(personalityData).forEach((personality) => {
+      let personalityBool = personalityData[personality].toLowerCase() === 'si' ? true : false;
+      tempPersonality[personality] = personalityBool;
+    });
+
+    setAudiosInfo(tempAudiosInfo);
+    
+    if(!dynamicMode){
+      setPersonality({neuroticism: false, openness: false});
+    }
+    else{
+      setPersonality(tempPersonality);
+    }
+    
+    setRealPersonality(tempPersonality);
+    setContinueButtonClicked(true);
   }
+
+  useEffect(() => {
+
+    setUserData(prev => ({...prev,mode: dynamicMode ,realPersonality:{...realPersonality}, personality: {...personality}, audiosData: {...audiosInfo}}));
+
+  }, [audiosInfo, personality]);
+
+
+  useEffect(() => {
+    if(continueButtonClicked)
+      {
+        updateData(userData, userData.userId).then (() => {
+          setContinueButtonStatus('done');
+          navigate("/board");
+        });
+        
+      }
+  }, [continueButtonClicked, userData]);
+
+
 
   return (
     
@@ -244,8 +313,10 @@ const Form = () => {
                         audioName={question.name}
                         disabled = { (userData.userId && continueButtonStatus === 'standby') ? false : true}
                         userId = {userData.userId}
-                        setUserAudios={setUserAudios}
-                        userAudios={userAudios}
+                        setBlobs={setBlobs}
+                        blobs={blobs}
+                        audiosInfo={audiosInfo}
+                        setAudiosInfo={setAudiosInfo}
                       />
                     </li>
                   )
@@ -257,7 +328,7 @@ const Form = () => {
             className="submit"
             type="submit"
             onClick={handleContinue}
-            disabled={!( userData.firstName && userData.lastName && userData.birthDate && userData.genre && userData.userId && Object.keys(userAudios).every((audio) => userAudios[audio] !== null)) }
+            disabled={!( userInfo.firstName && userInfo.lastName && userInfo.birthDate && userInfo.genre && userData.userId && Object.keys(blobs).every((blob) => blobs[blob] !== null)) }
           >
             {
               continueButtonStatus === 'standby' ? 'Continuar' : 

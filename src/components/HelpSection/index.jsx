@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLanguage } from '../../Context/LanguageContext';
 import { usePersonality } from '../../Context/PersonalityContext';
 import { useUser } from '../../Context/UserContext';
@@ -25,7 +25,8 @@ const visualHelp =[visual_step_1,visual_step_2,visual_step_3,visual_step_4,globa
 
 
 
-export default function HelpSection(props){
+export default function HelpSection(){
+    
 
     return(
 
@@ -41,20 +42,26 @@ export default function HelpSection(props){
 
 function HelpComponent(){
     
-    const { userData } = useUser();
-    const hasOpenness = userData.personality.openness?.toLowerCase() === 'si' ? true : false || true;
-    const hasNeuroticism = userData.personality.neuroticism?.toLowerCase() === 'si' ? true : false || false;
-    const content = hasOpenness ? visualHelp : verbalHelp;
+    const {userData} = useUser();
+    
+    const content = userData.personality.openness ? visualHelp : verbalHelp;
 
-
-
-    switch (hasNeuroticism){
+    switch (userData.personality.neuroticism){
         case true:
             return (GlobalHelp({content: content}));
         case false:
             return (SequentialHelp({content: content}));
         default:
             return (GlobalHelp({content: content}));
+    }
+}
+
+function chooseContent({hasOpenness}){
+    if(hasOpenness){
+        return visualHelp;
+    }
+    else{
+        return verbalHelp;
     }
 }
 

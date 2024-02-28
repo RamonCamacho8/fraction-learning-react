@@ -1,19 +1,18 @@
 import "chart.js/auto";
 import "./style.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useExercices } from "../../Context/ExercicesContext";
 import { useUser } from '../../Context/UserContext';
 import PieFraction from "../../lib/ui/Fractions/PieFraction.jsx";
 import NumericFraction from "../../lib/ui/Fractions/NumericFraction.jsx";
 import RadioInput from "../../lib/ui/Buttons/RadioInput.jsx";
 
-function ProblemSection(props) {
-
-  
+function ProblemSection() {
+  const {userData} = useUser();
 
   return (
     <>
-      <ProcedurePanel />
+      <ProcedurePanel hasOpenness={userData.personality.openness}/>
       <h4>Elige la respueta correcta:</h4>
       <ResultPanel />
     </>
@@ -34,10 +33,9 @@ function ResultPanel() {
   );
 }
 
-function ProcedurePanel() {
-  const { userData } = useUser();
+function ProcedurePanel({hasOpenness}) {
   
-  let hasOpenness = (userData.personality.openness?.toLowerCase() === 'si' ? true : false) || true;
+  
   
   const { currentExercice } = useExercices();
   let fractions = currentExercice.fractions;

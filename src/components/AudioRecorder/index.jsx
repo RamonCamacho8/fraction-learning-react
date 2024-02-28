@@ -10,7 +10,7 @@ const siblingsIds = [
 
 const AudioRecorder = (props) => {
   
-  const {audioName, stream, permission, disabled, userAudios, setUserAudios} = props;
+  const {audioName, stream, permission, disabled, blobs, setBlobs, audiosInfo, setAudiosInfo} = props;
   const mediaRecorder = useRef(null);
   const [recordingStatus, setRecordingStatus] = useState("inactive");
   const [audioChunks, setAudioChunks] = useState([]);
@@ -56,9 +56,8 @@ const AudioRecorder = (props) => {
 
   };
   const handleStop = async () => {
-    //stopRecording(setRecordingStatus,setAudioChunks,setAudio, mediaRecorder, audioChunks, mimeType);
-    setRecordingStatus("inactive");
 
+    setRecordingStatus("inactive");
     toggleButtons(false);
 
     mediaRecorder.current.onstop = async () => {
@@ -69,8 +68,8 @@ const AudioRecorder = (props) => {
       const blobResponse = await fetch(audioUrl);
       const blob = await blobResponse.blob();
       setAudioChunks([]);
-      setUserAudios({
-        ...userAudios,
+      setBlobs({
+        ...blobs,
         [audioName]: blob
       });
 
@@ -90,32 +89,25 @@ const AudioRecorder = (props) => {
     if(time) {
       let newTime = time/1000;
       newTime = newTime.toFixed(2);
-      setUserData(
-        {
-          ...userData,
-          audiosData: {
-            ...userData.audiosData,
-            [audioName]: {
-              ...userData.audiosData[audioName],
-              time: newTime
-            }
-          }
+      setAudiosInfo({
+        ...audiosInfo,
+        [audioName]: {
+          ...audiosInfo[audioName],
+          duration: newTime
         }
-      );
+      });
     }
 
   }, [time]);
 
-  useEffect(() => {
-  }, [userData.audiosData]);
-     
+   
 
   const handleRestart = () => {
 
     setRecordingStatus("inactive");
 
-    setUserAudios({
-      ...userAudios,
+    setBlobs({
+      ...blobs,
       [audioName]: null
     });
     
@@ -127,7 +119,7 @@ const AudioRecorder = (props) => {
     <>
       {
         recordingStatus === "inactive" ? (
-          userAudios[audioName] ? (
+          blobs[audioName] ? (
             <button id={audioName+'-button'} className="audio-button" onClick={handleRestart} disabled={!(permission && !disabled)}>
               Reintentar
             </button>

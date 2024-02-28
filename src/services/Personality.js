@@ -38,7 +38,6 @@ const getPersonality_v2 = async () => {
 
 const getPersonality_v3 = async (data) => {
   //To be implemented
-  console.log(data);
   const response = await fetch( `${endpointROOT}/personality_v3` ,{
     method: 'POST',
     headers: {
@@ -48,7 +47,8 @@ const getPersonality_v3 = async (data) => {
   });
   
   return response.json();
-
 }
+
+
 
 export { getPersonality, getPersonality_v2, getPersonality_v3};
