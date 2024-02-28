@@ -35,8 +35,7 @@ const maxDate = '2015-12-31';
 const Form = (props) => {
   const navigate = useNavigate();
   const {userData, setUserData} = useUser();
-  const [dynamicMode, setDynamicMode] = useState(false);
-  const [docsQuantity, setDocsQuantity] = useState(null);
+  
 
 
   const [userInfo, setUserInfo] = useState({
@@ -61,11 +60,7 @@ const Form = (props) => {
   const [continueButtonStatus, setContinueButtonStatus] = useState('standby');
 
   useEffect(() => {
-    
-    getDocsQuantity().then((quantity) => {
-      setDocsQuantity(quantity);
-    });
-
+  
     getMicrophonePermission(setPermission, setStream);
     const questionsData = questions.map((question) => question.name);
     const areSendedData = questionsData.reduce((acc, question) => {
@@ -90,20 +85,6 @@ const Form = (props) => {
 
   }, []);
 
-  useEffect(() => {
-    if(docsQuantity){
-      console.log('docsQuantity', docsQuantity);
-      if(docsQuantity % 2 === 0){
-        console.log('Modo dinámico');
-        setDynamicMode(true);
-      } else {
-        console.log('Modo estático');
-        setDynamicMode(false);
-      }
-    }
-  },[docsQuantity]);
-
-
   const registerInformation = async (e) => {
 
     e.preventDefault();
@@ -118,8 +99,15 @@ const Form = (props) => {
     e.target.disabled = true;
     setInfoButtonClicked(true);
 
-    setUserData(prev => ({...prev, userInfo: {...userInfo}, mode: dynamicMode}));
+    let tempQuantity = await getDocsQuantity();
 
+    let dynamicMode = false;
+    if(tempQuantity % 2 === 0)
+      dynamicMode = true;
+    else
+      dynamicMode = false;
+
+    setUserData(prev => ({...prev, userInfo: {...userInfo}, dynamicMode: dynamicMode}));
     
   };
 
@@ -174,7 +162,7 @@ const Form = (props) => {
 
     setAudiosInfo(tempAudiosInfo);
     
-    if(!dynamicMode){
+    if(!userData.dynamicMode){
       setPersonality({neuroticism: false, openness: false});
     }
     else{
@@ -187,7 +175,7 @@ const Form = (props) => {
 
   useEffect(() => {
 
-    setUserData(prev => ({...prev,mode: dynamicMode ,realPersonality:{...realPersonality}, personality: {...personality}, audiosData: {...audiosInfo}}));
+    setUserData(prev => ({...prev ,realPersonality:{...realPersonality}, personality: {...personality}, audiosData: {...audiosInfo}}));
 
   }, [audiosInfo, personality]);
 
