@@ -321,7 +321,7 @@ const Form = (props) => {
           >
             {
               continueButtonStatus === 'standby' ? 'Continuar' : 
-              continueButtonStatus === 'loading' ? <i className="fa fa-spinner fa-spin"></i> :
+              continueButtonStatus === 'loading' ? <>Esto puede tardar unos minutos... <i className="fa fa-spinner fa-spin"></i></> :
               continueButtonStatus === 'done' ? <i className="fa-solid fa-check"></i> : ''
             }
           </button>
