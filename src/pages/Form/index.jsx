@@ -97,7 +97,7 @@ const Form = (props) => {
 
     setInfoButtonStatus('loading');
     e.target.disabled = true;
-    setInfoButtonClicked(true);
+    
 
     let tempQuantity = await getDocsQuantity();
 
@@ -108,13 +108,14 @@ const Form = (props) => {
       dynamicMode = false;
 
     setUserData(prev => ({...prev, userInfo: {...userInfo}, dynamicMode: dynamicMode}));
-    
+    setInfoButtonClicked(true);
   };
 
   useEffect(() => {
     
     if(infoButtonClicked)
       {
+        console.log('userData', userData);
         addData(userData).then((data) => {
           setUserData(prev => ({...prev, userId: data.id}));
           setInfoButtonStatus('done');
@@ -122,7 +123,7 @@ const Form = (props) => {
         setInfoButtonClicked(false);
       }
 
-  }, [infoButtonClicked]);
+  }, [infoButtonClicked, userData]);
 
 
   const handleUserInfoChange = (e) => {
