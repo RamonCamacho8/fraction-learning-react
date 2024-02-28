@@ -15,13 +15,13 @@ import { StatsProvider } from "./Context/StatsContext";
 import { ExercicesProvider } from "./Context/ExercicesContext.js";
 
 
+import { getEnvironment } from "./services/Configuration.js";
+
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   
-
-
   return (
     <UserProvider>
       <StatsProvider>

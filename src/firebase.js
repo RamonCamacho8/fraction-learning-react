@@ -26,9 +26,6 @@ const app = initializeApp(firebaseConfig);
 const firestore = getFirestore(app);
 const storage = getStorage(app);
 
-
-
-const audioStorageRef = ref(storage, enviroment);
 const imageStorageRef = ref(storage, 'images');
 
-export { firestore,audioStorageRef, imageStorageRef};
+export { firestore, storage, imageStorageRef};
