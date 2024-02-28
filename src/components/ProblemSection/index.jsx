@@ -1,8 +1,6 @@
 import "chart.js/auto";
 import "./style.css";
-import { useState } from "react";
-import { useLanguage } from "../../Context/LanguageContext";
-import { usePersonality } from "../../Context/PersonalityContext";
+import { useEffect, useState } from "react";
 import { useExercices } from "../../Context/ExercicesContext";
 import { useUser } from '../../Context/UserContext';
 import PieFraction from "../../lib/ui/Fractions/PieFraction.jsx";
@@ -10,10 +8,11 @@ import NumericFraction from "../../lib/ui/Fractions/NumericFraction.jsx";
 import RadioInput from "../../lib/ui/Buttons/RadioInput.jsx";
 
 function ProblemSection() {
+  const {userData} = useUser();
+
   return (
     <>
-    
-      <ProcedurePanel />
+      <ProcedurePanel hasOpenness={userData.personality.openness}/>
       <h4>Elige la respueta correcta:</h4>
       <ResultPanel />
     </>
@@ -21,16 +20,23 @@ function ProblemSection() {
 }
 
 function ResultPanel() {
-  const answerComponents = AnswersPanel();
+
+  const { currentExercice, setSelectedAnswer } = useExercices();
+  const answerOptions = currentExercice.options;
 
   return (
-      <section className="answers"> {answerComponents} </section>
+      <section className="answers"> {answerOptions.map((option, index) => {
+        return (
+          <RadioInput key={index + "-" + option} value={option} id={index} setSelectedAnswer={setSelectedAnswer} />
+        );
+      })} </section>
   );
 }
 
-function ProcedurePanel() {
-  const { userData } = useUser();
-  let hasOpenness = userData.personality.presentsOpenness;
+function ProcedurePanel({hasOpenness}) {
+  
+  
+  
   const { currentExercice } = useExercices();
   let fractions = currentExercice.fractions;
   let fractionsComponents = fractionComponentsGenerator({
@@ -45,18 +51,6 @@ function ProcedurePanel() {
       {fractionsComponents}
     </section>
   );
-}
-
-function AnswersPanel() {
-  const { currentExercice, setSelectedAnswer } = useExercices();
-  const answerOptions = currentExercice.options;
-
-  return answerOptions.map((option, index) => {
-    return (
-      <RadioInput key={index + "-" + option} value={option} id={index} setSelectedAnswer={setSelectedAnswer} />
-    );
-  });
-
 }
 
 //Functions for fraction components
@@ -80,6 +74,7 @@ function colorSelector({ colorOption }) {
 }
 
 function fractionComponentSelector({ hasOpenness }) {
+
   switch (hasOpenness) {
     case true:
       return PieFraction;

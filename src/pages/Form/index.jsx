@@ -4,100 +4,206 @@ import "./style.css";
 
 import { useUser } from "../../Context/UserContext";
 import { addData, updateData } from "../../Controllers/dataFetch";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { getMicrophonePermission } from "../../utils/recordAudio";
 import AudioRecorder from "../../components/AudioRecorder";
 import { uploadAudios  } from "../../services/CloudStorage";
-import { Accordion } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import {  getPersonality_v3 } from "../../services/Personality";
+import { stringNormalizer, isDateValid, nameNormalizer } from "../../utils/formValidations";
+import CustomAccordion from "../../lib/ui/CustomAccordion";
+import { getDocsQuantity } from "../../services/Firestore";
 
 
-const Form = () => {
+const questions = [{
+  name : "question-1",
+  question: "¿Qué es lo que te motiva y porqué?"
+},
+{
+  name : "question-2",
+  question: "¿Cuál es tu materia favorita y porqué?"
+},
+{
+  name : "question-3",
+  question: "¿Qué actividad te gusta realizar más? ¿Por qué?"
+}
+]
 
+const minDate = '1931-12-31';
+const maxDate = '2015-12-31';
+
+const Form = (props) => {
   const navigate = useNavigate();
-  const questions = [{
-    name : "question-1",
-    question: "¿Qué es lo que te motiva?"
-  },
-  {
-    name : "question-2",
-    question: "¿Cuál es tu materia favorita?"
-  },
-  {
-    name : "question-3",
-    question: "¿Cuál es tu deporte favorito?"
-  }
-  ]
+  const {userData, setUserData} = useUser();
+  const [dynamicMode, setDynamicMode] = useState(false);
+  const [docsQuantity, setDocsQuantity] = useState(null);
 
-  const ref = useRef(null);
-  const {userData, setUserData}
-   = useUser();
+
+  const [userInfo, setUserInfo] = useState({
+    firstName: '',
+    lastName: '',
+    birthDate: '',
+    genre: '',
+  });
+
+  const [audiosInfo, setAudiosInfo] = useState({});
+  const [personality, setPersonality] = useState({});
+  const [realPersonality, setRealPersonality] = useState({});
+  const [blobs, setBlobs] = useState({});
+
   const [stream, setStream] = useState(null);
   const [permission, setPermission] = useState(false);
-  const [userAudios, setUserAudios] = useState({});
+
+  const [infoButtonClicked, setInfoButtonClicked] = useState(false);
   const [infoButtonStatus, setInfoButtonStatus] = useState('standby');
+
+  const [continueButtonClicked, setContinueButtonClicked] = useState(false);
   const [continueButtonStatus, setContinueButtonStatus] = useState('standby');
 
   useEffect(() => {
-    getMicrophonePermission(setPermission, setStream);
     
+    getDocsQuantity().then((quantity) => {
+      setDocsQuantity(quantity);
+    });
+
+    getMicrophonePermission(setPermission, setStream);
     const questionsData = questions.map((question) => question.name);
     const areSendedData = questionsData.reduce((acc, question) => {
       acc[question] = null;
       return acc;
     }, {});
 
-    setUserAudios({
-      ...userAudios,
+    setBlobs({
       ...areSendedData
     });
 
 
-  }, []);
+    let tempAudioInfo = {};
 
-  //
-  
-
-  
-
-  const registerInformation = async (e) => {
-    
-
-    e.preventDefault();
-    e.target.disabled = true;   
-    setInfoButtonStatus('loading'); 
-
-
-    addData(userData).then((data) => {
-      setUserData(prev => ({...prev, userId: data.id}));
-      setInfoButtonStatus('done');
+    questions.forEach((question) => {
+      tempAudioInfo[question.name] = {
+        question: question.question,
+      }
     });
 
+    setAudiosInfo(tempAudioInfo);
 
+  }, []);
+
+  useEffect(() => {
+    if(docsQuantity){
+      console.log('docsQuantity', docsQuantity);
+      if(docsQuantity % 2 === 0){
+        console.log('Modo dinámico');
+        setDynamicMode(true);
+      } else {
+        console.log('Modo estático');
+        setDynamicMode(false);
+      }
+    }
+  },[docsQuantity]);
+
+
+  const registerInformation = async (e) => {
+
+    e.preventDefault();
+    
+    if(!isDateValid(userInfo.birthDate, minDate, maxDate)){
+      alert('La fecha de nacimiento no es válida');
+      setUserInfo(prev => ({...prev, birthDate: ''}));
+      return;
+    }
+
+    setInfoButtonStatus('loading');
+    e.target.disabled = true;
+    setInfoButtonClicked(true);
+
+    setUserData(prev => ({...prev, userInfo: {...userInfo}, mode: dynamicMode}));
+
+    
   };
+
+  useEffect(() => {
+    
+    if(infoButtonClicked)
+      {
+        addData(userData).then((data) => {
+          setUserData(prev => ({...prev, userId: data.id}));
+          setInfoButtonStatus('done');
+        });
+        setInfoButtonClicked(false);
+      }
+
+  }, [infoButtonClicked]);
+
+
+  const handleUserInfoChange = (e) => {
+    let value = e.target.value;
+    if(e.target.id === 'firstName' || e.target.id === 'lastName'){
+      value = stringNormalizer(value);
+      value = nameNormalizer(value);
+    }
+    setUserInfo(prev => ({...prev, [e.target.id]: value}));
+  }
 
 
   const handleContinue = async (e) => {
     e.preventDefault();
     e.target.disabled = true;
-    setContinueButtonStatus('loading'); 
+    setContinueButtonStatus('loading');
 
+    const urls = await uploadAudios(blobs, userData.userId);
+ 
     let audiosObject = {};
-    
-
-    const urls = await uploadAudios(userAudios, userData.userId);
-    //console.log(urls);
     audiosObject.audios = urls;
-    const personality =  await getPersonality_v3(audiosObject);
-    console.log(personality);
-    setUserData(prev => ({...prev, personality: personality}));
-    updateData(userData, userData.userId);
-    setContinueButtonStatus('done');
+    const data =  await getPersonality_v3(audiosObject);
     
+    let audioData = data.audioData;
+    let tempAudiosInfo = {...audiosInfo};
+    let tempPersonality ={};
+    let personalityData = data.personality;
 
-    navigate("/board");
+    Object.keys(audioData).forEach((audio) => {
+      tempAudiosInfo[audio].answer = audioData[audio];
+    });
+
+    Object.keys(personalityData).forEach((personality) => {
+      let personalityBool = personalityData[personality].toLowerCase() === 'si' ? true : false;
+      tempPersonality[personality] = personalityBool;
+    });
+
+    setAudiosInfo(tempAudiosInfo);
+    
+    if(!dynamicMode){
+      setPersonality({neuroticism: false, openness: false});
+    }
+    else{
+      setPersonality(tempPersonality);
+    }
+    
+    setRealPersonality(tempPersonality);
+    setContinueButtonClicked(true);
   }
+
+  useEffect(() => {
+
+    setUserData(prev => ({...prev,mode: dynamicMode ,realPersonality:{...realPersonality}, personality: {...personality}, audiosData: {...audiosInfo}}));
+
+  }, [audiosInfo, personality]);
+
+
+  useEffect(() => {
+    if(continueButtonClicked)
+      {
+        updateData(userData, userData.userId).then (() => {
+          setContinueButtonStatus('done');
+          navigate("/board");
+        });
+        
+      }
+  }, [continueButtonClicked, userData]);
+
+
 
   return (
     
@@ -107,68 +213,70 @@ const Form = () => {
         </header>
         {/*  <nav></nav> */}
         <section>
-          <Accordion  defaultActiveKey="0">
-            <Accordion.Item as={'article'} eventKey="0">
-              <Accordion.Header>Instrucciones</Accordion.Header>
-              <Accordion.Body className="section-content">
+          <CustomAccordion title="Instrucciones" >
               <p>
-                Introduce tus datos personales en la sección <span>"Información del estudiante"</span>.
+                Introduce tus datos en la sección <span>"Información del estudiante"</span>.
               </p>
               <p>
-                Contesta a las preguntas de la sección <span>"Preguntas"</span> con la mayor
-                sinceridad posible.
+                Después, Responde a las preguntas de la sección <span>"Preguntas"</span>. 
               </p>
               <p>Para ello:</p>
               <ol>
                 <li>Lee la pregunta.</li>
                 <li>Cuando tengas lista tu respuesta, presiona <span>"Grabar"</span>.</li>
-                <li>Responde en voz alta la pregunta.</li>
+                <li>Responde en voz baja a la pregunta. </li>
+                <li>Presiona <span>"Detener"</span> cuando termines.</li>
               </ol>
               <p>Cuando termines, presiona <span>"Continuar"</span>. O si lo deseas, puedes regrabar tus respuestas.</p>
-              </Accordion.Body>
-            </Accordion.Item>
-          </Accordion>
+          </CustomAccordion>
           <article >
             <h2>Información del estudiante</h2>
             <div  className='section-content'>
               <form>
                 <div className="inputs">
                   <div>
-                    <label htmlFor="first"> Nombre: </label>
+                    <label htmlFor="firstName"> Nombre: </label>
                     <input
-                      id="first"
+                      id="firstName"
                       type="text"
-                      value={userData.firstName}
-                      onChange={(e) => setUserData({...userData, firstName: e.target.value})}
+                      value={userInfo.firstName}
+                      onChange={handleUserInfoChange}
+                      required
+                      disabled={userData.userId}
+                      minLength={2}
+                      maxLength={25}
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="lastName"> Apellido: </label>
+                    <input
+                      id="lastName"
+                      type="text"
+                      value={userInfo.lastName}
+                      onChange={handleUserInfoChange}
+                      minLength={2}
+                      maxLength={25}
                       required
                       disabled={userData.userId}
                     />
                   </div>
                   <div>
-                    <label htmlFor="last"> Apellido: </label>
+                    <label htmlFor="birthDate"> Fecha de nacimiento: </label>
                     <input
-                      id="last"
-                      type="text"
-                      value={userData.lastName}
-                      onChange={(e) => setUserData({...userData, lastName: e.target.value})}
-                      required
-                      disabled={userData.userId}
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="birth"> Fecha de nacimiento: </label>
-                    <input
-                      id="birth"
+                      id="birthDate"
                       type="date"
-                      selected={userData.birthDate}
-                      onChange={e => setUserData({...userData, birthDate: e.target.value})}
+                      selected={userInfo.birthDate}
+                      min={minDate}
+                      max={maxDate}
+                      value={userInfo.birthDate}
+                      onChange={handleUserInfoChange}
                       required
                       disabled={userData.userId}
                     />
                   </div>
                   <div>
                     <label htmlFor="genre" > Género: </label>
-                    <select id="genre" onChange={e => setUserData({...userData, genre: e.target.value}) } required disabled={userData.userId}>
+                    <select id="genre" onChange={handleUserInfoChange} required disabled={userData.userId}>
                       <option value="">Selecciona una opción</option>
                       <option value="M">Masculino</option>
                       <option value="F">Femenino</option>
@@ -177,7 +285,8 @@ const Form = () => {
                   </div>
                 </div>
                 <button type="button" onClick={registerInformation} 
-                  disabled={(!(userData.firstName && userData.lastName && userData.birthDate && userData.genre && !userData.userId))} >
+                  disabled={(!( userInfo.firstName && userInfo.lastName && 
+                                userInfo.birthDate && userInfo.genre && !userData.userId))} >
                   
                   {
                     infoButtonStatus === 'standby' ? 'Confirmar Datos.' : 
@@ -189,22 +298,25 @@ const Form = () => {
               </form>
             </div>
           </article>
-          <article ref={ref}>
+          <article>
             <h2>Preguntas</h2>
             <div className='section-content' >
               <ul className="questions">
                 {questions.map((question) => {
                   return (
-                    <li key={question.name}>
+                    <li key={question.name} id={question.name}>
                       <span>{question.question}</span>
                       <AudioRecorder
+                        key={question.name}
                         stream={stream}
                         permission={permission}
                         audioName={question.name}
                         disabled = { (userData.userId && continueButtonStatus === 'standby') ? false : true}
                         userId = {userData.userId}
-                        setUserAudios={setUserAudios}
-                        userAudios={userAudios}
+                        setBlobs={setBlobs}
+                        blobs={blobs}
+                        audiosInfo={audiosInfo}
+                        setAudiosInfo={setAudiosInfo}
                       />
                     </li>
                   )
@@ -216,7 +328,7 @@ const Form = () => {
             className="submit"
             type="submit"
             onClick={handleContinue}
-            disabled={!( userData.firstName && userData.lastName && userData.birthDate && userData.genre && userData.userId && Object.keys(userAudios).every((audio) => userAudios[audio] !== null)) }
+            disabled={!( userInfo.firstName && userInfo.lastName && userInfo.birthDate && userInfo.genre && userData.userId && Object.keys(blobs).every((blob) => blobs[blob] !== null)) }
           >
             {
               continueButtonStatus === 'standby' ? 'Continuar' : 
@@ -224,9 +336,6 @@ const Form = () => {
               continueButtonStatus === 'done' ? <i className="fa-solid fa-check"></i> : ''
             }
           </button>
-         {/*  <button onClick={() => {}}>
-            <i className="fa fa-spinner fa-beat"></i>
-          </button> */}
         </section>
       </main>
   );

@@ -10,53 +10,24 @@ import { GoStopwatch } from "react-icons/go";
 import { GoStop } from "react-icons/go";
 import { GoMortarBoard } from "react-icons/go";
 
-
-
-
-export default function StatsSection(){
-
+export default function StatsSection(props){
+    
     const { languageData } = useLanguage();
-    const { difficulty } = useExercices();
     const difficultyText = languageData["board"].difficulty;
-    const {time, setTime} = useStats();
-    const {trys} = useStats();
+    const {time, trys, difficulty} = props;
+
+    function formatTime(time){
+        let minutes = Math.floor(time / 60);
+        let seconds = time % 60;
+        return `${minutes < 10 ? '0'+minutes: minutes}:${seconds < 10 ? '0'+seconds: seconds}`;
+    }
 
     function TimePanel(){
 
-        //const [time, setTime] = useState(0);
-        const [isRunning, setIsRunning] = useState(true);
-    
-        function formatTime(time){
-            let minutes = Math.floor(time / 60);
-            let seconds = time % 60;
-            return `${minutes < 10 ? '0'+minutes: minutes}:${seconds < 10 ? '0'+seconds: seconds}`;
-        }
-    
-        useEffect(() => {
-            let intervalId;
-            if (isRunning) {
-            // setting time from 0 to 1 every 10 milisecond using javascript setInterval method
-            intervalId = setInterval(() => setTime(time + 1), 1000);
-            }
-            return () => clearInterval(intervalId);
-        }, [isRunning, time]);
-    
-        let stringTime = formatTime(time);
-    
-        const startAndStop = () => {
-            setIsRunning(!isRunning);
-        };
-    
-        const reset = () => {
-            setTime(0);
-        };
-
-        
-    
         return(
             <li className="time-panel">
                 <GoStopwatch/>
-                <h6 className="time">{stringTime}</h6>
+                <h6 className="time">{formatTime(time)}</h6>
             </li>
         );
     

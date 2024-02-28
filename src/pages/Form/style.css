@@ -1,12 +1,10 @@
 main.landing {
   background-color: white;
   font-family: 'Comic Neue', cursive;
-  height: 100dvh;  
+  width: 100dvw;  
   font-size: 24px;
   font-weight: 400;
 }
-
-
 
 main.landing header  {
     width: 100%;
@@ -31,39 +29,6 @@ main.landing nav {
     height: 50px;
     background-color: #1c3831;
 }
-
-main.landing section .accordion {
-    border: none;
-    width: 100%;
-
-    .accordion-item {
-        border: none !important;
-        width: 100%;
-    }
-
-    .accordion-button {
-        background-color: white;
-        box-shadow: none;
-        font-size: inherit;
-        margin: 0;
-        padding-left: 0;
-        padding-right: 0;
-        width: 100%;
-        color: black;
-    }
-
-    div div span {
-        font-weight: bold;
-    
-    }
-
-}
-
-
-
-
-
-
 
 
 main.landing section {

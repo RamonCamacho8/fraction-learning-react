@@ -6,12 +6,20 @@ const ExercicesContext = createContext();
 export const ExercicesProvider = (props) => {
 
         const availableDifficulties = getDifficulties();
-
         const [difficulty, setDifficulty] = useState('easy'); // ['easy', 'medium', 'hard']
         const [exercices, setExercices] = useState(getExercices()[difficulty]);
         const [currentExerciceIndex, setCurrentExerciceIndex] = useState(0);
         const [currentExercice, setCurrentExercice] = useState(exercices[currentExerciceIndex]);
         const [selectedAnswer, setSelectedAnswer] = useState(null); // [0, 1, 2, 3]
+
+
+        const reset = () => {
+            setDifficulty('easy');
+            setExercices(getExercices()['easy']);
+            setCurrentExerciceIndex(0);
+            setCurrentExercice(exercices[0]);
+            setSelectedAnswer(null);
+        }
 
         const hasNextExercice = () => {
             return currentExerciceIndex < exercices.length - 1;
@@ -53,6 +61,7 @@ export const ExercicesProvider = (props) => {
                 currentExerciceIndex, setCurrentExerciceIndex,
                 nextExercice, hasNextExercice,
                 nextDifficulty, hastNextDifficulty,
+                reset
                 }}>
                 {props.children}
             </ExercicesContext.Provider>

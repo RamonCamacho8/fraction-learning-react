@@ -1,0 +1,60 @@
+{
+    "es" : {
+        "form":{
+            
+            "instructions" : {
+                "title" : "Instrucciones",
+                "content" : "<p>Introduce tus datos en la sección <span>Información del estudiante</span>.</p><p>Después, Responde a las preguntas de la sección <span>Preguntas</span>. </p><p>Para ello:</p><ol><li>Lee la pregunta.</li><li>Cuando tengas lista tu respuesta, presiona <span> Grabar </span>.</li><li>Responde en voz baja a la pregunta. </li><li>Presiona <span>Detener</span> cuando termines.</li></ol><p>Cuando termines, presiona <span>Continuar</span>. O si lo deseas, puedes regrabar tus respuestas.</p>"  
+            },
+            "student-info" : {
+                "title" : "Información del estudiante",
+                "firstName": "Nombre/s",
+                "lastName": "Apellido/s",
+                "birthDate": "Fecha de nacimiento",
+                "genre": "Género",
+                "genreOptions": ["Selecciona una opción","Masculino", "Femenino", "Otro"],
+                "button" : "Confirmar datos."
+            },
+            "question" : {
+                "title" : "Preguntas",
+                "questions" : [{
+                    "name" : "question-1",
+                    "question": "¿Qué es lo que te motiva y por qué?"
+                  },
+                  {
+                    "name" : "question-2",
+                    "question": "¿Cuál es tu materia favorita y por qué?"
+                  },
+                  {
+                    "name" : "question-3",
+                    "question": "¿Qué actividad te gusta realizar menos? ¿Por qué?"
+                  }
+                  ],
+                "button" : "Continuar"
+
+            }
+
+        },
+        "board":{
+
+        },
+        "survey":{
+            "title" : "Preguntas",
+            
+            "questions" : [
+                "La interfaz de usuario de FractionLearning es fácil de usar.",
+                "La interacción con FractionLearning requiere un esfuerzo mínimo de mi parte.",
+                "Considero valioso el contenido proporcionado por FractionLearning para mi aprendizaje sobre las fracciones",
+                "El uso de FractionLearning mejora mi comprensión sobre las fracciones.",
+                "Estoy dispuesto a utilizar FractionLearning de manera regular para mejorar mis habilidades en las fracciones.",
+                "Recomendaría el sistema FractionLearning a las personas que desean mejorar sus habilidades en las fracciones.",
+                "Disfruté usar FractionLearning para practicar fracciones.",
+                "Me gustó utilizar FractionLearning por su interfaz de usuario.",
+                "Aprender fracciones con FractionLearning es más interesante que en las clases tradicionales.",
+                "Considero buena idea utilizar FractionLearning en el salón de clases."
+                
+            ]
+        }
+
+    }
+}

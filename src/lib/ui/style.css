@@ -1,0 +1,47 @@
+.accordion {
+    border: none;
+    width: 100%;
+
+    margin: 10px 0;
+
+    
+
+    .accordion-item{
+
+        border: none !important;
+
+        .accordion-header{
+            border: none !important;
+            width: 100%;
+            margin-bottom: 5px;
+            
+            .accordion-button {
+                background-color: white;
+                box-shadow: none;
+                font-size: inherit;
+                margin: 0;
+                padding-left: 0;
+                padding-right: 0;
+                width: 100%;
+                color: black;
+                font-weight: bold;
+            }
+
+        }
+
+        .accordion-body{
+            width: 100%;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+            padding: 20px;
+        }
+
+        
+
+        span {
+            font-weight: bold
+        }
+
+    }
+
+    
+}

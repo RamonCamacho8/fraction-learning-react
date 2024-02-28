@@ -160,10 +160,11 @@
         }
 
         section.check {
+            
             width: 100%;
             display: flex;
             flex-direction: row;
-            justify-content: space-around;
+            justify-content: center;
             margin: 10px 0;
 
             button {
@@ -172,10 +173,14 @@
                 border-radius: 10px;
                 border: 2px solid var(--text-color);
                 background-color: var(--chalkboard-color);
-                color: var(--text-color);
-                cursor: pointer;
+                color: white;
                 transition: 0.3s;
+                margin: 0 10px;
+            }
 
+            button:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
             }
 
         }

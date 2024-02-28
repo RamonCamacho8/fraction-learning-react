@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLanguage } from '../../Context/LanguageContext';
 import { usePersonality } from '../../Context/PersonalityContext';
+import { useUser } from '../../Context/UserContext';
 
 import './style.css'
 
@@ -25,13 +26,12 @@ const visualHelp =[visual_step_1,visual_step_2,visual_step_3,visual_step_4,globa
 
 
 export default function HelpSection(){
-
-    const traductionText = useLanguage().languageData['board'].helpPanel;
+    
 
     return(
 
         <section className="help-section">
-            <h4 style={{textAlign:'center'}}> {traductionText} </h4>
+            <h4 style={{textAlign:'center'}}> Panel de ayuda </h4>
             <HelpComponent />
         </section>
 
@@ -41,20 +41,27 @@ export default function HelpSection(){
 
 
 function HelpComponent(){
+    
+    const {userData} = useUser();
+    
+    const content = userData.personality.openness ? visualHelp : verbalHelp;
 
-    const hasOpenness = usePersonality().openness;
-    const hasNeuroticism = usePersonality().neuroticism;
-    const content = hasOpenness ? visualHelp : verbalHelp;
-
-
-
-    switch (hasNeuroticism){
+    switch (userData.personality.neuroticism){
         case true:
             return (GlobalHelp({content: content}));
         case false:
             return (SequentialHelp({content: content}));
         default:
             return (GlobalHelp({content: content}));
+    }
+}
+
+function chooseContent({hasOpenness}){
+    if(hasOpenness){
+        return visualHelp;
+    }
+    else{
+        return verbalHelp;
     }
 }
 
@@ -104,13 +111,17 @@ function SequentialHelp({content}){
     return (
         <div className="sequential-help">
             <div className="sequential-help-buttons">
-                <button onClick={() => handleClick(-1)  } > {'<'} </button>
+                <button onClick={() => handleClick(-1) } disabled={
+                    actualStep === 0 ? true : false
+                } > {'<'} </button>
             </div>
             <div className="sequential-help-content">
                 <img className="figure-img img-fluid rounded" src={actualContent} border="0"/>
             </div>
             <div className="sequential-help-buttons">
-                <button  onClick={() => handleClick(1)}> {'>'} </button>
+                <button  onClick={() => handleClick(1)} disabled={
+                    actualStep === content.length - 1 ? true : false
+                } > {'>'} </button>
             </div>
         </div>
     );
