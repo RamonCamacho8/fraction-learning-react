@@ -1,8 +1,11 @@
-import { audioStorageRef } from "../firebase";
+import { storage } from "../firebase";
 import { uploadBytes, ref } from "firebase/storage";
 import { getDownloadURL } from "firebase/storage";
+import { getEnvironment } from "./Configuration";
 
 
+let firebaseFolder = await getEnvironment();
+let audioStorageRef = ref(storage, firebaseFolder);
 
 const uploadAudios = async (audios, userId) => {
     //Files is an object with the file name as the key and the file as the value

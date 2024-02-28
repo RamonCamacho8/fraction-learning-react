@@ -1,9 +1,10 @@
-import { collection, addDoc, getDocs, setDoc, doc} from "firebase/firestore";
+import { collection, addDoc, getDocs, setDoc, doc, getDoc} from "firebase/firestore";
 import { firestore } from "../firebase";
 import { enviroment } from "../Persistence/config"; 
+import { getEnvironment } from "./Configuration";
 //It can vary depending on the name of the folder in the firebase
 
-let firebaseFolder = enviroment;
+let firebaseFolder = await getEnvironment();
 
 const addDocument = async (data) => {
 
