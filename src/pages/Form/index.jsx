@@ -168,8 +168,7 @@ const Form = (props) => {
     }
     else{
       setPersonality(tempPersonality);
-    }
-    
+    } 
     setRealPersonality(tempPersonality);
     setContinueButtonClicked(true);
   }
