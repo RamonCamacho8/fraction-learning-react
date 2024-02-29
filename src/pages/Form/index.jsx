@@ -145,6 +145,7 @@ const Form = (props) => {
  
     let audiosObject = {};
     audiosObject.audios = urls;
+    console.log(urls);
     const data =  await getPersonality_v3(audiosObject);
     
     let audioData = data.audioData;
@@ -168,7 +169,9 @@ const Form = (props) => {
     }
     else{
       setPersonality(tempPersonality);
-    } 
+    }  
+
+    setPersonality(tempPersonality);
     setRealPersonality(tempPersonality);
     setContinueButtonClicked(true);
   }
@@ -212,10 +215,11 @@ const Form = (props) => {
               <ol>
                 <li>Lee la pregunta.</li>
                 <li>Cuando tengas lista tu respuesta, presiona <span>"Grabar"</span>.</li>
-                <li>Responde en voz baja a la pregunta. </li>
+                <li>Responde de manera clara en voz alta a cada pregunta. </li>
                 <li>Presiona <span>"Detener"</span> cuando termines.</li>
+                <li>Puedes regrabar tu respuesta presionando <span>"Reintentar"</span> y <span>"Grabar"</span> nuevamente.</li>
               </ol>
-              <p>Cuando termines, presiona <span>"Continuar"</span>. O si lo deseas, puedes regrabar tus respuestas.</p>
+              <p>Cuando termines, presiona <span>"Continuar"</span>.</p>
           </CustomAccordion>
           <article >
             <h2>Información del estudiante</h2>
