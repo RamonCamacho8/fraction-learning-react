@@ -265,6 +265,7 @@ const Form = (props) => {
                       required
                       disabled={userData.userId}
                     />
+                    
                   </div>
                   <div>
                     <label htmlFor="genre" > Género: </label>
@@ -276,17 +277,21 @@ const Form = (props) => {
                     </select>
                   </div>
                 </div>
-                <button type="button" onClick={registerInformation} 
-                  disabled={(!( userInfo.firstName && userInfo.lastName && 
-                                userInfo.birthDate && userInfo.genre && !userData.userId))} >
+                <div>
+                  <button type="button" onClick={registerInformation} 
+                    disabled={(!( userInfo.firstName && userInfo.lastName && 
+                                  userInfo.birthDate && userInfo.genre && !userData.userId))} >
+                    
+                    {
+                      infoButtonStatus === 'standby' ? 'Confirmar Datos.' : 
+                      infoButtonStatus === 'loading' ? <i className="fa fa-spinner fa-spin"></i> :
+                      infoButtonStatus === 'done' ? <i className="fa-solid fa-check"></i> : ''
+                    }
                   
-                  {
-                    infoButtonStatus === 'standby' ? 'Confirmar Datos.' : 
-                    infoButtonStatus === 'loading' ? <i className="fa fa-spinner fa-spin"></i> :
-                    infoButtonStatus === 'done' ? <i className="fa-solid fa-check"></i> : ''
-                  }
+                  </button>
+                </div>
                 
-                </button>
+                
               </form>
             </div>
           </article>
