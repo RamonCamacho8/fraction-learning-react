@@ -1,21 +1,26 @@
 import "./style.css";
 import { getDocsQuantity } from "../../services/Firestore";
 import { getConfigurationDoc } from "../../services/Configuration";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { AudioRecord } from "../../utils/AudioRecord";
+
 
 const Test = () => {
 
 
-  const handleClick = () => {
-    getConfigurationDoc().then((data) => {
-      console.log(data);
-    });
-    
+  useEffect(()=>{
+    AudioRecord.getMicrophonePermission();
+  },[])
+
+  const handleBlob = () => {
+    console.log(AudioRecord.getBlob());
   }
 
   return (
     <div className="container">
-      <button onClick={handleClick}>Test</button>
+      <button onClick={AudioRecord.startRecording}>Start</button>
+      <button onClick={AudioRecord.stopRecording}>Stop</button>
+      <button onClick={handleBlob}>Blob</button>
     </div>
   );
 };

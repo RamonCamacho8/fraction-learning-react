@@ -1,6 +1,7 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { startRecording } from "../../utils/recordAudio";
 import { useUser } from "../../Context/UserContext";
+import { AudioRecord } from "../../utils/AudioRecord";
 
 const siblingsIds = [
   "question-1-button",
@@ -10,15 +11,9 @@ const siblingsIds = [
 
 const AudioRecorder = (props) => {
   
-  const {audioName, stream, permission, disabled, blobs, setBlobs, audiosInfo, setAudiosInfo} = props;
-  const mediaRecorder = useRef(null);
+  const {audioName, permission, disabled, blobs, setBlobs, audiosInfo, setAudiosInfo} = props;
+  
   const [recordingStatus, setRecordingStatus] = useState("inactive");
-  const [audioChunks, setAudioChunks] = useState([]);
-  const mimeType = "audio/mp3";
-  const [initialTime, setInitialTime] = useState(0);
-  const [finalTime, setFinalTime] = useState(0);
-  const [time, setTime] = useState(null);
-  const { userData, setUserData } = useUser();
   const [siblings, setSiblings] = useState([]);
 
   useEffect (() => {
@@ -26,7 +21,6 @@ const AudioRecorder = (props) => {
     let elementsSiblings = []
     siblingsIds.forEach(sibling => {
       if(sibling !== audioName + '-button'){
-
         elementsSiblings.push(document.getElementById(sibling));
       }
     });
@@ -39,97 +33,109 @@ const AudioRecorder = (props) => {
       element.disabled = status;
     });
   }
+
+  const start = useCallback(() => {
+    toggleButtons(true);
+    setRecordingStatus("recording");
+    AudioRecord.startRecording();
+  }, [recordingStatus]);
+
+  const stop = useCallback(() => {
+    setRecordingStatus("inactive");
+    toggleButtons(false);
+
+    let time = 0;
+    const tempBlob = AudioRecord.getBlob();
+    AudioRecord.stopRecording();
+
+    setBlobs({
+      ...blobs,
+      [audioName]: tempBlob
+    });
+
+    setAudiosInfo({
+      ...audiosInfo,
+      [audioName]: {
+        ...audiosInfo[audioName],
+        duration: time
+      }
+    });
+    
+    
+  }, [recordingStatus]);
+
+  const restart = useCallback(() => {
+    setBlobs({
+      ...blobs,
+      [audioName]: null
+    });
+
+    setAudiosInfo({
+      ...audiosInfo,
+      [audioName]: {
+        ...audiosInfo[audioName],
+        duration: 0
+      }
+    });
+  }, [blobs]);
   
   const handleStart = () => {
 
     toggleButtons(true);
-
     setRecordingStatus("recording");
-    startRecording(
-      setRecordingStatus,
-      setAudioChunks,
-      stream,
-      mimeType,
-      mediaRecorder
-    );
-    setInitialTime(new Date().getTime());
+    AudioRecord.startRecording();
 
   };
-  const handleStop = async () => {
+
+  const handleStop = () => {
 
     setRecordingStatus("inactive");
     toggleButtons(false);
+    AudioRecord.stopRecording();
+    const time = AudioRecord.getRecordingTime();
 
-    mediaRecorder.current.onstop = async () => {
-      //creates a blob file from the audiochunks data
-      const audioBlob = new Blob(audioChunks, { type: mimeType });
-      //creates a playable URL from the blob file.
-      const audioUrl = URL.createObjectURL(audioBlob);
-      const blobResponse = await fetch(audioUrl);
-      const blob = await blobResponse.blob();
-      setAudioChunks([]);
-      setBlobs({
-        ...blobs,
-        [audioName]: blob
-      });
-
-    };
-
-    await mediaRecorder.current.stop();
-    setFinalTime(new Date().getTime());
+    setAudiosInfo({
+      ...audiosInfo,
+      [audioName]: {
+        ...audiosInfo[audioName],
+        duration: time
+      }
+    });
+    
   };
 
-  useEffect(() => {
-    setTime(finalTime - initialTime);
-  }, [finalTime])
-
-
-  useEffect(() => {
-    //Get seconds and first two digits of milliseconds
-    if(time) {
-      let newTime = time/1000;
-      newTime = newTime.toFixed(2);
-      setAudiosInfo({
-        ...audiosInfo,
-        [audioName]: {
-          ...audiosInfo[audioName],
-          duration: newTime
-        }
-      });
-    }
-
-  }, [time]);
-
-   
-
   const handleRestart = () => {
-
-    setRecordingStatus("inactive");
 
     setBlobs({
       ...blobs,
       [audioName]: null
     });
-    
-    setInitialTime(0);
-    setFinalTime(0);
-  };
 
+    setAudiosInfo({
+      ...audiosInfo,
+      [audioName]: {
+        ...audiosInfo[audioName],
+        duration: 0
+      }
+    });
+    
+
+  };
   return (
     <>
       {
         recordingStatus === "inactive" ? (
           blobs[audioName] ? (
-            <button id={audioName+'-button'} className="audio-button" onClick={handleRestart} disabled={!(permission && !disabled)}>
+            <button id={audioName+'-button'} className="audio-button" onClick={restart} disabled={!(permission && !disabled)}>
               Reintentar
             </button>
           ) : (
-            <button id={audioName+'-button'} className="audio-button" style={{position:'relative'}} onClick={handleStart} disabled={!(permission && !disabled)}>
+            <button id={audioName+'-button'} className="audio-button" style={{position:'relative'}} onClick={start} disabled={!(permission && !disabled)}>
               Grabar
             </button>
           )
         ) : (
-          <button id={audioName+'-button'} className="audio-button" onClick={handleStop} disabled={!(permission && !disabled)}>
+          <button id={audioName+'-button'} className="audio-button" onClick={stop} disabled={!(permission && !disabled)}>
             Detener
           </button>
         )

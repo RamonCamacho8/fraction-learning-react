@@ -15,7 +15,8 @@ const getMicrophonePermission = async (setPermission,setStream) => {
       alert("The MediaRecorder API is not supported in your browser.");
     }
 
-  };
+};
+
 
   const startRecording = async (setRecordingStatus, setAudioChunks, stream, mimeType,mediaRecorder) => {
     

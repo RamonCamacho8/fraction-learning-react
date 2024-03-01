@@ -13,7 +13,7 @@ import {  getPersonality_v3 } from "../../services/Personality";
 import { stringNormalizer, isDateValid, nameNormalizer } from "../../utils/formValidations";
 import CustomAccordion from "../../lib/ui/CustomAccordion";
 import { getDocsQuantity } from "../../services/Firestore";
-
+import { AudioRecord } from "../../utils/AudioRecord";
 
 const questions = [{
   name : "question-1",
@@ -61,7 +61,11 @@ const Form = (props) => {
 
   useEffect(() => {
   
-    getMicrophonePermission(setPermission, setStream);
+    /* getMicrophonePermission(setPermission, setStream); */
+    AudioRecord.getMicrophonePermission().then((permission) => {
+      setPermission(permission);
+    });
+
     const questionsData = questions.map((question) => question.name);
     const areSendedData = questionsData.reduce((acc, question) => {
       acc[question] = null;
@@ -140,14 +144,14 @@ const Form = (props) => {
     e.preventDefault();
     e.target.disabled = true;
     setContinueButtonStatus('loading');
-
+    console.log('blobs', blobs);
     const urls = await uploadAudios(blobs, userData.userId);
  
     let audiosObject = {};
     audiosObject.audios = urls;
     console.log(urls);
-    const data =  await getPersonality_v3(audiosObject);
     
+    const data =  await getPersonality_v3(audiosObject);
     let audioData = data.audioData;
     let tempAudiosInfo = {...audiosInfo};
     let tempPersonality ={};
@@ -176,6 +180,8 @@ const Form = (props) => {
     setContinueButtonClicked(true);
   }
 
+  
+
   useEffect(() => {
 
     setUserData(prev => ({...prev ,realPersonality:{...realPersonality}, personality: {...personality}, audiosData: {...audiosInfo}}));
@@ -193,6 +199,12 @@ const Form = (props) => {
         
       }
   }, [continueButtonClicked, userData]);
+
+  const buttonEffect = () => {
+    /* console.log('buttonEffect');
+    console.log(blobs)
+    console.log(audiosInfo); */
+  }
 
 
 
@@ -333,6 +345,8 @@ const Form = (props) => {
               continueButtonStatus === 'done' ? <i className="fa-solid fa-check"></i> : ''
             }
           </button>
+          <button onClick={buttonEffect}>Imprimir blobs</button>
+          <button onClick={AudioRecord.resetBlob} >Reset</button>
         </section>
       </main>
   );
