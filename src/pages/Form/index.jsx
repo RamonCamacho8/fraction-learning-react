@@ -146,7 +146,18 @@ const Form = (props) => {
     let audiosObject = {};
     audiosObject.audios = urls;
     console.log(urls);
-    const data =  await getPersonality_v3(audiosObject);
+    let data;
+
+    try{
+      data = await getPersonality_v3(audiosObject);
+    }
+    catch(err){
+      console.log(err);
+      alert('Servicio actualmente no disponible. Por favor, intente nuevamente para no perder su progreso.');
+      setContinueButtonStatus('standby');
+      e.target.disabled = false;
+      return;
+    }
     
     let audioData = data.audioData;
     let tempAudiosInfo = {...audiosInfo};
