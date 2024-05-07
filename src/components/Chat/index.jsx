@@ -1,10 +1,19 @@
 import styles from './styles.module.css';
 import { useEffect, useState } from 'react';
-import MessageComponent  from './MessageComponent.jsx';
+import Messages from './Messages.jsx'
+
 
 export default function Chat() {
 
     let [isOpen, setIsOpen] = useState(false);
+    let [messages, setMessages] = useState([{ text: "Hola! ¿Cómo te puedo ayudar?", sender: "bot" },{ text: "Con nada", sender: "user" },]);
+    let [inputValue, setInputValue] = useState('');
+
+    const addMessage = (message) => {
+        
+        setMessages([...messages, message]);
+    }
+
 
     return (
         <div className={styles.chat}>
@@ -17,12 +26,12 @@ export default function Chat() {
                 </div>
 
                 <div className={styles.chat__body}>
-                    <MessageComponent message="Hola! ¿Cómo te puedo ayudar? " sender="bot" />
+                    <Messages messages={messages} />
                 </div>
 
                 <div className={styles.chat__footer}>
-                    <input type="text" placeholder="Haz tu preguntas" />
-                    <button>Enviar</button>
+                    <input type="text" placeholder="Haz tu preguntas" value={inputValue} onChange={e => setInputValue(e.target.value)} />
+                    <button onClick={(e) => addMessage({text: inputValue, sender: 'user'}) } >Enviar</button>
                 </div>
                 
             </div>}
