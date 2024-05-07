@@ -16,13 +16,15 @@ import { useNavigate } from "react-router-dom";
 import { isCorrectAnswer } from "../../Controllers/ExercicesController.js";
 import { updateData } from "../../Controllers/dataFetch.js";
 
+import Chat from "../../components/Chat/index.jsx";
+
 
 const correctSound = new Audio(correctAudio);
 const wrongSound = new Audio(wrongAudio);
 const tick = new Audio(tickAudio);
 const tack = new Audio(tackAudio);
 
-export default function BoardChatDemo({}) {
+export default function Board({}) {
 
   const { userData, setUserData } = useUser();
   const navigate = useNavigate();
@@ -49,13 +51,6 @@ export default function BoardChatDemo({}) {
   }, []);
 
 
-   useEffect(() => {
-    if (!userData.userId) {
-      navigate("/");
-    }
-  }, [userData]);  
-
-  
   const handleCheck = () => {
       
       checkRef.current.style.transition =  'color 0.5s';
@@ -172,6 +167,7 @@ export default function BoardChatDemo({}) {
   return (
         <main className="main-container">
           <div className="board-container">
+            <Chat />
             <HeaderSection />
             <StatsSection time={time} trys={trys} difficulty={difficulty} />
             <h4>Resuelve la siguiente suma:</h4>

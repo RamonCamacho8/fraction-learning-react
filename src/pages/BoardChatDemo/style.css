@@ -1,0 +1,359 @@
+@font-face {
+    font-family: 'Chalkboard';
+    src: url('../../assets/fonts/Chalktastic-x1nR.ttf')
+}
+
+
+.main-container {
+
+    background-color: wheat;
+    height: 100svh;
+    width: 100svw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+    .board-container {
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        width: min(100%, 1024px);
+        padding: 10px;
+        background-color: var(--chalkboard-color);
+        color: var(--text-color);
+        font-family: 'Chalkboard';
+        border: 10px solid gray;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+        aspect-ratio: 68/48;
+
+    
+        header {
+    
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr 1fr;
+            grid-template-areas: 
+                "student date"
+                "title title"
+                "title title";
+    
+            > * {
+                padding: 5px;
+                
+            }
+            
+            div h6 {
+                margin: 0;
+
+            }
+
+    
+            .student {
+                grid-area: student;
+                display: flex;
+                justify-content: left;
+                align-items: center;
+                
+            }
+        
+            .date {
+                grid-area: date;
+                display: flex;
+                justify-content: right;
+                align-items: center;
+                
+            }
+        
+            .title {
+                grid-area: title;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                h2 {
+                    margin: 10px;
+                }
+            }
+        }
+    
+        section.stats{
+            width: 100%;
+            margin-top: 10px;
+            ul {
+                display: flex;
+                text-decoration: none;
+                list-style: none;
+                width: 100%;
+                justify-content: space-around;
+                margin: 0;
+                padding: 0;
+
+                li {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    width: 30%;
+
+                    .react-icons{
+                        
+                        font-size: 40px;
+                        font-weight: bold;
+                    
+                    }
+
+                    h6 {
+                        padding: 10px;
+                    }
+                }
+            }
+    
+        }
+
+        section.exercices {
+            display: flex;
+            flex-direction: row;
+            justify-content:center;
+            align-items: center;
+            width: 100%;
+
+            .pie-fraction {
+               
+                place-self: center;
+                justify-self: center;
+                align-self: center;
+                width: 150px;
+                height: 150px;
+
+                canvas {
+                    width: 150px !important;
+                    height: 150px !important;
+                }
+
+            }
+
+            .fraction {
+                width: 60px;
+                font-size: 30px;
+                text-align: center;
+                align-self: center;
+            }
+
+            .sum {
+                width: 60px;
+                font-size: 30px;
+                text-align: center;
+                align-self: center;
+            }
+        }
+
+        section.answers {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+        }
+
+        section.check {
+            
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            margin: 10px 0;
+
+            button {
+                padding: 10px;
+                font-size: 20px;
+                border-radius: 10px;
+                border: 2px solid var(--text-color);
+                background-color: var(--chalkboard-color);
+                color: white;
+                transition: 0.3s;
+                margin: 0 10px;
+            }
+
+            button:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+            }
+
+        }
+    
+    }
+}
+
+.radio-button {
+    color: var(--text-color);
+}
+
+.radio-button input[type="radio"] + label {
+    border: 2px solid var(--text-color);
+    border-radius: 10px;
+    padding: 5px;
+    margin: 5px;
+    width: 60px;
+    
+}
+
+.radio-button label, .radio-button input {
+    display: block;
+    position: relative;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+.radio-button input[type="radio"] {
+    opacity: 0.01;
+    z-index: 100;
+}
+
+.radio-button input[type="radio"]:checked + label {
+    background: var(--chalkboard-darker-color);
+    color: var(--text-color);
+    transform: scale(1.1);
+}
+
+.radio-button label:hover {
+    background: var(--chalkboard-darker-color);
+    color: var(--text-color);
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+.radio-button label .label-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+
+    
+}
+
+
+
+.divider {
+    width: 100%;
+    height: 2px;
+    background-color: var(--text-color);
+
+}
+
+/* For cellphones (up to 767px wide) */
+@media only screen and (max-width: 767px) {
+    .main-container {
+
+        .board-container {
+
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 0;
+            justify-content: start;
+            align-items: center;
+            
+            header {
+        
+              
+        
+                > * {
+                }
+        
+                .student {
+   
+                    
+                }
+            
+                .date {
+   
+                }
+            
+                .title {
+      
+                    h2 {
+                    }
+                }
+            }
+        
+            section.stats{
+               
+        
+                ul {
+                   
+    
+                    li {
+                       
+    
+                        .react-icons{
+                            
+                        font-size: 25px;
+
+                        
+                        }
+    
+                        h6 {
+                        }
+                    }
+                }
+        
+            }
+    
+            section.exercices {
+                
+    
+                .pie-fraction {
+                   
+                    
+                    width: 125px;
+                    height: 125px;
+    
+                    canvas {
+                        width: 125px !important;
+                        height: 125px !important;
+                    }
+    
+                }
+    
+                .sum {
+                    width: 60px;
+                    font-size: 30px;
+                    text-align: center;
+                    align-self: center;
+                }
+            }
+    
+            section.answers {
+              
+            }
+        
+        }
+    }
+    
+
+}
+
+/* For tablets (768px to 1023px wide) */
+@media only screen and (min-width: 768px) and (max-width: 1023px) {
+
+    
+
+}
+
+/* For PCs (1024px and wider) */
+@media only screen and (min-width: 1024px) {
+
+    
+
+}
+
+
+
