@@ -48,7 +48,10 @@ function ProcedurePanel({hasOpenness}) {
 
   return (
     <section className="exercices">
-      {fractionsComponents}
+      <>
+        {fractionsComponents}
+      </>
+      
     </section>
   );
 }

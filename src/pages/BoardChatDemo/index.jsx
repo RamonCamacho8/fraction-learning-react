@@ -121,13 +121,13 @@ export default function Board({}) {
     // setting time from 0 to 1 every 10 milisecond using javascript setInterval method
     if (isTimeRunning){
 
-      if(isTick){
+      /* if(isTick){
         tick.play();
         setIsTick(false);
       } else {
         tack.play();
         setIsTick(true);
-      }
+      } */
 
       intervalId = setInterval(() => setTime(time + 1), 1000);
     }
@@ -167,7 +167,7 @@ export default function Board({}) {
   return (
         <main className="main-container">
           <div className="board-container">
-            <Chat />
+            <Chat welcomeMessage={'¡Hola! Estoy aquí para ayudarte con tus dudas.'} />
             <HeaderSection />
             <StatsSection time={time} trys={trys} difficulty={difficulty} />
             <h4>Resuelve la siguiente suma:</h4>
