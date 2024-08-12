@@ -47,6 +47,7 @@ export default function PieFraction({ numerador, denominador, color }) {
     );
 }
 
+
 const getColor = (number) => {
   let colors = {
     2 : "rgb(255, 0, 0)",
