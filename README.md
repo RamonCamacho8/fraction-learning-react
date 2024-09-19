@@ -1,5 +1,4 @@
-# Getting Started with Create React App
-
+# FractionLearning
 FractionLearning is a mathematically themed intelligent tutor system focused on the addition of fractions that adapts its content in reference to the learning style through the use of artificial intelligence personality recognition.
 
 ## Technologies
